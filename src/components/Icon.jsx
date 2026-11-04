@@ -6,6 +6,7 @@ const paths = {
   arrowUp: <path d="M12 19V5M18 11l-6-6-6 6" />,
   plus: <path d="M12 5v14M5 12h14" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
+  menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   phone: (
     <>
       <rect x="6" y="2.5" width="12" height="19" rx="3" />

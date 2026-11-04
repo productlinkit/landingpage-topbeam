@@ -24,6 +24,8 @@ export const NAV = [
 export const HEADER = {
   home: 'Topbeam, kembali ke atas',
   cta: 'Chat Nova',
+  menuOpen: 'Buka menu',
+  menuClose: 'Tutup menu',
 }
 
 // Fixed parts of the WhatsApp-style phone mockup
