@@ -1,0 +1,44 @@
+.safety-title {
+  max-width: 900px;
+}
+.safety-strong {
+  white-space: normal;
+}
+
+.safety-list {
+  display: grid;
+  gap: 40px;
+  max-width: 1000px;
+  margin: clamp(56px, 8vw, 96px) auto 0;
+  padding-top: clamp(40px, 5vw, 56px);
+  border-top: 1px solid var(--line);
+}
+.safety-list li {
+  max-width: 340px;
+}
+.safety-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.safety-list .h-card {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.safety-list p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+@media (min-width: 760px) {
+  .safety-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+}

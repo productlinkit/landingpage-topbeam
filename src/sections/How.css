@@ -1,0 +1,118 @@
+.how-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.how-head .lead {
+  margin-top: 14px;
+}
+
+.how-arrows {
+  display: none;
+  gap: 8px;
+}
+@media (min-width: 760px) {
+  .how-arrows {
+    display: flex;
+  }
+}
+.how-arrow {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  transition:
+    box-shadow 0.25s var(--ease),
+    opacity 0.25s var(--ease);
+}
+.how-arrow:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+.how-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* The rail starts aligned with the container edge and bleeds to the viewport edge */
+.how-rail {
+  --inset: max(var(--pad-x), calc((100vw - var(--container)) / 2));
+  display: flex;
+  gap: 16px;
+  margin-top: clamp(36px, 5vw, 56px);
+  padding: 8px var(--inset) 48px;
+  scroll-padding-inline: var(--inset);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.how-rail::-webkit-scrollbar {
+  display: none;
+}
+.how-rail.is-dragging {
+  scroll-snap-type: none;
+  cursor: grabbing;
+  user-select: none;
+}
+@media (pointer: fine) {
+  .how-rail {
+    cursor: grab;
+  }
+}
+.how-rail:focus-visible {
+  outline-offset: -4px;
+}
+
+.how-card {
+  flex: none;
+  width: min(78vw, 300px);
+  min-height: 340px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 26px 30px;
+  border-radius: var(--r-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+.how-step {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.how-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin: auto 0 26px;
+  padding-top: 0;
+  border-radius: 50%;
+  color: var(--ink);
+}
+.how-card .h-card {
+  margin-bottom: 12px;
+}
+.how-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+@media (min-width: 760px) {
+  .how-rail {
+    gap: 24px;
+  }
+  .how-card {
+    width: 325px;
+    min-height: 390px;
+    padding: 44px 40px;
+  }
+}

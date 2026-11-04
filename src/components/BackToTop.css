@@ -1,0 +1,28 @@
+.to-top {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  /* Ink button with a white ring, so it stays crisp over any section */
+  background: var(--ink);
+  color: #fff;
+  box-shadow:
+    0 0 0 2px rgb(255 255 255 / 0.9),
+    0 14px 30px -10px rgb(var(--ink-rgb) / 0.5);
+  transition: background-color 0.25s var(--ease);
+}
+.to-top:hover {
+  background: var(--ink-2);
+}
+
+@media (min-width: 960px) {
+  .to-top {
+    right: 32px;
+    bottom: 32px;
+  }
+}

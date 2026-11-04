@@ -1,0 +1,88 @@
+.hero {
+  position: relative;
+  padding-top: clamp(112px, 16vh, 160px);
+  padding-bottom: clamp(48px, 6vw, 80px);
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  justify-items: center;
+  gap: clamp(56px, 8vw, 88px);
+}
+
+.hero-copy {
+  text-align: center;
+}
+
+.hero-title {
+  max-width: 980px;
+  margin-inline: auto;
+}
+.hero-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.hero-word > span {
+  display: inline-block;
+}
+
+.hero-sub {
+  max-width: 460px;
+  margin: 22px auto 0;
+}
+
+.hero-composer {
+  margin-top: 36px;
+}
+
+.hero-phone {
+  position: relative;
+}
+
+/* Desktop: copy left, phone right, both inside the first screen */
+@media (min-width: 960px) {
+  .hero {
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    padding-top: 96px;
+    padding-bottom: 48px;
+  }
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    justify-items: stretch;
+    gap: clamp(48px, 6vw, 96px);
+  }
+  .hero-copy {
+    text-align: left;
+  }
+  .hero-title {
+    margin-inline: 0;
+    font-size: clamp(52px, 5.6vw, 84px);
+  }
+  .hero-sub {
+    margin-inline: 0;
+  }
+  .hero-composer .composer {
+    margin-inline: 0;
+    align-items: flex-start;
+  }
+  .hero-composer .composer-chips {
+    justify-content: flex-start;
+  }
+  .hero-phone {
+    justify-self: end;
+  }
+}
+
+/* Short laptop screens: shrink the phone so it still fits the first screen */
+@media (min-width: 960px) and (max-height: 820px) {
+  .hero-phone .phone {
+    --w: 270px;
+  }
+}

@@ -1,0 +1,232 @@
+.why-title {
+  max-width: 820px;
+  padding-bottom: clamp(56px, 8vw, 104px);
+}
+
+.why-list {
+  display: grid;
+  gap: 72px;
+  max-width: 1000px;
+  margin-inline: auto;
+}
+
+.why-block {
+  max-width: 440px;
+  width: 100%;
+  margin-inline: auto;
+}
+.why-block p {
+  max-width: 340px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--body);
+}
+.why-block .h-card {
+  margin: 12px 0 10px;
+}
+.why-num {
+  display: block;
+  margin-top: 26px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+/* Desktop: two columns, the right one dropped by half a block for the staggered read */
+@media (min-width: 840px) {
+  .why-list {
+    grid-template-columns: repeat(2, minmax(0, 420px));
+    justify-content: space-between;
+    row-gap: 96px;
+    padding-bottom: 220px;
+  }
+  .why-block {
+    margin: 0;
+  }
+  .why-block:nth-child(even) {
+    position: relative;
+    top: 220px;
+  }
+}
+
+/* ---- media tiles ---- */
+.why-media {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 12%;
+}
+.why-chat {
+  background: linear-gradient(160deg, #f1eefe 0%, var(--lilac) 100%);
+}
+.why-products {
+  background: linear-gradient(160deg, #eef7fc 0%, var(--sky) 100%);
+}
+.why-confirm {
+  background: linear-gradient(160deg, #fbf5ea 0%, var(--sand) 100%);
+}
+.why-refund {
+  background: linear-gradient(160deg, #eef8f2 0%, var(--mint) 100%);
+}
+
+/* chat */
+.vg-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.vg-bubble {
+  max-width: 82%;
+  padding: 12px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  box-shadow: 0 10px 24px -16px rgb(var(--ink-rgb) / 0.35);
+}
+.vg-me {
+  align-self: flex-end;
+  background: var(--ink);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.vg-nova {
+  align-self: flex-start;
+  background: #fff;
+  border-bottom-left-radius: 4px;
+}
+
+/* products */
+.vg-products {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+.vg-products li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px 10px 10px;
+  border-radius: 14px;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 10px 24px -18px rgb(var(--ink-rgb) / 0.4);
+}
+.vg-ico {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--indigo);
+}
+.vg-go {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+/* confirm sheet */
+.vg-sheet {
+  width: 100%;
+  padding: 18px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 32px -20px rgb(var(--ink-rgb) / 0.4);
+}
+.vg-sheet-title {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.vg-sheet dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  font-size: 14px;
+  border-bottom: 1px dashed var(--line);
+}
+.vg-sheet dt {
+  color: var(--body);
+}
+.vg-sheet dd {
+  font-weight: 600;
+}
+.vg-sheet .vg-total {
+  border: 0;
+  padding-top: 10px;
+}
+.vg-total dd {
+  font-size: 17px;
+}
+.vg-yes {
+  display: block;
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--ink);
+  color: #fff;
+}
+
+/* refund */
+.vg-refund {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.vg-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 10px 24px -18px rgb(var(--ink-rgb) / 0.4);
+}
+.vg-fail {
+  color: var(--body);
+}
+.vg-row strong {
+  display: block;
+  font-size: 22px;
+  letter-spacing: -0.03em;
+  color: var(--ok);
+}
+.vg-dot {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+.vg-fail .vg-dot {
+  background: #fde4e4;
+  color: #b83c4a;
+}
+.vg-back .vg-dot {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.vg-line {
+  width: 2px;
+  height: 28px;
+  margin-left: 29px;
+  background: repeating-linear-gradient(to bottom, var(--ok) 0 4px, transparent 4px 8px);
+  opacity: 0.5;
+}

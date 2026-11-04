@@ -1,0 +1,118 @@
+/* The pastel halo behind the phone must not widen the page */
+.family {
+  overflow-x: clip;
+}
+
+.family-lead {
+  max-width: 520px;
+  margin-top: 24px;
+}
+
+.family-grid {
+  display: grid;
+  justify-items: center;
+  gap: 48px;
+  margin-top: clamp(48px, 7vw, 88px);
+}
+
+.family-side {
+  width: 100%;
+  max-width: 440px;
+}
+.family-side .eyebrow {
+  margin-bottom: 14px;
+}
+
+.family-picks {
+  display: grid;
+  gap: 8px;
+}
+.family-pick {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 18px 14px 14px;
+  border-radius: 18px;
+  text-align: left;
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: box-shadow 0.25s var(--ease);
+}
+.family-pick:hover {
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+.family-pick.is-on {
+  box-shadow: none;
+}
+.family-pick-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--surface);
+  box-shadow:
+    inset 0 0 0 1.5px var(--ink),
+    var(--shadow-card);
+}
+.family-pick > :not(.family-pick-bg) {
+  position: relative;
+}
+.family-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--lilac);
+  font-size: 17px;
+  font-weight: 600;
+}
+/* Avatar order: purple, blue, cream */
+.family-pick:nth-child(2) .family-avatar {
+  background: var(--sky);
+}
+.family-pick:nth-child(3) .family-avatar {
+  background: var(--sand);
+}
+.family-who {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.family-who strong {
+  font-size: 16px;
+}
+.family-who span {
+  font-size: 13px;
+  color: var(--muted);
+}
+.family-product {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  text-align: right;
+}
+
+.family-cta {
+  margin-top: 28px;
+}
+
+.family-phone {
+  position: relative;
+}
+
+@media (min-width: 960px) {
+  .family-grid {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    justify-items: stretch;
+    gap: clamp(48px, 8vw, 120px);
+    max-width: 1000px;
+    margin-inline: auto;
+  }
+  .family-side {
+    justify-self: end;
+  }
+}
