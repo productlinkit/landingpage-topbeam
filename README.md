@@ -12,17 +12,21 @@ npm run dev       # local dev server
 npm run build     # production build into dist/
 npm run preview   # serve the production build
 npm run lint      # oxlint
+npm test          # unit tests (node --test): WhatsApp links, transcripts, replay timing
+npm run check     # banned-copy check + build + size budget (JS+CSS < 250 KB gzip, dist < 1 MB)
 ```
 
 ## Where to change things
 
 | What | File |
 | --- | --- |
-| All page copy (headlines, FAQ, footer links, chat scripts, example prices) | `src/content.js` |
-| WhatsApp number, pre-filled messages per button, click tracking | `src/config.js` |
+| All page copy (headlines, FAQ, footer links, step demos) | `src/content.js` |
+| Real Nova chat transcripts used by every replay (with test dates) | `src/data/transcripts.js` |
+| WhatsApp number, pre-filled messages, `[LP-…]` tags, click tracking | `src/config.js` |
+| Nova mascot (poses, motion) | `src/components/Nova.jsx` |
 | Colours, spacing, type scale, shared buttons | `src/index.css` (tokens on `:root`) |
 | Fonts and meta tags | `index.html` |
-| Tab icon, iPhone/Android home-screen icons | `public/` (favicon.ico, favicon-32.png, apple-touch-icon.png, icon-192/512.png). After replacing them, bump `?v=` in `index.html` and `site.webmanifest`, or browsers keep the old icon. |
+| Tab icon, home-screen icons | `public/`. After replacing them, bump `?v=` in `index.html` and `site.webmanifest`. |
 
 ## Structure
 
@@ -31,32 +35,33 @@ src/
   main.jsx            entry
   App.jsx             section order; everything below the hero is lazy-loaded
   content.js          copy and data for every section
-  config.js           WhatsApp links and analytics
+  config.js           WhatsApp links ([LP-key] tag on every message) and analytics
+  data/transcripts.js real Nova replies from live tests (no imports, tested with Node)
+  lib/timeline.js     replay pacing and list shortening (pure, tested)
   index.css           design tokens, base styles, shared utilities
-  components/         shared pieces
-    ui.jsx            Logo, Mark, Reveal, SlotTitle, WaButton
+  components/
+    Nova.jsx          the mascot: gold four-point star, poses idle/wave/phone/wifi/wallet/fuel/shield/think/cheer
+    ChatWindow.jsx    WhatsApp-style card that replays a transcript (typing dots, lists, next-step cards)
     Composer.jsx      WhatsApp-style CTA (hero and final CTA)
-    Phone.jsx         phone mockup that plays a chat script
-    BackToTop.jsx     "up" button shown once the footer is on screen
-    Icon.jsx          line icons
-    WhatsAppIcon.jsx  full-colour WhatsApp logo
-    ease.js           shared easing curve
-  hooks/              behaviour without markup
-    useChatScript.js  timing for the scripted chats
-    useHideOnScroll.js  header hides on scroll down, returns on scroll up
-    useScrolledPast.js  true once an element has scrolled out above the viewport
-    useRail.js        horizontal card rail: arrow state, step, mouse drag
-  sections/           one component + one stylesheet per page section, in page order
-    Header, Hero, Intro, Story, Why, How, Family, Safety, Faq, FinalCta, Footer
-  assets/
-    brand/            Topbeam logo and mark
-    logos/            operator and e-wallet logos
-public/               favicon and touch icon
+    ui.jsx            Logo, Mark, Reveal, SectionHead, WaButton
+    BackToTop, Icon, WhatsAppIcon, ease
+  hooks/
+    useChatReplay.js  plays a transcript on the timeline, pauses off screen, static under reduced motion
+    useHideOnScroll.js
+  sections/           one component + one stylesheet per section, in page order
+    Header, Hero, Logos, Products, How, Replay, Why, Safety, Faq, FinalCta, Footer
+scripts/              check-copy.mjs, check-size.mjs
+tests/                node --test suites
 ```
+
+## Copy rules (from the product plan)
+
+`npm run check` fails on em dashes and on claims the plan does not allow yet:
+"pertama", "satu-satunya", "kurang dari satu menit", "terverifikasi", "ingat nomor".
+Remove a word from `scripts/check-copy.mjs` only when the evidence exists.
 
 ## Before launch
 
-- Set the official number in `WA_NUMBER` (`src/config.js`).
-- Replace the legal link placeholders in `FOOTER` (`src/content.js`): `#privasi`, `#syarat`, `#refund`, `#pengaduan`.
-- Confirm or replace the example prices in `src/content.js` (`WHY.demo.total`, story chats).
-- Add every `[LP-…]` tag from `CTA` to the QA test bank.
+- Fill the bracket placeholders in `src/content.js`: payment partner, service hours, legal links (`#privasi`, `#syarat`, `#refund`, `#pengaduan`).
+- Re-test Nova and update `src/data/transcripts.js` when the bot changes. On 11 Nov 2026 the bot sent no QRIS after "Ya", so the page shows the payment and receipt as UI cards, not as Nova messages.
+- Add every `[LP-…]` tag from `src/config.js` to the QA test bank.
