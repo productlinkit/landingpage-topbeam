@@ -1,14 +1,14 @@
 /* ------------------------------------------------------------------
    Topbeam design tokens
-   Layout language: a calm white page, a soft grey-blue panel colour, big rounded
-   cards in pastel tints, one dark section, tight medium-weight display type.
+   Layout language (after bloop-ai.framer.website): a warm off-white page, white cards,
+   big rounded pastel cards, one dark navy section, large tight display type.
    Colours come from the logo: navy wordmark, violet → deep blue mark, gold star.
    Text tokens (ink, body, muted) pass WCAG AA (4.5:1) on white and on --soft.
    ------------------------------------------------------------------ */
 :root {
-  --bg: #ffffff;
-  --soft: #f3f4f9; /* section and panel background */
-  --soft-2: #e7e9f2; /* hairlines, inactive tracks */
+  --bg: #f7f7f4; /* warm off-white page */
+  --soft: #efefea; /* panels, nav pill, chips */
+  --soft-2: #e4e4dc; /* hairlines, inactive tracks */
   --surface: #ffffff;
 
   --ink: #12173a; /* near-black navy: headings, primary buttons */
@@ -16,23 +16,29 @@
   --ink-2: #252b56;
   --body: #3d4266;
   --muted: #5f6382;
-  --line: #e3e5ee;
+  --line: #e4e4dc;
 
   /* Dark section */
   --night: #0b0f2b;
-  --night-2: #171c40;
+  --night-2: #161b3d;
   --night-3: #242a55;
   --night-text: #c5c8e0;
 
   /* Brand */
   --violet: #6a28c6;
   --indigo: #1b2a9e;
+  --blue: #2d4fe0;
+  --cyan: #21c7d9;
+  --star: #f4b740; /* Nova's body */
+  /* Logo gradient. Reserved for Nova's beam and a few accents, never whole sections. */
+  --beam: linear-gradient(90deg, #6a28c6, #2d4fe0 55%, #21c7d9);
   --accent: #ffd45c; /* gold star from the mark: highlights on dark */
   --accent-ink: #3a2a00;
 
   /* Pastel tints for cards */
   --lilac: #ebe5ff;
-  --sky: #d9f0fb;
+  --sky: #dcefff;
+  --aqua: #d4f6f4;
   --gold: #fff0c4;
   --mint: #d9f3e5;
 
@@ -180,8 +186,8 @@ ol {
 }
 
 .h-display {
-  font-size: clamp(44px, 6.2vw, 76px);
-  line-height: 1.02;
+  font-size: clamp(44px, 7vw, 88px);
+  line-height: 1;
   letter-spacing: -0.055em;
 }
 
