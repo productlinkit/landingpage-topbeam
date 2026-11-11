@@ -16,8 +16,27 @@
 .replay-grid > * {
   min-width: 0;
 }
-.replay-chat .chat {
-  --chat-h: 460px;
+.replay-chat {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 24px 0;
+  isolation: isolate;
+}
+/* Soft light behind the phone so the bezel separates from the dark section */
+.replay-chat::before {
+  content: '';
+  position: absolute;
+  inset: 0 10%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(45 79 224 / 0.35), rgb(11 15 43 / 0));
+}
+.replay-chat .phone {
+  --w: 320px;
+  box-shadow:
+    inset 0 0 0 1.5px #3a4080,
+    0 40px 80px -30px rgb(0 0 0 / 0.6);
 }
 
 .replay-pick {
@@ -123,12 +142,12 @@
 
 @media (min-width: 960px) {
   .replay-grid {
-    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
   }
 }
-@media (max-width: 559px) {
-  .replay-chat .chat {
-    --chat-h: 400px;
+@media (max-width: 479px) {
+  .replay-chat .phone {
+    --w: 280px;
   }
 }

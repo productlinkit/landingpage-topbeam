@@ -15,8 +15,8 @@ const rise = (delay) => ({
   transition: { duration: 0.9, delay, ease: EASE },
 })
 
-// Copy and composer left; on the right Nova floats on a glow with two facts from a real chat,
-// and a chat card replays that chat. Below 980px the stage follows the copy.
+// Copy and composer left; on the right a phone replays a real Nova chat on a glow, Nova peeks
+// in from its lower left and two facts from that chat float around it. Below 980px the stage follows the copy.
 export default function Hero() {
   return (
     <section className="hero" id="top">
@@ -49,8 +49,11 @@ export default function Hero() {
 
         <motion.div className="hero-stage" {...rise(0.3)}>
           <span className="glow hero-glow" aria-hidden="true" />
+          <div className="hero-phone">
+            <ChatWindow steps={TRANSCRIPTS.pulsa.steps} label={HERO.chatLabel} />
+          </div>
           <div className="hero-nova">
-            <Nova pose="wave" size={240} track beam />
+            <Nova pose="wave" size={190} track beam />
           </div>
           {HERO.pills.map((p, i) => (
             <motion.div
@@ -74,9 +77,6 @@ export default function Hero() {
               </span>
             </motion.div>
           ))}
-          <div className="hero-chat">
-            <ChatWindow steps={TRANSCRIPTS.pulsa.steps} label={HERO.chatLabel} />
-          </div>
         </motion.div>
       </div>
     </section>

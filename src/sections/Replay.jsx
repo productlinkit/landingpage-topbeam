@@ -20,7 +20,6 @@ export default function Replay() {
         <div className="replay-grid">
           <Reveal className="replay-chat" amount={0.2}>
             <ChatWindow
-              dark
               steps={TRANSCRIPTS[sc.id].steps}
               replayKey={sc.id}
               label={`Percakapan asli dengan Nova: ${sc.title}, ${REPLAY.tested(sc.date)}`}

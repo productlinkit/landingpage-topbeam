@@ -28,11 +28,11 @@ export const HEADER = {
   menuClose: 'Tutup menu',
 }
 
-// Fixed parts of the chat card (header, live label, the UI cards after Nova's confirmation)
+// Fixed parts of the phone chat (header, input bar, the UI cards after Nova's confirmation)
 export const CHAT = {
   name: 'Topbeam',
-  sub: 'Nova · akun bisnis WhatsApp',
-  live: 'online',
+  sub: 'Nova · akun bisnis resmi',
+  placeholder: 'Ketik pesan',
   cards: {
     qris: { kicker: 'Langkah berikutnya', title: 'Bayar dengan QRIS', sub: 'tautan berlaku 15 menit' },
     receipt: { kicker: 'Setelah bayar', title: 'Isi ulang diproses', sub: 'status dan bukti transaksi dikirim di chat yang sama' },

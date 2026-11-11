@@ -43,19 +43,18 @@
   color: var(--muted);
 }
 
-/* ---------- stage: Nova, floating facts, chat card ---------- */
+/* ---------- stage: phone, Nova, floating facts ---------- */
 .hero-stage {
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: 1fr;
-  justify-items: center;
-  gap: 8px;
-  width: min(100%, 600px);
+  place-items: center;
+  width: min(100%, 560px);
+  padding: 24px 0 8px;
   justify-self: center;
 }
 .hero-glow {
-  inset: -6% -14% 30%;
+  inset: -4% -12%;
   animation: hero-glow 9s ease-in-out infinite alternate;
 }
 @keyframes hero-glow {
@@ -67,11 +66,18 @@
   }
 }
 
-.hero-nova {
+.hero-phone {
   position: relative;
   z-index: 1;
-  width: clamp(170px, 46vw, 250px);
-  margin-bottom: 40px;
+}
+
+/* Nova peeks in over the phone's lower left edge */
+.hero-nova {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  bottom: 4%;
+  width: 190px;
 }
 .hero-nova .nova {
   width: 100%;
@@ -100,7 +106,7 @@
   color: var(--ink);
   flex: none;
 }
-.hero-pill:nth-of-type(2) .hero-pill-icon {
+.hero-pill-1 .hero-pill-icon {
   background: var(--cyan);
 }
 .hero-pill-text {
@@ -117,28 +123,39 @@
   color: var(--night-text);
 }
 .hero-pill-0 {
-  top: 4%;
+  top: 34%;
   left: 0;
 }
 .hero-pill-1 {
-  top: 26%;
+  top: 56%;
   right: 0;
 }
 
-.hero-chat {
-  position: relative;
-  z-index: 3;
-  width: min(100%, 400px);
-  justify-self: end;
-  margin-top: -64px;
-  --chat-h: 330px;
-}
-
-/* Phones: smaller pills, tucked into the corners above the chat card */
+/* Phones: no room beside the phone, so Nova sits on its top corner and the facts follow below it */
 @media (max-width: 559px) {
+  .hero-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-nova {
+    top: 4px;
+    right: 0;
+    left: auto;
+    bottom: auto;
+    width: 96px;
+  }
   .hero-pill {
-    padding: 7px 12px 7px 7px;
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    padding: 7px 14px 7px 7px;
     gap: 8px;
+  }
+  .hero-phone {
+    margin-bottom: 6px;
   }
   .hero-pill-icon {
     width: 28px;
@@ -150,22 +167,6 @@
   .hero-pill-text span {
     font-size: 11px;
   }
-  .hero-pill-0 {
-    top: 0;
-  }
-  /* px, not %: the stage includes the tall chat card on phones */
-  .hero-pill-1 {
-    top: 40px;
-  }
-  .hero-nova {
-    margin-bottom: 24px;
-  }
-  .hero-chat {
-    justify-self: stretch;
-    width: 100%;
-    margin-top: -20px;
-    --chat-h: 300px;
-  }
 }
 
 @media (min-width: 980px) {
@@ -174,10 +175,21 @@
   }
   .hero-stage {
     justify-self: end;
+    justify-items: end;
+    padding-right: 4%;
+  }
+  /* Phone on the right; the facts stack in the open space to its left, Nova below them */
+  .hero-pill-0 {
+    top: 22%;
+    left: 0;
+  }
+  .hero-pill-1 {
+    top: 40%;
+    left: 6%;
+    right: auto;
   }
   .hero-nova {
-    justify-self: start;
-    margin-left: 14%;
+    left: 6%;
   }
 }
 
