@@ -1,0 +1,81 @@
+.logos {
+  padding-block: clamp(24px, 4vw, 48px) clamp(56px, 7vw, 96px);
+}
+
+.logos-title {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.logos-panel {
+  display: grid;
+  gap: 12px;
+  padding: 20px 0;
+  border-radius: var(--r-card);
+  background: var(--soft);
+  overflow: hidden;
+  /* fade the pills out at both ends */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.logos-row {
+  display: flex;
+  width: max-content;
+  animation: logos-scroll 48s linear infinite;
+}
+.logos-row.is-reverse {
+  animation-direction: reverse;
+}
+.logos-panel:hover .logos-row {
+  animation-play-state: paused;
+}
+
+.logos-track {
+  display: flex;
+  gap: 12px;
+  padding-right: 12px;
+}
+
+.logos-pill {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 176px;
+  height: 56px;
+  border-radius: var(--pill);
+  background: #fff;
+}
+.logos-pill img {
+  height: 26px;
+  width: auto;
+  max-width: 110px;
+  object-fit: contain;
+}
+
+@keyframes logos-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 639px) {
+  .logos-pill {
+    width: 140px;
+    height: 50px;
+  }
+  .logos-pill img {
+    height: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logos-row {
+    animation: none;
+  }
+  .logos-panel {
+    overflow-x: auto;
+  }
+}

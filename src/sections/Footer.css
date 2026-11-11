@@ -1,20 +1,13 @@
-/* Full-bleed light footer: the white surface runs edge to edge, content keeps the page container width.
-   The upper part stays plain white; the lower part fades softly into the brand pastels. */
 .footer {
-  position: relative;
-  overflow: hidden;
-  border-radius: 28px 28px 0 0;
-  background:
-    radial-gradient(55% 60% at 88% 100%, rgb(20 210 240 / 0.16), transparent 70%),
-    radial-gradient(55% 60% at 12% 100%, rgb(106 40 198 / 0.14), transparent 70%),
-    linear-gradient(180deg, #ffffff 0%, #ffffff 45%, #f6f4ff 72%, #e9e5fd 100%);
-  box-shadow: 0 -1px 0 var(--line);
+  padding-top: clamp(24px, 4vw, 40px);
 }
 
 .footer-panel {
-  max-width: calc(var(--container) + var(--pad-x) * 2);
-  margin-inline: auto;
-  padding: clamp(48px, 7vw, 88px) var(--pad-x) max(clamp(32px, 4vw, 48px), env(safe-area-inset-bottom, 0px));
+  padding: clamp(32px, 5vw, 48px) clamp(22px, 4vw, 48px) 24px;
+  border-radius: 32px 32px 0 0;
+  background: var(--night);
+  color: #fff;
+  overflow: hidden;
 }
 
 .footer-top {
@@ -22,172 +15,142 @@
   gap: 40px;
 }
 
-.footer-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 18px;
-  max-width: 340px;
-}
-.footer-brand .logo {
-  height: 40px;
+.footer-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
 }
 .footer-brand p {
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--body);
+  max-width: 360px;
+  margin: 16px 0 24px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--night-text);
 }
 
 .footer-cols {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px 24px;
+  gap: 24px;
 }
 .footer-cols h4 {
   margin-bottom: 14px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--night-text);
 }
-.footer-cols li + li {
-  margin-top: 2px;
+.footer-cols ul {
+  display: grid;
+  gap: 10px;
 }
-/* padding grows the tap area to ~36px without changing the visual rhythm */
 .footer-cols a {
-  display: inline-block;
-  padding-block: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--ink);
-  transition: color 0.2s var(--ease);
+  font-size: 17px;
+  color: #fff;
+  transition: color 0.25s var(--ease);
 }
 .footer-cols a:hover {
-  color: var(--violet);
+  color: var(--accent);
 }
 
-/* trust notes + payment */
 .footer-trust {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--night-3);
 }
 .footer-notes {
-  display: grid;
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
 }
 .footer-notes li {
-  display: flex;
-  align-items: flex-start;
+  display: inline-flex;
+  align-items: center;
   gap: 10px;
   font-size: 14px;
-  line-height: 1.45;
-  color: var(--ink-2);
+  color: var(--night-text);
 }
 .footer-note-icon {
   display: grid;
   place-items: center;
-  flex: none;
   width: 28px;
   height: 28px;
-  margin-top: -4px;
   border-radius: 50%;
-  background: var(--mint);
-  color: var(--ok);
-}
-.footer-notes li + li .footer-note-icon {
-  background: var(--lilac);
-  color: var(--violet);
+  background: var(--night-2);
+  color: var(--accent);
 }
 .footer-pay {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-  font-size: 13px;
-  color: var(--muted);
+  font-size: 14px;
+  color: var(--night-text);
 }
-.footer-pay img {
-  height: 20px;
+.footer-pay-logo {
+  display: grid;
+  place-items: center;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: #fff;
+}
+.footer-pay-logo img {
+  height: 16px;
   width: auto;
 }
 .footer-pay-va {
-  padding: 4px 10px;
-  border-radius: var(--pill);
-  background: var(--bg);
-  box-shadow: inset 0 0 0 1px var(--line);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink-2);
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: var(--night-2);
+  color: #fff;
 }
 
-/* ---- legal bar ---- */
+/* Giant brand wordmark with the mark's violet → blue → sky gradient */
+.footer-wordmark {
+  margin: clamp(32px, 5vw, 56px) 0 clamp(8px, 2vw, 16px);
+  font-size: clamp(48px, 18vw, 280px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.065em;
+  text-align: center;
+  background: linear-gradient(180deg, #c6b3ff 0%, #8f9cff 48%, #8fdcf7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  user-select: none;
+  /* small optical shift: the tight tracking leaves extra room on the right */
+  padding-right: 0.04em;
+}
+
 .footer-bar {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: clamp(32px, 4vw, 48px);
-  padding-top: 22px;
-  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-top: 20px;
   font-size: 13px;
-  color: var(--muted);
+  color: var(--night-text);
 }
 .footer-bar nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 20px;
-}
-.footer-bar a {
-  display: inline-block;
-  padding-block: 10px;
-  color: var(--body);
-  transition: color 0.2s var(--ease);
+  gap: 8px 20px;
 }
 .footer-bar a:hover {
-  color: var(--ink);
+  color: #fff;
 }
 
-@media (min-width: 760px) {
+@media (min-width: 860px) {
   .footer-top {
-    grid-template-columns: 1.2fr 1fr;
-    gap: 48px 56px;
-  }
-  .footer-trust {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 28px;
-    border-top: 1px solid var(--line);
-  }
-  .footer-notes {
-    grid-auto-flow: column;
-    gap: 28px;
-  }
-  .footer-pay {
-    flex: none;
-    padding-top: 0;
-    border-top: 0;
-  }
-}
-
-@media (min-width: 1100px) {
-  .footer {
-    border-radius: 40px 40px 0 0;
-  }
-  .footer-top {
-    grid-template-columns: 1fr auto;
-  }
-  .footer-cols {
-    grid-template-columns: repeat(2, auto);
-    gap: 96px;
-  }
-  .footer-bar {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
   }
 }

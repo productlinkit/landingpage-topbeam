@@ -3,19 +3,16 @@ import { HEADER, NAV } from '../content'
 import { Logo, WaButton } from '../components/ui'
 import { Icon } from '../components/Icon'
 import { useHideOnScroll } from '../hooks/useHideOnScroll'
-import { useScrolledPast } from '../hooks/useScrolledPast'
 import './Header.css'
 
 // Matches the CSS breakpoint where the inline nav takes over from the mobile menu.
 const DESKTOP = '(min-width: 960px)'
 
-// Logo left, a compact WhatsApp pill right. Over the hero the pill stays hidden,
-// because the hero composer is the call to action there; it appears once the composer scrolls away.
+// Logo left, nav links in a soft pill in the middle, the WhatsApp button right.
 // The whole bar slides away while scrolling down and comes back on any scroll up.
 // Below 960px the nav links move into a menu panel opened by the toggle button.
 export default function Header() {
   const { scrolled, hidden } = useHideOnScroll()
-  const showCta = useScrolledPast('hero-composer')
   const [open, setOpen] = useState(false)
 
   // Close on Escape and when the viewport grows to desktop width.
@@ -50,8 +47,8 @@ export default function Header() {
           ))}
         </nav>
         <div className="header-end">
-          <div className={`header-cta ${showCta && !open ? 'is-shown' : ''}`} aria-hidden={!showCta || open}>
-            <WaButton cta="nav" size="sm" tabIndex={showCta && !open ? 0 : -1}>
+          <div className="header-cta">
+            <WaButton cta="nav" size="sm">
               {HEADER.cta}
             </WaButton>
           </div>

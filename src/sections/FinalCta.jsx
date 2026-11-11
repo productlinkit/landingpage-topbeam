@@ -3,21 +3,24 @@ import { Composer } from '../components/Composer'
 import { Mark, Reveal } from '../components/ui'
 import './FinalCta.css'
 
+// Closing card: headline + composer left, the mark floating on a glow right.
 export default function FinalCta() {
   return (
-    <section className="final">
-      <div className="container final-inner">
-        <Reveal>
-          <Mark size={56} className="final-mark" />
-        </Reveal>
-        <Reveal as="h2" className="h-section center final-title" delay={0.05}>
-          {FINAL.title}
-        </Reveal>
-        <Reveal as="p" className="lead center final-sub" delay={0.1}>
-          {FINAL.sub}
-        </Reveal>
-        <Reveal className="final-composer" delay={0.15}>
-          <Composer tag="final" />
+    <section className="section final">
+      <div className="container">
+        <Reveal className="final-card" amount={0.25}>
+          <div className="final-copy">
+            <h2 className="h-section">{FINAL.title}</h2>
+            <p className="lead">{FINAL.sub}</p>
+            <div className="final-composer">
+              <Composer tag="final" align="start" />
+            </div>
+          </div>
+          <div className="final-art" aria-hidden="true">
+            <span className="glow" />
+            <Mark size={168} className="final-mark" />
+            <span className="final-shadow" />
+          </div>
         </Reveal>
       </div>
     </section>

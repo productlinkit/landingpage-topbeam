@@ -2,63 +2,88 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { FAQ, FAQS } from '../content'
 import { Icon } from '../components/Icon'
-import { Reveal, WaButton } from '../components/ui'
+import { Mark, Reveal, SectionHead, WaButton } from '../components/ui'
 import { EASE } from '../components/ease'
 import './Faq.css'
 
+// Desktop: question list left, Nova "answers" the chosen one in a chat card right.
+// Below 960px the card is hidden and the answer opens under its question instead.
 export default function Faq() {
   const [open, setOpen] = useState(0)
+  const f = FAQS[open]
+
   return (
-    <section className="section faq" id="faq">
+    <section className="section section-soft faq" id="faq">
       <div className="container">
-        <Reveal as="h2" className="h-section center">
-          {FAQ.title}
-        </Reveal>
-        <ul className="faq-list">
-          {FAQS.map((f, i) => {
-            const isOpen = open === i
-            return (
-              <li key={f.q} className={`faq-item ${isOpen ? 'is-open' : ''}`}>
-                <h3>
-                  <button
-                    type="button"
-                    id={`faq-q-${i}`}
-                    className="faq-q wide"
-                    aria-expanded={isOpen}
-                    aria-controls={`faq-a-${i}`}
-                    onClick={() => setOpen(isOpen ? -1 : i)}
-                  >
-                    <span>{f.q}</span>
-                    <span className="faq-sign" aria-hidden="true">
-                      <Icon name="plus" size={18} strokeWidth={2.4} />
-                    </span>
-                  </button>
-                </h3>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      id={`faq-a-${i}`}
-                      role="region"
-                      aria-labelledby={`faq-q-${i}`}
-                      className="faq-a"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.45, ease: EASE }}
+        <SectionHead title={FAQ.title} lead={FAQ.lead} />
+
+        <div className="faq-grid">
+          <ul className="faq-list" aria-label={FAQ.pick}>
+            {FAQS.map((q, i) => {
+              const isOpen = open === i
+              return (
+                <li key={q.q} className={`faq-item ${isOpen ? 'is-open' : ''}`}>
+                  <h3>
+                    <button
+                      type="button"
+                      id={`faq-q-${i}`}
+                      className="faq-q"
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-a-${i}`}
+                      onClick={() => setOpen(i)}
                     >
-                      <p>{f.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </li>
-            )
-          })}
-        </ul>
-        <div className="faq-more">
-          <p>{FAQ.more}</p>
-          <WaButton cta="faq" variant="line" size="sm">
-            {FAQ.cta}
-          </WaButton>
+                      <span>{q.q}</span>
+                      <span className="arrow-chip" aria-hidden="true">
+                        <Icon name="arrow" size={16} />
+                      </span>
+                    </button>
+                  </h3>
+                  {/* Inline answer, only displayed on small screens */}
+                  <div id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`} className="faq-a" hidden={!isOpen}>
+                    <p>{q.a}</p>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+
+          <Reveal className="faq-card" amount={0.2}>
+            <div className="faq-card-head">
+              <span className="faq-avatar">
+                <Mark size={30} />
+              </span>
+              <span className="faq-agent">
+                <strong>{FAQ.agent}</strong>
+                <span>{FAQ.agentSub}</span>
+              </span>
+              <span className="faq-status mono">
+                <span aria-hidden="true" />
+                {FAQ.status}
+              </span>
+            </div>
+            {/* Visual duplicate of the inline answer, hidden from screen readers */}
+            <div className="faq-chat" aria-hidden="true">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={open}
+                  className="faq-chat-inner"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.4, ease: EASE }}
+                >
+                  <span className="faq-ask">{f.q}</span>
+                  <span className="faq-answer">{f.a}</span>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            <div className="faq-more">
+              <p>{FAQ.more}</p>
+              <WaButton cta="faq" size="sm">
+                {FAQ.cta}
+              </WaButton>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

@@ -2,32 +2,37 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   width: 100%;
   max-width: 560px;
+}
+.composer-center {
   margin-inline: auto;
 }
+.composer-start {
+  align-items: flex-start;
+}
 
+/* Need picker: a soft pill group, the chosen chip turns white */
 .composer-chips {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
+  gap: 2px;
+  padding: 5px;
+  border-radius: 26px;
+  background: var(--soft);
 }
 
 .composer-chip {
   position: relative;
-  min-height: 36px;
-  padding: 0 14px;
+  min-height: 40px;
+  padding: 0 16px;
   border-radius: var(--pill);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 15px;
   color: var(--body);
   transition: color 0.25s var(--ease);
 }
-.composer-chip:hover {
-  color: var(--ink);
-}
+.composer-chip:hover,
 .composer-chip.is-on {
   color: var(--ink);
 }
@@ -36,9 +41,7 @@
   inset: 0;
   border-radius: inherit;
   background: var(--surface);
-  box-shadow:
-    inset 0 0 0 1px var(--line),
-    0 4px 12px -6px rgb(var(--ink-rgb) / 0.18);
+  box-shadow: 0 4px 12px -6px rgb(var(--ink-rgb) / 0.22);
 }
 .composer-chip-label {
   position: relative;
@@ -49,19 +52,19 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  min-height: 60px;
+  min-height: 64px;
   padding: 6px 6px 6px 24px;
   border-radius: var(--pill);
   background: var(--surface);
   box-shadow:
     inset 0 0 0 1px var(--line),
-    0 18px 40px -22px rgb(var(--ink-rgb) / 0.3);
+    0 18px 40px -24px rgb(var(--ink-rgb) / 0.35);
   transition: box-shadow 0.3s var(--ease);
 }
 .composer-pill:hover {
   box-shadow:
-    inset 0 0 0 1px var(--line-strong),
-    0 22px 44px -20px rgb(var(--ink-rgb) / 0.36);
+    inset 0 0 0 1px var(--soft-2),
+    0 22px 44px -20px rgb(var(--ink-rgb) / 0.4);
 }
 
 .composer-text {
@@ -69,7 +72,7 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--ink);
   text-align: left;
   overflow: hidden;
@@ -98,14 +101,13 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 48px;
-  padding: 0 20px;
+  height: 52px;
+  padding: 0 22px;
   border-radius: var(--pill);
   background: var(--ink);
   color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  font-stretch: var(--wide);
+  font-size: 15px;
+  font-weight: 500;
   transition: background-color 0.3s var(--ease);
 }
 .composer-pill:hover .composer-send {
@@ -114,16 +116,20 @@
 
 /* Small phones: the message text gets the room, the button becomes a round send key */
 @media (max-width: 479px) {
+  .composer-chip {
+    padding: 0 12px;
+    font-size: 14px;
+  }
   .composer-pill {
     padding-left: 18px;
-    min-height: 56px;
+    min-height: 58px;
   }
   .composer-text {
     font-size: 14px;
   }
   .composer-send {
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     padding: 0;
     justify-content: center;
   }

@@ -1,6 +1,5 @@
 import { motion } from 'motion/react'
 import { EASE } from './ease'
-import { Icon } from './Icon'
 import { WhatsAppIcon } from './WhatsAppIcon'
 import { trackCta, waLink } from '../config'
 import logo from '../assets/brand/topbeam-logo.webp'
@@ -10,7 +9,7 @@ import mark from '../assets/brand/topbeam-mark.webp'
 const LOGO_W = 1118
 const LOGO_H = 303
 
-// Full lockup (mark + wordmark). Its rendered height is set in CSS by the parent (.header-logo, .footer-brand).
+// Full lockup (mark + wordmark). Its rendered height is set in CSS by the parent (.header-logo).
 export function Logo() {
   return <img src={logo} alt="Topbeam" width={LOGO_W} height={LOGO_H} className="logo" />
 }
@@ -31,11 +30,11 @@ export function Mark({ size = 40, className = '' }) {
 }
 
 // Fade-and-rise on first view. Reduced motion is handled by <MotionConfig reducedMotion="user">.
-export function Reveal({ as = 'div', delay = 0, amount = 0.35, children, ...rest }) {
+export function Reveal({ as = 'div', delay = 0, amount = 0.3, children, ...rest }) {
   const Tag = motion[as]
   return (
     <Tag
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount }}
       transition={{ duration: 0.9, delay, ease: EASE }}
@@ -46,42 +45,25 @@ export function Reveal({ as = 'div', delay = 0, amount = 0.35, children, ...rest
   )
 }
 
-// Uppercase headline with an inline pastel slot, one block line per entry.
-export function SlotTitle({ lines, slot }) {
+// Section title + optional lead, left aligned like the rest of the page.
+export function SectionHead({ title, lead, className = '' }) {
   return (
-    <h2 className="slot-title">
-      {lines.map((line, i) => (
-        <motion.span
-          key={line}
-          className="slot-line"
-          initial={{ opacity: 0, y: '40%' }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 1, delay: i * 0.08, ease: EASE }}
-        >
-          {line}
-          {slot && slot.line === i && (
-            <motion.span
-              className="slot"
-              style={{ '--slot': slot.color }}
-              aria-hidden="true"
-              initial={{ scaleX: 0.2, opacity: 0 }}
-              whileInView={{ scaleX: 1, opacity: 1 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 0.9, delay: 0.25, ease: EASE }}
-            >
-              <Icon name={slot.icon} strokeWidth={2.2} />
-            </motion.span>
-          )}
-        </motion.span>
-      ))}
-    </h2>
+    <div className={`section-head ${className}`}>
+      <Reveal as="h2" className="h-section">
+        {title}
+      </Reveal>
+      {lead && (
+        <Reveal as="p" className="lead" delay={0.08}>
+          {lead}
+        </Reveal>
+      )}
+    </div>
   )
 }
 
 // Pill button that opens WhatsApp with a pre-filled message from config.CTA.
-// variant: "ink" (navy, default) or "line" (white with a hairline border).
-export function WaButton({ cta, children, size, variant = 'ink', className = '', ...rest }) {
+// variant: "ink" (default), "soft", "white" or "accent".
+export function WaButton({ cta, children, size, variant = 'ink', icon = true, className = '', ...rest }) {
   return (
     <a
       href={waLink(cta)}
@@ -91,7 +73,7 @@ export function WaButton({ cta, children, size, variant = 'ink', className = '',
       className={`btn btn-${variant} ${size === 'sm' ? 'btn-sm' : ''} ${className}`}
       {...rest}
     >
-      <WhatsAppIcon size={size === 'sm' ? 18 : 22} />
+      {icon && <WhatsAppIcon size={size === 'sm' ? 18 : 20} />}
       {children}
     </a>
   )

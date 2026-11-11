@@ -8,12 +8,12 @@ import './Composer.css'
 
 // The hero call to action, shaped like a WhatsApp message composer:
 // pick a need, the message is "typed" in the pill, the button opens WhatsApp with it.
-export function Composer({ tag, id }) {
+export function Composer({ tag, id, align = 'center' }) {
   const [pick, setPick] = useState(0)
   const intent = INTENTS[pick]
 
   return (
-    <div className="composer" id={id}>
+    <div className={`composer composer-${align}`} id={id}>
       <div className="composer-chips" role="radiogroup" aria-label={COMPOSER.pick}>
         {INTENTS.map((it, i) => (
           <button
@@ -38,7 +38,7 @@ export function Composer({ tag, id }) {
 
       <a
         className="composer-pill"
-        href={waText(intent.text, `${tag}-${intent.id}`)}
+        href={waText(intent.text)}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackCta(`${tag}-${intent.id}`)}

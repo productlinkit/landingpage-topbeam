@@ -7,7 +7,7 @@ import './Hero.css'
 
 const words = HERO.title.split(' ')
 
-// Two columns on desktop: headline + composer left, live chat phone right.
+// Two columns on desktop: headline + composer left, live chat phone on a soft glow right.
 // Phones and tablets stack them, copy first.
 export default function Hero() {
   return (
@@ -44,7 +44,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.6, ease: EASE }}
           >
-            <Composer tag="hero" id="hero-composer" />
+            <Composer tag="hero" id="hero-composer" align="start" />
           </motion.div>
         </div>
 
@@ -54,7 +54,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.35, ease: EASE }}
         >
-          <span className="story-halo" style={{ '--halo': 'var(--lilac)' }} aria-hidden="true" />
+          <span className="glow hero-glow" aria-hidden="true" />
           <ChatPhone script={HERO.chat} label={HERO.phoneLabel} />
         </motion.div>
       </div>

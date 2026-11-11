@@ -1,118 +1,109 @@
-/* The pastel halo behind the phone must not widen the page */
-.family {
-  overflow-x: clip;
-}
-
-.family-lead {
-  max-width: 520px;
-  margin-top: 24px;
-}
-
 .family-grid {
   display: grid;
-  justify-items: center;
-  gap: 48px;
-  margin-top: clamp(48px, 7vw, 88px);
+  gap: 16px;
 }
 
 .family-side {
-  width: 100%;
-  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-.family-side .eyebrow {
-  margin-bottom: 14px;
-}
-
 .family-picks {
   display: grid;
-  gap: 8px;
+  gap: 12px;
 }
+
+/* Inactive picks are soft cards, the chosen one turns dark with a gold arrow */
 .family-pick {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 14px;
-  width: 100%;
-  padding: 14px 18px 14px 14px;
-  border-radius: 18px;
+  min-height: 84px;
+  padding: 16px 18px;
+  border-radius: var(--r-sm);
+  background: var(--soft);
   text-align: left;
-  box-shadow: inset 0 0 0 1px var(--line);
-  transition: box-shadow 0.25s var(--ease);
+  transition:
+    background-color 0.35s var(--ease),
+    color 0.35s var(--ease);
 }
 .family-pick:hover {
-  box-shadow: inset 0 0 0 1px var(--line-strong);
+  background: var(--soft-2);
 }
 .family-pick.is-on {
-  box-shadow: none;
+  background: var(--ink);
+  color: #fff;
 }
-.family-pick-bg {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--surface);
-  box-shadow:
-    inset 0 0 0 1.5px var(--ink),
-    var(--shadow-card);
+.family-pick.is-on .arrow-chip {
+  background: var(--accent);
+  color: var(--accent-ink);
 }
-.family-pick > :not(.family-pick-bg) {
-  position: relative;
-}
+
 .family-avatar {
   display: grid;
   place-items: center;
   flex: none;
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: var(--lilac);
-  font-size: 17px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 18px;
   font-weight: 600;
 }
-/* Avatar order: purple, blue, cream */
+.family-pick:nth-child(1) .family-avatar {
+  background: var(--lilac);
+}
 .family-pick:nth-child(2) .family-avatar {
   background: var(--sky);
 }
 .family-pick:nth-child(3) .family-avatar {
-  background: var(--sand);
+  background: var(--gold);
 }
+
 .family-who {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  line-height: 1.3;
 }
 .family-who strong {
-  font-size: 16px;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
 }
 .family-who span {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
 }
-.family-product {
-  margin-left: auto;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink-2);
-  text-align: right;
+.family-pick.is-on .family-who span {
+  color: var(--night-text);
 }
 
 .family-cta {
-  margin-top: 28px;
+  align-self: flex-start;
+  margin-top: 12px;
 }
 
-.family-phone {
+.family-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 620px;
+  padding: 40px 16px;
+  border-radius: 32px;
+  background: var(--soft);
+  overflow: hidden;
+  isolation: isolate;
+}
+.family-stage .phone {
   position: relative;
 }
 
 @media (min-width: 960px) {
   .family-grid {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     align-items: center;
-    justify-items: stretch;
-    gap: clamp(48px, 8vw, 120px);
-    max-width: 1000px;
-    margin-inline: auto;
-  }
-  .family-side {
-    justify-self: end;
+    gap: 32px;
   }
 }

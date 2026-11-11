@@ -1,112 +1,52 @@
 import { WHY } from '../content'
-import { Icon } from '../components/Icon'
-import { Reveal } from '../components/ui'
+import { Mark, Reveal, SectionHead } from '../components/ui'
+import { ChatVignette, ConfirmVignette, ProductsVignette, RefundVignette } from '../components/Vignettes'
 import './Why.css'
 
-const { demo } = WHY
+const TINTS = { chat: 'var(--lilac)', confirm: 'var(--sky)', refund: 'var(--gold)' }
+const MEDIA = { chat: ChatVignette, confirm: ConfirmVignette, refund: RefundVignette }
 
+// Bento: one tall soft card (the "one chat for everything" point) beside three tinted cards.
 export default function Why() {
+  const [feature, ...rest] = [
+    WHY.points.find((p) => p.kind === 'products'),
+    ...WHY.points.filter((p) => p.kind !== 'products'),
+  ]
   return (
     <section className="section why">
       <div className="container">
-        <Reveal as="h2" className="h-section center why-title">
-          {WHY.title}
-        </Reveal>
-        <div className="why-list">
-          {WHY.points.map((p, i) => {
-            const Media = MEDIA[p.kind]
-            return (
-              <Reveal key={p.kind} className="why-block" delay={0.05} amount={0.25}>
-                <div className={`why-media why-${p.kind}`} aria-hidden="true">
-                  <Media />
-                </div>
-                <span className="why-num">0{i + 1}</span>
-                <h3 className="h-card">{p.title}</h3>
-                <p>{p.body}</p>
-              </Reveal>
-            )
-          })}
+        <SectionHead title={WHY.title} lead={WHY.lead} />
+        <div className="why-grid">
+          <Reveal className="why-feature" amount={0.2}>
+            <div className="why-feature-stage" aria-hidden="true">
+              <span className="glow" />
+              <Mark size={84} className="why-mark" />
+              <ProductsVignette />
+            </div>
+            <div className="why-feature-copy">
+              <h3 className="h-card">{feature.title}</h3>
+              <p>{feature.body}</p>
+            </div>
+          </Reveal>
+
+          <div className="why-stack">
+            {rest.map((p, i) => {
+              const Media = MEDIA[p.kind]
+              return (
+                <Reveal key={p.kind} className="why-card" style={{ '--tint': TINTS[p.kind] }} delay={i * 0.08}>
+                  <div className="why-card-copy">
+                    <h3 className="h-card">{p.title}</h3>
+                    <p>{p.body}</p>
+                  </div>
+                  <div className="why-card-media">
+                    <Media />
+                  </div>
+                </Reveal>
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>
   )
-}
-
-// Small UI vignettes made of real interface parts, one per point.
-
-function ChatMedia() {
-  return (
-    <div className="vg-chat">
-      <span className="vg-bubble vg-me">{demo.chat.me}</span>
-      <span className="vg-bubble vg-nova">{demo.chat.nova}</span>
-    </div>
-  )
-}
-
-function ProductsMedia() {
-  return (
-    <ul className="vg-products">
-      {demo.products.map((item) => (
-        <li key={item.label}>
-          <span className="vg-ico">
-            <Icon name={item.icon} size={18} />
-          </span>
-          {item.label}
-          <Icon name="arrow" size={16} className="vg-go" />
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-function ConfirmMedia() {
-  const { confirm } = demo
-  return (
-    <div className="vg-sheet">
-      <span className="vg-sheet-title">{confirm.title}</span>
-      <dl>
-        {confirm.rows.map((row) => (
-          <div key={row.label}>
-            <dt>{row.label}</dt>
-            <dd>{row.value}</dd>
-          </div>
-        ))}
-        <div className="vg-total">
-          <dt>{confirm.totalLabel}</dt>
-          <dd>{demo.total}</dd>
-        </div>
-      </dl>
-      <span className="vg-yes">{confirm.yes}</span>
-    </div>
-  )
-}
-
-function RefundMedia() {
-  return (
-    <div className="vg-refund">
-      <div className="vg-row vg-fail">
-        <span className="vg-dot">
-          <Icon name="close" size={14} strokeWidth={3} />
-        </span>
-        {demo.refund.fail}
-      </div>
-      <span className="vg-line" />
-      <div className="vg-row vg-back">
-        <span className="vg-dot">
-          <Icon name="refund" size={16} strokeWidth={2.6} />
-        </span>
-        <span>
-          {demo.refund.back}
-          <strong className="wide">{demo.total}</strong>
-        </span>
-      </div>
-    </div>
-  )
-}
-
-const MEDIA = {
-  chat: ChatMedia,
-  products: ProductsMedia,
-  confirm: ConfirmMedia,
-  refund: RefundMedia,
 }
