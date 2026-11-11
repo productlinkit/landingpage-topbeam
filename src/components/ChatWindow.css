@@ -221,4 +221,9 @@
   .bubble-typing span {
     animation: none;
   }
+  /* The whole transcript shows at once: start at the top and let it scroll */
+  .chat-body {
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
 }
