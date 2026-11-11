@@ -40,7 +40,7 @@ export const TRANSCRIPTS = {
         from: 'nova',
         text: `Baik, konfirmasi pembelian pulsa Anda:\nProduk: Telkomsel 25.000\nNomor: ${NUM}\nHarga: Rp 25.297 (sudah termasuk biaya QRIS)\n\nApakah sudah benar? Jika ya, silakan konfirmasi agar Nova bisa membuatkan kode QRIS-nya.`,
       },
-      { from: 'card', card: 'qris' },
+      { from: 'card', card: 'qris', amount: 'Rp 25.297' },
       { from: 'card', card: 'receipt' },
     ],
   },

@@ -28,12 +28,19 @@ export const HEADER = {
   menuClose: 'Tutup menu',
 }
 
-// Fixed parts of the WhatsApp-style phone mockup
-export const PHONE = {
+// Fixed parts of the chat card (header, live label, the UI cards after Nova's confirmation)
+export const CHAT = {
   name: 'Topbeam',
-  sub: 'Nova · akun bisnis resmi',
-  placeholder: 'Ketik pesan',
+  sub: 'Nova · akun bisnis WhatsApp',
+  live: 'online',
+  cards: {
+    qris: { kicker: 'Langkah berikutnya', title: 'Bayar dengan QRIS', sub: 'tautan berlaku 15 menit' },
+    receipt: { kicker: 'Setelah bayar', title: 'Isi ulang diproses', sub: 'status dan bukti transaksi dikirim di chat yang sama' },
+  },
 }
+
+// Temporary: still used by the old Phone mockup until Task 6 removes it.
+export const PHONE = { name: 'Topbeam', sub: 'Nova · akun bisnis WhatsApp', placeholder: 'Ketik pesan' }
 
 export const COMPOSER = {
   pick: 'Pilih kebutuhan',
@@ -51,18 +58,14 @@ export const INTENTS = [
 ]
 
 export const HERO = {
-  title: 'Isi ulang, semudah chat.',
-  sub: 'Pulsa, kuota, e-wallet, dan e-BBM. Semua lewat WhatsApp.',
-  phoneLabel: 'Contoh chat membeli kuota untuk ibu lewat Nova di WhatsApp',
-  chat: [
-    // Flow mirrors the real Nova (PPOB Control) replies, tested 9 Nov 2026
-    { from: 'me', text: 'Nova, kuota buat nomor ibu ya' },
-    { from: 'nova', text: 'Untuk paket data, apakah Anda ingin menggunakan nomor di chat ini, atau nomor lain?' },
-    { from: 'me', text: 'Nomor lain, 0812-xxxx-7890' },
-    {
-      from: 'nova',
-      text: 'Konfirmasi pembelian: Telkomsel Flash 8GB / 30 hari, nomor 0812-xxxx-7890, harga Rp44.921 (sudah termasuk biaya QRIS). Apakah sudah benar?',
-    },
+  title: 'Isi pulsa & kuota, cukup chat Nova.',
+  sub: 'Tanpa unduh aplikasi baru. Ketik kebutuhan Anda di WhatsApp, Nova siapkan pesanannya, Anda tinggal bayar pakai QRIS.',
+  note: 'Gratis chat. Anda hanya bayar produknya.',
+  chatLabel: 'Percakapan asli dengan Nova: membeli pulsa Telkomsel Rp25.000 untuk nomor sendiri',
+  // Floating facts around Nova, taken from the 11 Nov 2026 test chat
+  pills: [
+    { icon: 'phone', title: 'Telkomsel terdeteksi', sub: 'otomatis dari nomor Anda' },
+    { icon: 'receipt', title: 'Rp 25.297', sub: 'sudah termasuk biaya QRIS' },
   ],
 }
 

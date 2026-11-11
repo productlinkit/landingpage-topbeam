@@ -38,7 +38,7 @@ export function Composer({ tag, id, align = 'center' }) {
 
       <a
         className="composer-pill"
-        href={waText(intent.text)}
+        href={waText(intent.text, tag)}
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackCta(`${tag}-${intent.id}`)}

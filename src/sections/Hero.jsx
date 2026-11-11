@@ -1,14 +1,22 @@
 import { motion } from 'motion/react'
 import { HERO } from '../content'
+import { TRANSCRIPTS } from '../data/transcripts'
 import { Composer } from '../components/Composer'
-import { ChatPhone } from '../components/Phone'
+import { ChatWindow } from '../components/ChatWindow'
+import { Nova } from '../components/Nova'
+import { Icon } from '../components/Icon'
 import { EASE } from '../components/ease'
 import './Hero.css'
 
 const words = HERO.title.split(' ')
+const rise = (delay) => ({
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.9, delay, ease: EASE },
+})
 
-// Two columns on desktop: headline + composer left, live chat phone on a soft glow right.
-// Phones and tablets stack them, copy first.
+// Copy and composer left; on the right Nova floats on a glow with two facts from a real chat,
+// and a chat card replays that chat. Below 980px the stage follows the copy.
 export default function Hero() {
   return (
     <section className="hero" id="top">
@@ -21,7 +29,7 @@ export default function Hero() {
                   <motion.span
                     initial={{ y: '110%' }}
                     animate={{ y: 0 }}
-                    transition={{ duration: 1.1, delay: 0.1 + i * 0.07, ease: EASE }}
+                    transition={{ duration: 1.1, delay: 0.1 + i * 0.06, ease: EASE }}
                   >
                     {w}
                   </motion.span>
@@ -30,32 +38,45 @@ export default function Hero() {
               </span>
             ))}
           </h1>
-          <motion.p
-            className="lead hero-sub"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.45, ease: EASE }}
-          >
+          <motion.p className="lead hero-sub" {...rise(0.45)}>
             {HERO.sub}
           </motion.p>
-          <motion.div
-            className="hero-composer"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.6, ease: EASE }}
-          >
+          <motion.div className="hero-composer" {...rise(0.6)}>
             <Composer tag="hero" id="hero-composer" align="start" />
+            <p className="hero-note">{HERO.note}</p>
           </motion.div>
         </div>
 
-        <motion.div
-          className="hero-phone"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.35, ease: EASE }}
-        >
+        <motion.div className="hero-stage" {...rise(0.3)}>
           <span className="glow hero-glow" aria-hidden="true" />
-          <ChatPhone script={HERO.chat} label={HERO.phoneLabel} />
+          <div className="hero-nova">
+            <Nova pose="wave" size={240} track beam />
+          </div>
+          {HERO.pills.map((p, i) => (
+            <motion.div
+              key={p.title}
+              className={`hero-pill hero-pill-${i}`}
+              aria-hidden="true"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1, y: [0, -6, 0] }}
+              transition={{
+                opacity: { duration: 0.6, delay: 0.9 + i * 0.25 },
+                scale: { duration: 0.6, delay: 0.9 + i * 0.25, ease: EASE },
+                y: { duration: 5 + i, repeat: Infinity, ease: 'easeInOut', delay: i },
+              }}
+            >
+              <span className="hero-pill-icon">
+                <Icon name={p.icon} size={18} strokeWidth={2.2} />
+              </span>
+              <span className="hero-pill-text">
+                <strong>{p.title}</strong>
+                <span>{p.sub}</span>
+              </span>
+            </motion.div>
+          ))}
+          <div className="hero-chat">
+            <ChatWindow steps={TRANSCRIPTS.pulsa.steps} label={HERO.chatLabel} />
+          </div>
         </motion.div>
       </div>
     </section>
