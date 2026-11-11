@@ -1,0 +1,72 @@
+.nova {
+  display: block;
+  overflow: visible;
+  height: auto;
+  max-width: 100%;
+  user-select: none;
+}
+
+/* Same gradient as fill and a thick round stroke: rounds every star tip */
+.nova-skin {
+  stroke-width: 14;
+  stroke-linejoin: round;
+}
+
+.nova-shine {
+  fill: none;
+  stroke: #fff6d6;
+  stroke-width: 6;
+  stroke-linecap: round;
+  opacity: 0.75;
+}
+
+.nova-eye,
+.nova-dots circle {
+  fill: var(--ink);
+}
+
+.nova-cheek {
+  fill: #ff8fa6;
+  opacity: 0.55;
+}
+
+.nova-mouth {
+  fill: var(--ink);
+  stroke: var(--ink);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* The resting smile is an open curve: no fill */
+.nova-mouth:not([d$='Z']) {
+  fill: none;
+}
+
+.nova-sticker {
+  fill: #fff;
+  stroke: var(--soft-2);
+  stroke-width: 2;
+  filter: drop-shadow(0 6px 10px rgb(var(--ink-rgb) / 0.14));
+}
+.nova-prop {
+  color: var(--blue);
+}
+
+.nova-beam path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.nova-twinkle {
+  fill: var(--cyan);
+  filter: drop-shadow(0 0 6px var(--cyan));
+}
+
+.nova-spark {
+  fill: var(--star);
+}
+
+.nova-shadow {
+  fill: var(--ink);
+  opacity: 0.16;
+}
