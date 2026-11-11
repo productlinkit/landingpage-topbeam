@@ -39,29 +39,7 @@
 }
 .final-mark {
   position: relative;
-  animation: final-float 3.6s ease-in-out infinite alternate;
-  filter: drop-shadow(0 24px 30px rgb(var(--ink-rgb) / 0.18));
-}
-.final-shadow {
-  position: absolute;
-  bottom: 12%;
-  width: 120px;
-  height: 14px;
-  border-radius: 50%;
-  background: rgb(var(--ink-rgb) / 0.1);
-  filter: blur(6px);
-  animation: final-shadow 3.6s ease-in-out infinite alternate;
-}
-@keyframes final-float {
-  to {
-    transform: translateY(-16px) rotate(-5deg);
-  }
-}
-@keyframes final-shadow {
-  to {
-    transform: scaleX(0.8);
-    opacity: 0.6;
-  }
+  width: clamp(170px, 40vw, 220px);
 }
 
 @media (min-width: 960px) {
@@ -75,8 +53,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .final-mark,
-  .final-shadow {
+  .final-mark {
     animation: none;
   }
 }

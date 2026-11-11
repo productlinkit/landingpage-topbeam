@@ -1,137 +1,68 @@
-import { useRef, useState } from 'react'
-import { AnimatePresence, motion, useInView } from 'motion/react'
-import { REPLAY, SAFETY } from '../content'
+import { useState } from 'react'
+import { REPLAY } from '../content'
+import { TRANSCRIPTS } from '../data/transcripts'
+import { ChatWindow } from '../components/ChatWindow'
 import { Icon } from '../components/Icon'
-import { Reveal } from '../components/ui'
-import { EASE } from '../components/ease'
-import { useChatScript } from '../hooks/useChatScript'
+import { Reveal, SectionHead } from '../components/ui'
 import './Replay.css'
 
-const bubble = {
-  initial: { opacity: 0, y: 14, scale: 0.96 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, transition: { duration: 0.2 } },
-  transition: { duration: 0.45, ease: EASE },
-}
-
-// The one dark section: a conversation that replays itself, a picker beside it,
-// two trust figures, then the safety promises.
+// Dark section: a chat window replays the chosen real conversation; the list on the right
+// switches scenario (and restarts the replay from the top).
 export default function Replay() {
   const [pick, setPick] = useState(0)
-  const s = REPLAY.scenarios[pick]
-  const stage = useRef(null)
-  const inView = useInView(stage, { amount: 0.35 })
+  const sc = REPLAY.scenarios[pick]
 
   return (
-    <section className="section replay" id="keamanan">
+    <section className="section replay">
       <div className="container">
-        <div className="section-head">
-          <Reveal as="h2" className="h-section">
-            {REPLAY.title}
-          </Reveal>
-          <Reveal as="p" className="lead" delay={0.08}>
-            {REPLAY.lead}
-          </Reveal>
-        </div>
+        <SectionHead title={REPLAY.title} lead={REPLAY.lead} className="replay-head" />
 
         <div className="replay-grid">
-          <Reveal className="replay-stage" amount={0.2}>
-            <div className="replay-head mono">
-              <span>
-                {s.tag} · {s.title}
-              </span>
-              <span className="replay-live">
-                <span aria-hidden="true" />
-                {REPLAY.agent}
-              </span>
-            </div>
-            <div
-              ref={stage}
-              className="replay-body"
-              role="img"
-              aria-label={`Contoh percakapan: ${s.title}. ${s.chat.map((m) => m.text).join(' ')}`}
-            >
-              <Conversation key={s.id} script={s.chat} active={inView} />
-            </div>
+          <Reveal className="replay-chat" amount={0.2}>
+            <ChatWindow
+              dark
+              steps={TRANSCRIPTS[sc.id].steps}
+              replayKey={sc.id}
+              label={`Percakapan asli dengan Nova: ${sc.title}, ${REPLAY.tested(sc.date)}`}
+            />
           </Reveal>
 
           <div className="replay-side">
-            <div className="replay-picks" role="radiogroup" aria-label={REPLAY.pick}>
-              {REPLAY.scenarios.map((sc, i) => (
-                <button
-                  key={sc.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={pick === i}
-                  className={`replay-pick ${pick === i ? 'is-on' : ''}`}
-                  onClick={() => setPick(i)}
-                >
-                  <strong>{sc.title}</strong>
-                  <span>{sc.sub}</span>
-                </button>
+            <p className="mono replay-pick">{REPLAY.pick}</p>
+            <ul className="replay-list">
+              {REPLAY.scenarios.map((s, i) => (
+                <li key={s.id}>
+                  <button
+                    type="button"
+                    className={`replay-item ${pick === i ? 'is-on' : ''}`}
+                    aria-pressed={pick === i}
+                    onClick={() => setPick(i)}
+                  >
+                    <span className="replay-item-text">
+                      <span className="replay-tag mono">{s.tag}</span>
+                      <strong>{s.title}</strong>
+                      <span>
+                        {s.sub} · {REPLAY.tested(s.date)}
+                      </span>
+                    </span>
+                    <span className="replay-play" aria-hidden="true">
+                      <Icon name={pick === i ? 'chat' : 'arrow'} size={16} />
+                    </span>
+                  </button>
+                </li>
               ))}
-            </div>
-            <Reveal className="replay-stats" delay={0.1}>
-              {REPLAY.stats.map((st, i) => (
+            </ul>
+            <div className="replay-stats">
+              {REPLAY.stats.map((st) => (
                 <div key={st.label}>
-                  <strong className={i === 0 ? 'is-accent' : undefined}>{st.value}</strong>
+                  <strong>{st.value}</strong>
                   <span>{st.label}</span>
                 </div>
               ))}
-            </Reveal>
+            </div>
           </div>
-        </div>
-
-        <div className="replay-safety">
-          <Reveal as="h3" className="h-card replay-safety-title">
-            {SAFETY.lead} <span>{SAFETY.strong}</span>
-          </Reveal>
-          <ul className="replay-safety-list">
-            {SAFETY.points.map((p, i) => (
-              <Reveal as="li" key={p.title} delay={i * 0.08}>
-                <span className="replay-safety-icon">
-                  <Icon name={p.icon} size={20} />
-                </span>
-                <strong>{p.title}</strong>
-                <p>{p.body}</p>
-              </Reveal>
-            ))}
-          </ul>
         </div>
       </div>
     </section>
-  )
-}
-
-function Conversation({ script, active }) {
-  const { shown, typing, cycle } = useChatScript(script, active)
-  return (
-    <AnimatePresence mode="popLayout">
-      {script.slice(0, shown).map((m, i) => (
-        <motion.div
-          key={`${cycle}-${i}`}
-          layout="position"
-          {...bubble}
-          className={`rp-bubble rp-${m.from}`}
-          aria-hidden="true"
-        >
-          {m.text}
-          {m.options && (
-            <span className="rp-options">
-              {m.options.map((o) => (
-                <span key={o}>{o}</span>
-              ))}
-            </span>
-          )}
-        </motion.div>
-      ))}
-      {typing && (
-        <motion.div key={`t-${cycle}-${shown}`} layout="position" {...bubble} className="rp-bubble rp-nova rp-typing">
-          <span />
-          <span />
-          <span />
-        </motion.div>
-      )}
-    </AnimatePresence>
   )
 }

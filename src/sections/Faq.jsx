@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'motion/react'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { FAQ, FAQS } from '../content'
 import { Icon } from '../components/Icon'
-import { Mark, Reveal, SectionHead, WaButton } from '../components/ui'
+import { Nova } from '../components/Nova'
+import { Reveal, SectionHead, WaButton } from '../components/ui'
 import { EASE } from '../components/ease'
 import './Faq.css'
 
@@ -10,7 +11,22 @@ import './Faq.css'
 // Below 960px the card is hidden and the answer opens under its question instead.
 export default function Faq() {
   const [open, setOpen] = useState(0)
+  const [typing, setTyping] = useState(false)
+  const reduce = useReducedMotion()
   const f = FAQS[open]
+
+  // Nova "types" for a moment before each answer appears in the card.
+  useEffect(() => {
+    if (!typing) return
+    const t = setTimeout(() => setTyping(false), 700)
+    return () => clearTimeout(t)
+  }, [typing, open])
+
+  const choose = (i) => {
+    if (i === open) return
+    setOpen(i)
+    setTyping(!reduce)
+  }
 
   return (
     <section className="section section-soft faq" id="faq">
@@ -30,7 +46,7 @@ export default function Faq() {
                       className="faq-q"
                       aria-expanded={isOpen}
                       aria-controls={`faq-a-${i}`}
-                      onClick={() => setOpen(i)}
+                      onClick={() => choose(i)}
                     >
                       <span>{q.q}</span>
                       <span className="arrow-chip" aria-hidden="true">
@@ -50,7 +66,7 @@ export default function Faq() {
           <Reveal className="faq-card" amount={0.2}>
             <div className="faq-card-head">
               <span className="faq-avatar">
-                <Mark size={30} />
+                <Nova size={34} pose={typing ? 'think' : 'idle'} />
               </span>
               <span className="faq-agent">
                 <strong>{FAQ.agent}</strong>
@@ -73,7 +89,22 @@ export default function Faq() {
                   transition={{ duration: 0.4, ease: EASE }}
                 >
                   <span className="faq-ask">{f.q}</span>
-                  <span className="faq-answer">{f.a}</span>
+                  {typing ? (
+                    <span className="bubble bubble-nova bubble-typing faq-typing">
+                      <span />
+                      <span />
+                      <span />
+                    </span>
+                  ) : (
+                    <motion.span
+                      className="faq-answer"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, ease: EASE }}
+                    >
+                      {f.a}
+                    </motion.span>
+                  )}
                 </motion.div>
               </AnimatePresence>
             </div>

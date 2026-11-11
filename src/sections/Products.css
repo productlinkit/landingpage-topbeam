@@ -1,12 +1,8 @@
-.products {
-  padding-top: clamp(40px, 5vw, 64px);
-}
-
 .products-grid {
   display: grid;
   gap: 16px;
 }
-.products-grid > div {
+.products-grid > li {
   display: flex;
 }
 
@@ -15,6 +11,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-height: 280px;
   padding: 32px 28px 28px;
   border-radius: var(--r-card);
   background: var(--tint);
@@ -23,162 +20,68 @@
   transition: transform 0.5s var(--ease);
 }
 .product-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
 }
 
 .product-body {
-  max-width: 290px;
+  max-width: 300px;
   margin-top: 12px;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--body);
 }
 
-.product-figure {
-  display: flex;
-  flex-direction: column;
-  margin-top: 28px;
-}
-.product-figure strong {
-  font-size: clamp(28px, 2.6vw, 34px);
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.045em;
-}
-.product-figure span {
-  font-size: 14px;
-  color: var(--body);
-}
-
-.product-demo {
-  margin-top: 24px;
-  max-width: 250px;
-}
-
 .product-link {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 8px 18px -12px rgb(var(--ink-rgb) / 0.35);
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  align-self: flex-start;
-  margin-top: 36px;
-  min-height: 44px;
-  padding: 0 18px;
+  gap: 12px;
+  margin-top: auto;
+  padding: 8px 8px 8px 20px;
   border-radius: var(--pill);
   background: #fff;
-  font-size: 15px;
-  color: var(--ink);
-  transition: gap 0.3s var(--ease);
-}
-.product-card:hover .product-link {
-  gap: 14px;
-}
-
-/* The mark peeks in at the bottom right, like a small mascot */
-.product-mark {
-  position: absolute;
-  right: 20px;
-  bottom: 18px;
-  z-index: -1;
-  opacity: 0.9;
-  transform: rotate(-8deg);
-  transition: transform 0.6s var(--ease);
-}
-.product-card:hover .product-mark {
-  transform: rotate(4deg) translateY(-6px);
-}
-
-/* ---- small illustrations ---- */
-.pd-box {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 14px;
-  border-radius: 16px;
-  background: #fff;
-  font-size: 13px;
-  color: var(--body);
-  box-shadow: var(--shadow-card);
-}
-.pd-options {
-  display: flex;
-  gap: 6px;
-}
-.pd-options span {
-  flex: 1;
-  padding: 6px 0;
-  border-radius: 10px;
-  background: var(--soft);
-  text-align: center;
   font-weight: 500;
-  color: var(--ink);
+  align-self: flex-start;
 }
-.pd-options .is-on {
+.product-link .arrow-chip {
   background: var(--ink);
   color: #fff;
 }
-
-.pd-wallets {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-.pd-wallets span {
-  display: grid;
-  place-items: center;
-  height: 44px;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: var(--shadow-card);
-}
-.pd-wallets img {
-  height: 18px;
-  width: auto;
-  max-width: 80%;
-  object-fit: contain;
+.product-card:hover .arrow-chip {
+  transform: translateX(3px);
 }
 
-.pd-fuel {
-  flex-direction: row;
-  align-items: center;
+/* Nova sits in the lower right corner, partly cropped by the card like a sticker peeking in */
+.product-nova {
+  position: absolute;
+  right: 12px;
+  bottom: -22px;
+  z-index: 0;
+  transition: transform 0.6s var(--ease);
 }
-.pd-fuel-ico {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: var(--gold);
-  color: var(--ink);
-}
-.pd-fuel-text {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  line-height: 1.3;
-}
-.pd-fuel-text strong {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--ink);
-}
-.pd-fuel img {
-  height: 20px;
-  width: auto;
+.product-card:hover .product-nova {
+  transform: translateY(-10px) rotate(-6deg);
 }
 
-@media (min-width: 860px) {
+@media (min-width: 720px) {
   .products-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1180px) {
+  .products-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
   .product-card {
-    min-height: 520px;
+    min-height: 420px;
   }
-  .product-link {
-    margin-top: auto;
-  }
-  /* keep a minimum gap above the link once it is pushed to the bottom */
-  .product-demo {
-    margin-bottom: 36px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card,
+  .product-nova {
+    transition: none;
   }
 }

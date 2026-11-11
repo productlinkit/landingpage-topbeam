@@ -39,9 +39,6 @@ export const CHAT = {
   },
 }
 
-// Temporary: still used by the old Phone mockup until Task 6 removes it.
-export const PHONE = { name: 'Topbeam', sub: 'Nova · akun bisnis WhatsApp', placeholder: 'Ketik pesan' }
-
 export const COMPOSER = {
   pick: 'Pilih kebutuhan',
   send: 'Kirim di WhatsApp',
@@ -89,182 +86,214 @@ export const WALLETS = [
   { name: 'e-BBM', src: ebbm },
 ]
 
-// The two "story" blocks: a big uppercase title with a slot, a phone, and short lines around it.
-export const STORIES = [
-  {
-    id: 'produk',
-    title: ['Isi ulang', 'semua nomor'],
-    slot: { line: 0, icon: 'phone', color: 'var(--lilac)' },
-    label: 'Pulsa & paket data',
-    lines: [
-      'Sebut nominal atau kuota. Operator terdeteksi otomatis dari nomor.',
-      'Harian, mingguan, bulanan. Sebut budget, Nova carikan yang pas.',
-    ],
-    logos: 'operators',
-    cta: { key: 'pulsa', label: 'Beli pulsa' },
-    chat: [
-      { from: 'me', text: 'Halo Nova, saya mau beli pulsa' },
-      { from: 'nova', text: 'Tentu. Apakah Anda ingin menggunakan nomor di chat ini, atau nomor lain?' },
-      { from: 'me', text: 'Nomor ini saja' },
-      {
-        from: 'nova',
-        text: 'Nomor Anda terdeteksi Telkomsel. Silakan pilih nominal pulsa:',
-        options: ['25rb', '50rb', '100rb'],
+export const LOGO_STRIP = {
+  title: 'Untuk semua operator seluler dan dompet digital',
+}
+
+// Four tinted product cards, each with its own Nova pose and WhatsApp button.
+export const PRODUCTS = {
+  title: 'Semua isi ulang, satu chat.',
+  lead: 'Pilih produk, chat langsung terbuka dengan pesan yang sudah terisi.',
+  items: [
+    {
+      id: 'pulsa',
+      tint: 'var(--lilac)',
+      pose: 'phone',
+      title: 'Pulsa',
+      body: 'Semua operator utama: Telkomsel, by.U, Indosat, IM3, Tri, XL, Axis, Smartfren. Operator terdeteksi otomatis dari nomor.',
+      cta: { key: 'pulsa', label: 'Beli pulsa' },
+    },
+    {
+      id: 'data',
+      tint: 'var(--sky)',
+      pose: 'wifi',
+      title: 'Paket data',
+      body: 'Harian, mingguan, atau bulanan. Sebutkan kuota yang Anda perlu, Nova tampilkan pilihan paketnya.',
+      cta: { key: 'data', label: 'Beli paket data' },
+    },
+    {
+      id: 'ewallet',
+      tint: 'var(--aqua)',
+      pose: 'wallet',
+      title: 'E-wallet',
+      body: 'Top up DANA, GoPay, OVO, ShopeePay, dan LinkAja, untuk Anda atau keluarga.',
+      cta: { key: 'ewallet', label: 'Top up e-wallet' },
+    },
+    {
+      id: 'ebbm',
+      tint: 'var(--gold)',
+      pose: 'fuel',
+      title: 'e-BBM',
+      body: 'Saldo BBM digital, siap dipakai di SPBU yang menerima.',
+      cta: { key: 'ebbm', label: 'Beli e-BBM' },
+    },
+  ],
+}
+
+// Four-step stepper. Panels reuse lines from the real 11 Nov 2026 chat.
+export const HOW = {
+  title: 'Cara kerjanya',
+  lead: 'Empat langkah, semuanya di satu chat. Ketuk langkah untuk melihat apa yang terjadi.',
+  pick: 'Langkah cara kerja',
+  count: (n, total) => `Langkah ${n} dari ${total}`,
+  steps: [
+    {
+      icon: 'chat',
+      title: 'Chat Nova',
+      short: 'Tulis seperti biasa',
+      body: 'Tulis kebutuhan Anda, misalnya "Halo Nova, saya mau beli pulsa". Nova menanyakan nomor tujuan: nomor di chat ini atau nomor lain.',
+      demo: {
+        kind: 'chat',
+        me: 'Halo Nova, saya mau beli pulsa',
+        nova: 'Apakah nomor tujuan yang digunakan adalah nomor yang sama dengan chat ini, atau nomor lain?',
       },
-      { from: 'me', text: 'Telkomsel 50.000' },
-      { from: 'nova', text: 'Konfirmasi: Telkomsel Rp50.000, harga Rp52.061 (sudah termasuk biaya QRIS). Apakah sudah benar?' },
-    ],
-  },
-  {
-    id: 'ewallet',
-    title: ['Top up', 'semua dompet'],
-    slot: { line: 0, icon: 'wallet', color: 'var(--sky)' },
-    label: 'E-wallet & e-BBM',
-    lines: [
-      'GoPay, OVO, DANA, dan ShopeePay. Untuk Anda atau keluarga.',
-      'Saldo e-BBM digital, siap dipakai di SPBU yang menerima.',
-    ],
-    logos: 'wallets',
-    cta: { key: 'ewallet', label: 'Top up e-wallet' },
-    chat: [
-      { from: 'me', text: 'Halo Nova, saya mau top up e-wallet' },
-      { from: 'nova', text: 'Untuk top up e-wallet, apakah Anda ingin menggunakan nomor di chat ini, atau nomor lain?' },
-      { from: 'me', text: 'Nomor ini' },
-      {
-        from: 'nova',
-        text: 'Berikut e-wallet yang tersedia: DANA, GoPay, OVO, ShopeePay, LinkAja. Silakan pilih e-wallet yang ingin di-top up.',
+    },
+    {
+      icon: 'receipt',
+      title: 'Cek rincian',
+      short: 'Produk, nomor, harga',
+      body: 'Nova mendeteksi operator dari nomor, menampilkan pilihan beserta harga, lalu merangkum produk, nomor tujuan, dan total.',
+      demo: {
+        kind: 'confirm',
+        rows: [
+          { label: 'Produk', value: 'Telkomsel 25.000' },
+          { label: 'Nomor', value: '0812-xxxx-6536' },
+          { label: 'Harga', value: 'Rp 25.297' },
+        ],
+        note: 'sudah termasuk biaya QRIS',
       },
-    ],
-  },
-]
+    },
+    {
+      icon: 'check',
+      title: 'Balas YA',
+      short: 'Setujui pesanan',
+      body: 'Pesanan baru diproses setelah Anda menyetujui. Salah nomor atau produk? Tinggal koreksi di chat.',
+      demo: {
+        kind: 'approve',
+        nova: 'Apakah sudah benar? Jika ya, silakan konfirmasi agar Nova bisa membuatkan kode QRIS-nya.',
+        me: 'Ya, sudah benar',
+      },
+    },
+    {
+      icon: 'qr',
+      title: 'Bayar QRIS',
+      short: 'Dari aplikasi apa pun',
+      body: 'Bayar pakai QRIS dari aplikasi bank atau e-wallet apa pun. Tautan berlaku 15 menit, status dan bukti dikirim di chat yang sama.',
+      demo: { kind: 'pay', title: 'Bayar dengan QRIS', sub: 'Tautan berlaku 15 menit' },
+    },
+  ],
+}
+
+// Dark section: pick a real conversation and watch Nova answer it.
+export const REPLAY = {
+  title: 'Lihat sendiri cara Nova bekerja',
+  lead: 'Setiap percakapan di bawah ini diputar ulang dari chat asli dengan Nova. Yang dipercepat hanya jeda balasannya.',
+  pick: 'Pilih percakapan',
+  tested: (date) => `Diuji ${date}`,
+  scenarios: [
+    { id: 'pulsa', tag: 'Pulsa', title: 'Beli pulsa Telkomsel', sub: 'Nomor sendiri · sampai konfirmasi harga', date: '11 Nov 2026' },
+    { id: 'data', tag: 'Paket data', title: 'Pilih paket data', sub: 'Nomor sendiri · daftar paket dan harga', date: '9 Nov 2026' },
+    { id: 'ewallet', tag: 'E-wallet', title: 'Top up e-wallet', sub: 'Nomor sendiri · pilih dompet', date: '9 Nov 2026' },
+  ],
+  stats: [
+    { value: '0', label: 'PIN atau OTP yang diminta' },
+    { value: '15 mnt', label: 'batas waktu tautan bayar' },
+  ],
+}
 
 export const WHY = {
-  title: 'Kenapa orang memilih Topbeam',
+  title: 'Kenapa Topbeam',
   lead: 'Dibuat supaya isi ulang terasa seperti chat biasa: jelas, cepat, dan tanpa kejutan.',
   points: [
     {
-      kind: 'chat',
-      title: 'Chat seperti biasa.',
-      body: 'Ceritakan kebutuhan dengan bahasa sehari-hari. Tidak perlu hafal kode atau menu.',
+      kind: 'say',
+      tint: 'var(--lilac)',
+      title: 'Sebut, bukan cari menu.',
+      body: 'Tulis dengan kata-kata Anda sendiri. Nova yang mengerti dan mendeteksi operatornya dari nomor.',
+      proof: { me: 'Halo Nova, saya mau beli pulsa', nova: 'Nomor Anda terdeteksi sebagai Telkomsel.' },
     },
     {
-      kind: 'products',
-      title: 'Satu chat, semua kebutuhan.',
-      body: 'Pulsa, paket data, e-wallet, dan e-BBM tersedia dalam satu percakapan WhatsApp.',
+      kind: 'family',
+      tint: 'var(--aqua)',
+      title: 'Isi untuk keluarga.',
+      body: 'Ibu di kampung kehabisan pulsa? Pilih "nomor lain", sebutkan nomornya, Nova siapkan pesanannya.',
+      proof: { nova: 'Apakah nomor tujuannya nomor di chat ini, atau nomor lain?', me: 'Nomor lain, 0857-xxxx-3312' },
     },
     {
-      kind: 'confirm',
-      title: 'Cek dulu, baru setuju.',
-      body: 'Produk, nomor tujuan, dan total tampil lebih dulu. Tidak ada pembayaran sebelum Anda membalas YA.',
-    },
-    {
-      kind: 'refund',
-      title: 'Gagal? Dana kembali.',
-      body: 'Jika transaksi gagal, dana dikembalikan otomatis dan Nova langsung mengabari di chat.',
+      kind: 'safe',
+      tint: 'var(--gold)',
+      title: 'Aman sebelum dan sesudah bayar.',
+      body: 'Tidak ada pembayaran sebelum Anda membalas YA. Jika transaksi gagal, dana dikembalikan dan Nova mengabari di chat.',
+      proof: { rows: ['Rincian tampil sebelum bayar', 'Konfirmasi dulu, baru QRIS', 'Gagal? Dana kembali'] },
     },
   ],
-  // Copy inside the small illustrations, one entry per point `kind`. The total is an example price.
-  demo: {
-    total: 'Rp51.500',
-    chat: {
-      me: 'pulsa 50 ribu ke nomor adik',
-      nova: 'Siap, Kak. Pulsa Rp50.000 untuk Adik (Telkomsel). Balas YA untuk lanjut.',
-    },
-    products: [
-      { icon: 'phone', label: 'Pulsa' },
-      { icon: 'wifi', label: 'Paket data' },
-      { icon: 'wallet', label: 'E-wallet' },
-      { icon: 'fuel', label: 'e-BBM' },
-    ],
-    confirm: {
-      title: 'Rincian pesanan',
-      rows: [
-        { label: 'Produk', value: 'Pulsa Rp50.000' },
-        { label: 'Nomor', value: '0813-xxxx-4521' },
-        { label: 'Operator', value: 'Telkomsel' },
-      ],
-      totalLabel: 'Total',
-      yes: 'Balas YA untuk lanjut',
-    },
-    refund: { fail: 'Transaksi gagal', back: 'Dana kembali' },
-  },
-}
-
-export const HOW = {
-  title: 'Cara kerjanya',
-  lead: 'Lima langkah, semuanya di satu chat.',
-  step: (n) => `Langkah ${n}`,
-  railLabel: 'Langkah cara kerja',
-  count: (n, total) => `Langkah ${n} dari ${total}`,
-  // Copy inside the illustration panel of steps 3 to 5 (steps 1 and 2 reuse HERO.chat and WHY.demo.confirm)
-  demo: {
-    approve: { me: 'Ya, sudah benar', status: 'Pesanan disetujui. Lanjut ke pembayaran.' },
-    pay: { title: 'Bayar dengan QRIS', expires: 'Tautan berlaku 15 menit', alt: 'atau virtual account bank' },
-    done: { title: 'Transaksi berhasil', sub: 'Bukti transaksi dikirim di chat yang sama' },
-  },
-  steps: [
-    { icon: 'chat', tint: 'var(--lilac)', title: 'Chat Nova', short: 'Tulis seperti biasa', body: 'Tulis seperti biasa, misalnya "pulsa 50 ribu ke nomor adik".' },
-    { icon: 'receipt', tint: 'var(--sky)', title: 'Cek rincian', short: 'Produk dan total', body: 'Nova menampilkan produk, nomor tujuan, operator, dan total harga.' },
-    { icon: 'check', tint: 'var(--gold)', title: 'Balas YA', short: 'Setujui pesanan', body: 'Pesanan baru diproses setelah Anda menyetujui. Salah nomor? Tinggal koreksi.' },
-    { icon: 'qr', tint: 'var(--mint)', title: 'Bayar', short: 'QRIS atau VA', body: 'Pakai QRIS dari bank atau e-wallet apa pun, atau virtual account. Tautan berlaku 15 menit.' },
-    { icon: 'badge', tint: 'var(--lilac)', title: 'Selesai', short: 'Bukti di chat', body: 'Isi ulang masuk dan bukti transaksi dikirim di chat yang sama.' },
-  ],
-}
-
-export const FAMILY = {
-  title: ['Kirim ke', 'keluarga'],
-  slot: { line: 0, icon: 'users', color: 'var(--gold)' },
-  lead: 'Beda kota, tetap bisa bantu. Sebut nama seperti "Ibu" atau "Adik", Nova ingat nomornya.',
-  pick: 'Pilih anggota keluarga',
-  cta: 'Isi ulang untuk keluarga',
-  contacts: [
-    { id: 'ibu', name: 'Ibu', place: 'Solo', number: '0812-xxxx-7890', operator: 'Telkomsel', product: 'Pulsa Rp50.000', ask: 'Nova, pulsa 50 ribu ke Ibu ya' },
-    { id: 'adik', name: 'Adik', place: 'Bandung', number: '0857-xxxx-3312', operator: 'Indosat', product: 'Kuota 10GB', ask: 'Kuota 10GB buat Adik' },
-    { id: 'ayah', name: 'Ayah', place: 'Medan', number: '0819-xxxx-5521', operator: 'XL', product: 'Pulsa Rp25.000', ask: 'Pulsa 25 ribu ke Ayah' },
-  ],
-  chat: (c) => [
-    { from: 'me', text: c.ask },
-    { from: 'nova', text: `Baik. Apakah nomor tujuannya nomor di chat ini, atau nomor lain untuk ${c.name}?` },
-    { from: 'me', text: `Nomor lain, ${c.number}` },
-    { from: 'nova', text: `Konfirmasi: ${c.product} ke ${c.number} (${c.operator}). Harga sudah termasuk biaya QRIS. Apakah sudah benar?` },
-  ],
+  cta: { key: 'keluarga', label: 'Isi ulang untuk keluarga' },
 }
 
 export const SAFETY = {
   lead: 'Nova tidak pernah meminta',
   strong: 'PIN, OTP, atau kata sandi.',
   points: [
-    { icon: 'badge', title: 'Akun resmi', body: 'Pastikan nama akun yang Anda hubungi adalah Topbeam dengan tanda centang terverifikasi.' },
-    { icon: 'shield', title: 'Rincian di depan', body: 'Periksa produk, nomor tujuan, dan total sebelum mengonfirmasi pembayaran.' },
-    { icon: 'building', title: 'Perusahaan terdaftar', body: 'Topbeam dikelola oleh PT LinkIT360, Jakarta, sesuai UU Perlindungan Data Pribadi.' },
+    { icon: 'phone', title: 'Nomor resmi', body: 'Pastikan Anda chat ke nomor resmi Topbeam: +62 851-8797-6622.' },
+    { icon: 'receipt', title: 'Rincian di depan', body: 'Periksa produk, nomor tujuan, dan total sebelum membalas YA.' },
+    {
+      icon: 'building',
+      title: 'Perusahaan terdaftar',
+      body: 'Topbeam dikelola oleh PT LinkIT360, Jakarta. Pembayaran diproses oleh [nama mitra pembayaran].',
+    },
   ],
 }
 
 export const FAQ = {
-  title: 'Tanya jawab',
+  title: 'Tanya Nova',
   lead: 'Pertanyaan yang paling sering kami terima. Pilih satu, Nova yang menjawab.',
   pick: 'Daftar pertanyaan',
   agent: 'Nova',
-  agentSub: 'Menjawab dari panduan resmi Topbeam',
+  agentSub: 'Menjawab dari panduan Topbeam',
   status: 'online',
   more: 'Belum terjawab? Tanyakan langsung ke Nova.',
   cta: 'Chat Nova',
 }
 
 export const FAQS = [
-  { q: 'Apakah saya perlu mengunduh aplikasi?', a: 'Tidak. Topbeam berjalan sepenuhnya di WhatsApp. Cukup klik tombol Chat Nova atau simpan nomor resmi kami.' },
-  { q: 'Metode pembayaran apa saja yang tersedia?', a: 'QRIS dari aplikasi bank atau e-wallet apa pun, serta virtual account bank. Tautan pembayaran berlaku 15 menit.' },
-  { q: 'Berapa lama pulsa atau kuota masuk?', a: 'Setelah pembayaran berhasil, Nova mengirimkan status transaksi di chat. Lama proses dapat bergantung pada operator.' },
-  { q: 'Bagaimana jika transaksi gagal?', a: 'Dana dikembalikan otomatis dan Nova mengirim kabar di chat yang sama. Ketik "status" kapan saja untuk cek pesanan.' },
-  { q: 'Bisakah membeli untuk nomor orang lain?', a: 'Bisa. Sebutkan nomor tujuannya, atau simpan dengan nama seperti "Ibu" agar pesanan berikutnya lebih cepat.' },
-  { q: 'Apakah ada biaya tambahan?', a: 'Tidak ada biaya chat. Harga yang Nova tampilkan sebelum pembayaran adalah total yang Anda bayar.' },
-  { q: 'Apakah data saya aman?', a: 'Kami hanya menyimpan nomor WhatsApp, nomor tujuan yang Anda simpan, dan riwayat pesanan, sesuai Kebijakan Privasi dan UU PDP. Anda bisa meminta penghapusan data kapan saja.' },
-  { q: 'Bagaimana cara membedakan akun resmi Topbeam?', a: 'Akun resmi bernama "Topbeam" dengan tanda centang terverifikasi. Nova tidak pernah meminta PIN, OTP, atau kata sandi.' },
+  {
+    q: 'Apakah saya perlu mengunduh aplikasi?',
+    a: 'Tidak. Topbeam berjalan sepenuhnya di WhatsApp. Cukup klik tombol Chat Nova atau simpan nomor resmi kami.',
+  },
+  {
+    q: 'Metode pembayaran apa saja yang tersedia?',
+    a: 'QRIS dari aplikasi bank atau e-wallet apa pun, serta virtual account bank. Tautan pembayaran berlaku 15 menit.',
+  },
+  {
+    q: 'Berapa lama pulsa atau kuota masuk?',
+    a: 'Setelah pembayaran berhasil, Nova mengirimkan status transaksi di chat. Lama proses dapat bergantung pada operator.',
+  },
+  {
+    q: 'Bagaimana jika transaksi gagal?',
+    a: 'Dana dikembalikan otomatis dan Nova mengirim kabar di chat yang sama. Ketik "status" kapan saja untuk cek pesanan.',
+  },
+  { q: 'Bisakah membeli untuk nomor orang lain?', a: 'Bisa. Saat Nova bertanya, pilih "nomor lain" lalu sebutkan nomor tujuannya.' },
+  {
+    q: 'Apakah ada biaya tambahan?',
+    a: 'Tidak ada biaya chat. Harga yang Nova tampilkan sebelum pembayaran sudah termasuk biaya QRIS, itulah total yang Anda bayar.',
+  },
+  {
+    q: 'Kapan Nova bisa dipakai?',
+    a: 'Nova siap melayani [24 jam / jam operasional]. Bantuan dari tim kami tersedia [jam layanan] dengan mengetik "bantuan".',
+  },
+  {
+    q: 'Apakah data saya aman?',
+    a: 'Kami hanya menyimpan nomor WhatsApp, nomor tujuan, dan riwayat pesanan, sesuai Kebijakan Privasi dan UU PDP. Anda bisa meminta penghapusan data kapan saja.',
+  },
+  {
+    q: 'Bagaimana cara memastikan saya chat dengan Topbeam?',
+    a: 'Nomor resmi Topbeam adalah +62 851-8797-6622. Nova tidak pernah meminta PIN, OTP, atau kata sandi.',
+  },
 ]
 
 export const FINAL = {
   title: 'Kuota menipis? Chat Nova sekarang.',
-  sub: 'Buka WhatsApp, pilih kebutuhan, selesai dalam satu chat.',
+  sub: 'Buka WhatsApp, pilih kebutuhan, Nova siapkan pesanannya dalam satu chat.',
 }
 
 export const FOOTER = {
@@ -293,7 +322,7 @@ export const FOOTER = {
   ],
   notes: [
     { icon: 'lock', text: 'Nova tidak pernah meminta PIN, OTP, atau kata sandi.' },
-    { icon: 'badge', text: 'Akun resmi: Topbeam dengan centang terverifikasi.' },
+    { icon: 'phone', text: 'Nomor resmi: +62 851-8797-6622.' },
   ],
   pay: 'Bayar dengan',
   payVa: 'Virtual account',
@@ -303,65 +332,4 @@ export const FOOTER = {
     { label: 'Pengembalian dana', href: '#refund' },
   ],
   legal: '© 2026 PT LinkIT360, Jakarta. Topbeam adalah layanan milik PT LinkIT360.',
-}
-
-export const LOGO_STRIP = {
-  title: 'Untuk semua operator seluler dan dompet digital',
-}
-
-// Three tinted product cards. `demo` picks the small illustration inside the card.
-export const PRODUCTS = {
-  title: 'Satu chat, semua kebutuhan',
-  lead: 'Pulsa, paket data, e-wallet, dan e-BBM tersedia dalam satu percakapan WhatsApp. Sebut yang Anda perlu, Nova siapkan sisanya.',
-  items: [
-    {
-      id: 'pulsa',
-      tint: 'var(--lilac)',
-      title: 'Pulsa & paket data',
-      body: 'Sebut nominal atau kuota. Operator terdeteksi otomatis dari nomor.',
-      figure: '8',
-      caption: 'operator seluler',
-      demo: 'options',
-      cta: { key: 'pulsa', label: 'Beli pulsa' },
-    },
-    {
-      id: 'ewallet',
-      tint: 'var(--sky)',
-      title: 'E-wallet',
-      body: 'GoPay, OVO, DANA, dan ShopeePay. Untuk Anda atau keluarga.',
-      figure: '4',
-      caption: 'dompet digital',
-      demo: 'wallets',
-      cta: { key: 'ewallet', label: 'Top up e-wallet' },
-    },
-    {
-      id: 'ebbm',
-      tint: 'var(--gold)',
-      title: 'e-BBM',
-      body: 'Saldo e-BBM digital, siap dipakai di SPBU yang menerima.',
-      figure: '1 chat',
-      caption: 'dari pesan sampai saldo masuk',
-      demo: 'fuel',
-      cta: { key: 'ebbm', label: 'Beli e-BBM' },
-    },
-  ],
-  options: { note: 'Nomor Anda terdeteksi Telkomsel', values: ['25rb', '50rb', '100rb'] },
-  fuel: { title: 'Saldo e-BBM', sub: 'Siap dipakai di SPBU' },
-}
-
-// Dark "replay" section: pick a conversation, watch Nova answer it.
-export const REPLAY = {
-  title: 'Lihat sendiri cara Nova bekerja',
-  lead: 'Setiap pesanan dimulai dengan pertanyaan yang jelas dan berakhir dengan rincian lengkap sebelum Anda bayar. Pilih percakapan, lalu lihat Nova menjawab.',
-  pick: 'Pilih percakapan',
-  agent: 'Nova',
-  scenarios: [
-    { id: 'pulsa', tag: 'Pulsa', title: 'Beli pulsa', sub: 'Nomor sendiri · Telkomsel', chat: STORIES[0].chat },
-    { id: 'kuota', tag: 'Paket data', title: 'Kuota untuk Ibu', sub: 'Nomor lain · Telkomsel', chat: HERO.chat },
-    { id: 'ewallet', tag: 'E-wallet', title: 'Top up e-wallet', sub: 'Nomor sendiri · pilih dompet', chat: STORIES[1].chat },
-  ],
-  stats: [
-    { value: '0', label: 'PIN atau OTP yang diminta' },
-    { value: '15 mnt', label: 'batas waktu tautan bayar' },
-  ],
 }
