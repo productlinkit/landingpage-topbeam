@@ -1,54 +1,64 @@
 /* ------------------------------------------------------------------
    Topbeam design tokens
-   Layout language (after bloop-ai.framer.website): a warm off-white page, white cards,
+   Layout language (after bloop-ai.framer.website): a cool near-white page, white cards,
    big rounded pastel cards, one dark navy section, large tight display type.
-   Colours come from the logo: navy wordmark, violet → deep blue mark, gold star.
-   Text tokens (ink, body, muted) pass WCAG AA (4.5:1) on white and on --soft.
+   Colours come from the logo: violet #7B2FF7 > royal blue #2B5BFF > cyan #1FD8EB, deep indigo,
+   navy wordmark, and the gold star as the only warm accent. Blue is the anchor; violet and cyan
+   stay in gradients and small accents. Gold is for focal points only (badges, stars, highlights).
+   Text tokens (ink, body, muted) pass WCAG AA (4.5:1) on white, --bg, --soft and every pastel.
    ------------------------------------------------------------------ */
 :root {
-  --bg: #f7f7f4; /* warm off-white page */
-  --soft: #efefea; /* panels, nav pill, chips */
-  --soft-2: #e4e4dc; /* hairlines, inactive tracks */
+  --bg: #f5f7fc; /* cool near-white page */
+  --soft: #eef1fa; /* panels, nav pill, chips */
+  --soft-2: #e1e6f3; /* hairlines, inactive tracks */
   --surface: #ffffff;
 
-  --ink: #12173a; /* near-black navy: headings, primary buttons */
-  --ink-rgb: 18 23 58; /* same colour, for translucent shadows: rgb(var(--ink-rgb) / a) */
-  --ink-2: #252b56;
-  --body: #3d4266;
-  --muted: #5f6382;
-  --line: #e4e4dc;
+  --ink: #1b2250; /* navy wordmark: headings, text */
+  --ink-rgb: 27 34 80; /* same colour, for translucent shadows: rgb(var(--ink-rgb) / a) */
+  --ink-2: #252e66;
+  --body: #3d4466;
+  --muted: #5e6688;
+  --line: #e1e6f3;
 
   /* Dark section */
-  --night: #0b0f2b;
-  --night-2: #161b3d;
-  --night-3: #242a55;
-  --night-text: #c5c8e0;
+  --night: #0a0f2e;
+  --night-2: #121a45;
+  --night-3: #1c2558;
+  --night-text: #c3cadd;
 
-  /* Brand */
-  --violet: #6a28c6;
-  --indigo: #1b2a9e;
-  --blue: #2d4fe0;
-  --cyan: #21c7d9;
+  /* Brand (logo) */
+  --violet: #7b2ff7;
+  --violet-600: #6420d6;
+  --indigo: #0b1f8f;
+  --blue: #2b5bff;
+  --blue-600: #1f45d9;
+  --blue-700: #1736b0;
+  --cyan: #1fd8eb;
   --star: #f4b740; /* Nova's body */
-  /* Logo gradient. Reserved for Nova's beam and a few accents, never whole sections. */
-  --beam: linear-gradient(90deg, #6a28c6, #2d4fe0 55%, #21c7d9);
-  --accent: #ffd45c; /* gold star from the mark: highlights on dark */
-  --accent-ink: #3a2a00;
+  /* Logo gradient: illustrations, accents, borders. Never behind body text (cyan end is too light). */
+  --beam: linear-gradient(120deg, #7b2ff7 0%, #2b5bff 50%, #1fd8eb 100%);
+  /* CTA gradient: white text passes 5.19:1 at its lightest stop */
+  --grad-cta: linear-gradient(120deg, #6420d6 0%, #1f45d9 45%, #2b5bff 70%, #6420d6 100%);
+  /* Deep hero/closing gradient, white text passes everywhere */
+  --grad-deep: linear-gradient(150deg, #0b1f8f 0%, #1736b0 55%, #2b5bff 100%);
+  --accent: #d9a441; /* gold star from the mark: badges and highlights only */
+  --accent-2: #e9b95a;
+  --accent-ink: #1b2250;
 
-  /* Pastel tints for cards */
-  --lilac: #ebe5ff;
-  --sky: #dcefff;
-  --aqua: #d4f6f4;
-  --gold: #fff0c4;
-  --mint: #d9f3e5;
+  /* Pastel tints for cards, all from the logo hues */
+  --lilac: #efe6ff;
+  --sky: #e3ebff;
+  --aqua: #ddf8fb;
+  --gold: #fff3d9;
+  --mint: #e1f5ec;
 
   --ok: #0e7340;
-  --ok-bg: #dcf3e5;
+  --ok-bg: #e1f5ec;
   --wa-bg: #efeae2;
   --wa-me: #d9fdd3;
 
   /* Soft radial glow used behind the phone and the mark */
-  --glow: radial-gradient(closest-side, #fff4c9 0%, #dff2fb 38%, #e9e2ff 66%, rgb(255 255 255 / 0) 100%);
+  --glow: radial-gradient(closest-side, #fff3d9 0%, #ddf8fb 30%, #e3ebff 55%, #efe6ff 75%, rgb(255 255 255 / 0) 100%);
 
   --font: 'Wix Madefor Display', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: 'Fragment Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
@@ -134,7 +144,7 @@ ol {
 }
 
 :focus-visible {
-  outline: 2px solid var(--violet);
+  outline: 2px solid var(--blue);
   outline-offset: 3px;
   border-radius: 8px;
 }
@@ -244,12 +254,21 @@ ol {
 .btn:active {
   transform: scale(0.97);
 }
+/* Primary CTA: logo gradient that slides on hover, with a soft coloured lift */
 .btn-ink {
-  background: var(--ink);
+  background: var(--grad-cta);
+  background-size: 220% 100%;
+  background-position: 0% 50%;
   color: #fff;
+  box-shadow: 0 12px 28px -14px rgb(43 91 255 / 0.7);
+  transition:
+    transform 0.3s var(--ease),
+    background-position 0.7s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 .btn-ink:hover {
-  background: var(--ink-2);
+  background-position: 100% 50%;
+  box-shadow: 0 16px 34px -14px rgb(100 32 214 / 0.75);
 }
 .btn-soft {
   background: var(--soft);
@@ -270,7 +289,7 @@ ol {
   color: var(--accent-ink);
 }
 .btn-accent:hover {
-  background: #ffdd7d;
+  background: var(--accent-2);
 }
 .btn-sm {
   min-height: 44px;
@@ -302,4 +321,79 @@ ol {
   background: var(--glow);
   pointer-events: none;
   z-index: 0;
+}
+
+/* ---------- pointer effects (see hooks/usePointerFx.js) ---------- */
+/* Tilt toward the cursor with a soft brand-coloured spotlight that follows it */
+.fx-tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  --lift: 0px;
+  position: relative;
+  isolation: isolate;
+  transform: perspective(1000px) translateY(var(--lift)) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.5s var(--ease);
+  will-change: transform;
+}
+/* Sits above the card background but below its content */
+.fx-tilt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(255 255 255 / 0.65),
+    rgb(43 91 255 / 0.08) 40%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+  pointer-events: none;
+}
+.fx-tilt:hover {
+  --lift: -6px;
+}
+.fx-tilt:hover::after {
+  opacity: 1;
+}
+.btn {
+  transition-property: transform, translate, background-color, background-position, color, box-shadow;
+}
+
+/* Text filled with the logo gradient (headline accents). Large display type only. */
+.text-beam {
+  background: linear-gradient(100deg, #6420d6 0%, #2b5bff 55%, #1736b0 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-beam 6s ease-in-out infinite alternate;
+}
+@keyframes text-beam {
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+/* Thin gradient bar across the top that fills as the page scrolls */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: 3px;
+  background: var(--beam);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-tilt,
+  .fx-tilt::after {
+    transition: none;
+  }
+  .text-beam {
+    animation: none;
+  }
 }

@@ -2,7 +2,11 @@
   display: grid;
   gap: 16px;
 }
+.why-item {
+  display: flex;
+}
 .why-card {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;

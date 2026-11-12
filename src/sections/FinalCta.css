@@ -3,12 +3,55 @@
 }
 
 .final-card {
+  position: relative;
+  isolation: isolate;
   display: grid;
   gap: 24px;
   padding: clamp(28px, 5vw, 56px);
   border-radius: 32px;
-  background: var(--soft);
+  background: var(--grad-deep);
   overflow: hidden;
+}
+/* Slow-moving violet and cyan light inside the card */
+.final-card::before,
+.final-card::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  animation: final-drift 14s ease-in-out infinite alternate;
+}
+.final-card::before {
+  width: 520px;
+  height: 520px;
+  top: -200px;
+  right: -120px;
+  background: radial-gradient(circle, rgb(123 47 247 / 0.7), transparent 70%);
+}
+.final-card::after {
+  width: 420px;
+  height: 420px;
+  bottom: -220px;
+  left: 20%;
+  background: radial-gradient(circle, rgb(31 216 235 / 0.45), transparent 70%);
+  animation-delay: -7s;
+}
+@keyframes final-drift {
+  to {
+    transform: translate(-60px, 40px) scale(1.15);
+  }
+}
+.final-copy .h-section {
+  color: #fff;
+}
+.final-copy .lead {
+  color: #e3ebff;
+}
+.final-card .hero-note,
+.final-card .composer-note {
+  color: #e3ebff;
 }
 
 .final-copy .lead {
@@ -53,7 +96,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .final-mark {
+  .final-mark,
+  .final-card::before,
+  .final-card::after {
     animation: none;
   }
 }

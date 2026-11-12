@@ -1,24 +1,72 @@
 /* ---------- phone frame ---------- */
+/* iPhone 15 Pro style: brushed titanium rim > thin black bezel > screen */
 .phone {
   --w: 300px;
+  --r: 50px;
+  --rim: linear-gradient(
+    145deg,
+    #a4a8b1 0%,
+    #4a4e57 14%,
+    #7d818b 38%,
+    #3b3e46 62%,
+    #6c707a 84%,
+    #b3b6be 100%
+  );
   position: relative;
   width: var(--w);
   max-width: 100%;
-  aspect-ratio: 9 / 18.6;
-  padding: 10px;
-  border-radius: 48px;
-  background: #0d0f26;
+  aspect-ratio: 9 / 19.2;
+  padding: 3px;
+  border-radius: var(--r);
+  background: var(--rim);
   box-shadow:
-    inset 0 0 0 1.5px #2a2d52,
+    inset 0 0 0 1px rgb(255 255 255 / 0.25),
     0 40px 80px -30px rgb(var(--ink-rgb) / 0.45),
     0 12px 24px -12px rgb(var(--ink-rgb) / 0.25);
   flex: none;
 }
 
+/* Side keys: action + volume up/down on the left, power on the right */
+.phone::before,
+.phone::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  background: linear-gradient(90deg, #3b3e46, #8d919a 55%, #4a4e57);
+}
+.phone::before {
+  left: -2.5px;
+  top: 17%;
+  height: 29%;
+  border-radius: 2px 0 0 2px;
+  -webkit-mask: linear-gradient(
+    #000 0 9%,
+    transparent 9% 20%,
+    #000 20% 55%,
+    transparent 55% 65%,
+    #000 65% 100%
+  );
+  mask: linear-gradient(#000 0 9%, transparent 9% 20%, #000 20% 55%, transparent 55% 65%, #000 65% 100%);
+}
+.phone::after {
+  right: -2.5px;
+  top: 27%;
+  height: 15%;
+  border-radius: 0 2px 2px 0;
+}
+
+.phone-bezel {
+  height: 100%;
+  padding: 8px;
+  border-radius: calc(var(--r) - 3px);
+  background: #050507;
+  box-shadow: inset 0 0 0 1px #1c1d22;
+}
+
 .phone-screen {
   position: relative;
   height: 100%;
-  border-radius: 38px;
+  border-radius: calc(var(--r) - 11px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -27,21 +75,33 @@
 
 .phone-island {
   position: absolute;
-  top: 10px;
+  top: 9px;
   left: 50%;
-  width: 84px;
-  height: 24px;
+  width: 88px;
+  height: 26px;
   border-radius: var(--pill);
-  background: #0d0f26;
+  background: #050507;
   transform: translateX(-50%);
-  z-index: 2;
+  z-index: 3;
+}
+/* camera lens on the right of the island */
+.phone-island::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 9px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2c3350 0 30%, #0c0e18 60%);
+  transform: translateY(-50%);
 }
 
 .phone-head {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 46px 16px 12px;
+  padding: 48px 16px 12px;
   background: #fff;
   border-bottom: 1px solid #ebe8e2;
 }
@@ -229,10 +289,7 @@
 @media (max-width: 479px) {
   .phone {
     --w: 272px;
-    border-radius: 42px;
-  }
-  .phone-screen {
-    border-radius: 33px;
+    --r: 46px;
   }
 }
 

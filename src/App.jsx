@@ -10,13 +10,14 @@ const Logos = lazy(() => import('./sections/Logos'))
 const Products = lazy(() => import('./sections/Products'))
 const How = lazy(() => import('./sections/How'))
 const Replay = lazy(() => import('./sections/Replay'))
+const Flow = lazy(() => import('./sections/Flow'))
 const Why = lazy(() => import('./sections/Why'))
 const Safety = lazy(() => import('./sections/Safety'))
 const Faq = lazy(() => import('./sections/Faq'))
 const FinalCta = lazy(() => import('./sections/FinalCta'))
 const Footer = lazy(() => import('./sections/Footer'))
 
-const BODY = [Logos, Products, How, Replay, Why, Safety, Faq, FinalCta]
+const BODY = [Logos, Products, How, Replay, Flow, Why, Safety, Faq, FinalCta]
 
 // Each lazy section loads and fails on its own, so one broken chunk never blanks the page.
 function Lazy({ section: Section }) {

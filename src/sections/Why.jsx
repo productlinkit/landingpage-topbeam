@@ -1,22 +1,27 @@
 import { WHY } from '../content'
 import { Icon } from '../components/Icon'
 import { Reveal, SectionHead, WaButton } from '../components/ui'
+import { useTilt } from '../hooks/usePointerFx'
 import './Why.css'
 
 // Three tinted pillars from the product plan. Each carries a small proof drawn from a real Nova chat.
 export default function Why() {
+  const tilt = useTilt(4)
   return (
     <section className="section why">
       <div className="container">
         <SectionHead title={WHY.title} lead={WHY.lead} />
         <ul className="why-grid">
           {WHY.points.map((p, i) => (
-            <Reveal as="li" key={p.kind} className="why-card" style={{ '--tint': p.tint }} delay={i * 0.08} amount={0.2}>
-              <div className="why-proof" aria-hidden="true">
-                <Proof proof={p.proof} />
+            <Reveal as="li" key={p.kind} className="why-item" delay={i * 0.08} amount={0.2}>
+              {/* Tilt lives on the inner card: Reveal owns the li's transform */}
+              <div {...tilt} className="why-card fx-tilt" style={{ '--tint': p.tint }}>
+                <div className="why-proof" aria-hidden="true">
+                  <Proof proof={p.proof} />
+                </div>
+                <h3 className="h-card">{p.title}</h3>
+                <p>{p.body}</p>
               </div>
-              <h3 className="h-card">{p.title}</h3>
-              <p>{p.body}</p>
             </Reveal>
           ))}
         </ul>

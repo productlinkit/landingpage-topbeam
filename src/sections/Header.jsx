@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { motion, useScroll, useSpring } from 'motion/react'
 import { HEADER, NAV } from '../content'
 import { Logo, WaButton } from '../components/ui'
 import { Icon } from '../components/Icon'
@@ -32,53 +33,67 @@ export default function Header() {
   const close = () => setOpen(false)
 
   return (
-    <header
-      className={`header ${scrolled || open ? 'is-scrolled' : ''} ${hidden && !open ? 'is-hidden' : ''} ${open ? 'is-open' : ''}`}
-    >
-      <div className="header-bar">
-        <a href="#top" className="header-logo" aria-label={HEADER.home} onClick={close}>
-          <Logo />
-        </a>
-        <nav className="header-nav" aria-label="Navigasi utama">
-          {NAV.map((l) => (
-            <a key={l.id} href={`#${l.id}`}>
-              {l.label}
-            </a>
-          ))}
-        </nav>
-        <div className="header-end">
-          <div className="header-cta">
-            <WaButton cta="nav" size="sm">
-              {HEADER.cta}
-            </WaButton>
+    <>
+      <ScrollProgress />
+      <header
+        className={`header ${scrolled || open ? 'is-scrolled' : ''} ${hidden && !open ? 'is-hidden' : ''} ${open ? 'is-open' : ''}`}
+      >
+        <div className="header-bar">
+          <a href="#top" className="header-logo" aria-label={HEADER.home} onClick={close}>
+            <Logo />
+          </a>
+          <nav className="header-nav" aria-label="Navigasi utama">
+            {NAV.map((l) => (
+              <a key={l.id} href={`#${l.id}`}>
+                {l.label}
+              </a>
+            ))}
+          </nav>
+          <div className="header-end">
+            <div className="header-cta">
+              <WaButton cta="nav" size="sm">
+                {HEADER.cta}
+              </WaButton>
+            </div>
+            <button
+              type="button"
+              className="header-toggle"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              aria-label={open ? HEADER.menuClose : HEADER.menuOpen}
+              onClick={() => setOpen((o) => !o)}
+            >
+              <Icon name={open ? 'close' : 'menu'} size={22} />
+            </button>
           </div>
-          <button
-            type="button"
-            className="header-toggle"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            aria-label={open ? HEADER.menuClose : HEADER.menuOpen}
-            onClick={() => setOpen((o) => !o)}
-          >
-            <Icon name={open ? 'close' : 'menu'} size={22} />
-          </button>
         </div>
-      </div>
 
-      <div id="mobile-menu" className="header-menu" hidden={!open}>
-        <nav aria-label="Navigasi utama (mobile)">
-          {NAV.map((l) => (
-            <a key={l.id} href={`#${l.id}`} onClick={close}>
-              {l.label}
-              <Icon name="arrow" size={18} />
-            </a>
-          ))}
-        </nav>
-        {/* Click handler on the wrapper: WaButton's own onClick does the CTA tracking. */}
-        <div className="header-menu-cta" onClick={close}>
-          <WaButton cta="nav">{HEADER.cta}</WaButton>
+        <div id="mobile-menu" className="header-menu" hidden={!open}>
+          <nav aria-label="Navigasi utama (mobile)">
+            {NAV.map((l) => (
+              <a key={l.id} href={`#${l.id}`} onClick={close}>
+                {l.label}
+                <Icon name="arrow" size={18} />
+              </a>
+            ))}
+          </nav>
+          {/* Click handler on the wrapper: WaButton's own onClick does the CTA tracking. */}
+          <div className="header-menu-cta" onClick={close}>
+            <WaButton cta="nav">{HEADER.cta}</WaButton>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   )
+}
+
+// Logo-gradient bar along the very top that fills with the page scroll.
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 140,
+    damping: 30,
+    restDelta: 0.001,
+  })
+  return <motion.div className="scroll-progress" style={{ scaleX }} aria-hidden="true" />
 }

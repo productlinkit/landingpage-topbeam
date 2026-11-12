@@ -104,14 +104,16 @@
   height: 52px;
   padding: 0 22px;
   border-radius: var(--pill);
-  background: var(--ink);
+  background: var(--grad-cta);
+  background-size: 220% 100%;
   color: #fff;
   font-size: 15px;
   font-weight: 500;
-  transition: background-color 0.3s var(--ease);
+  box-shadow: 0 10px 24px -12px rgb(43 91 255 / 0.7);
+  transition: background-position 0.7s var(--ease);
 }
 .composer-pill:hover .composer-send {
-  background: var(--ink-2);
+  background-position: 100% 50%;
 }
 
 /* Small phones: the message text gets the room, the button becomes a round send key */

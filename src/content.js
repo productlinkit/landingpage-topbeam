@@ -11,7 +11,6 @@ import smartfren from './assets/logos/smartfren.webp'
 import gopay from './assets/logos/gopay.webp'
 import ovo from './assets/logos/ovo.webp'
 import dana from './assets/logos/dana.webp'
-import shopeepay from './assets/logos/shopeepay.webp'
 import qris from './assets/logos/qris.webp'
 import ebbm from './assets/logos/ebbm.webp'
 
@@ -34,8 +33,12 @@ export const CHAT = {
   sub: 'Nova · akun bisnis resmi',
   placeholder: 'Ketik pesan',
   cards: {
-    qris: { kicker: 'Langkah berikutnya', title: 'Bayar dengan QRIS', sub: 'tautan berlaku 15 menit' },
-    receipt: { kicker: 'Setelah bayar', title: 'Isi ulang diproses', sub: 'status dan bukti transaksi dikirim di chat yang sama' },
+    qris: { kicker: 'Langkah berikutnya', title: 'Bayar dengan QRIS', sub: 'kode berlaku 15 menit' },
+    receipt: {
+      kicker: 'Setelah bayar',
+      title: 'Isi ulang diproses',
+      sub: 'status dan bukti transaksi dikirim di chat yang sama',
+    },
   },
 }
 
@@ -56,10 +59,12 @@ export const INTENTS = [
 
 export const HERO = {
   title: 'Isi pulsa & kuota, cukup chat Nova.',
+  // Trailing words of the title drawn in the logo gradient
+  titleAccent: 'chat Nova.',
   sub: 'Tanpa unduh aplikasi baru. Ketik kebutuhan Anda di WhatsApp, Nova siapkan pesanannya, Anda tinggal bayar pakai QRIS.',
   note: 'Gratis chat. Anda hanya bayar produknya.',
   chatLabel: 'Percakapan asli dengan Nova: membeli pulsa Telkomsel Rp25.000 untuk nomor sendiri',
-  // Floating facts around Nova, taken from the 11 Nov 2026 test chat
+  // Floating facts around Nova, taken from the 12 Nov 2026 test chat
   pills: [
     { icon: 'phone', title: 'Telkomsel terdeteksi', sub: 'otomatis dari nomor Anda' },
     { icon: 'receipt', title: 'Rp 25.297', sub: 'sudah termasuk biaya QRIS' },
@@ -81,7 +86,6 @@ export const WALLETS = [
   { name: 'GoPay', src: gopay },
   { name: 'OVO', src: ovo },
   { name: 'DANA', src: dana },
-  { name: 'ShopeePay', src: shopeepay },
   { name: 'QRIS', src: qris },
   { name: 'e-BBM', src: ebbm },
 ]
@@ -116,7 +120,7 @@ export const PRODUCTS = {
       tint: 'var(--aqua)',
       pose: 'wallet',
       title: 'E-wallet',
-      body: 'Top up DANA, GoPay, OVO, ShopeePay, dan LinkAja, untuk Anda atau keluarga.',
+      body: 'Top up DANA, GoPay, dan OVO mulai Rp 10.000, untuk Anda atau keluarga.',
       cta: { key: 'ewallet', label: 'Top up e-wallet' },
     },
     {
@@ -124,13 +128,13 @@ export const PRODUCTS = {
       tint: 'var(--gold)',
       pose: 'fuel',
       title: 'e-BBM',
-      body: 'Saldo BBM digital, siap dipakai di SPBU yang menerima.',
+      body: 'E-Voucher MyPertamina, pilihan Rp 25.000 sampai Rp 200.000.',
       cta: { key: 'ebbm', label: 'Beli e-BBM' },
     },
   ],
 }
 
-// Four-step stepper. Panels reuse lines from the real 11 Nov 2026 chat.
+// Four-step stepper. Panels reuse lines from the real 12 Nov 2026 chat.
 export const HOW = {
   title: 'Cara kerjanya',
   lead: 'Empat langkah, semuanya di satu chat. Ketuk langkah untuk melihat apa yang terjadi.',
@@ -145,7 +149,7 @@ export const HOW = {
       demo: {
         kind: 'chat',
         me: 'Halo Nova, saya mau beli pulsa',
-        nova: 'Apakah nomor tujuan yang digunakan adalah nomor yang sama dengan chat ini, atau nomor lain?',
+        nova: 'Baik, untuk beli pulsa, apakah ingin menggunakan nomor yang sedang aktif di chat ini, atau nomor lain?',
       },
     },
     {
@@ -157,7 +161,7 @@ export const HOW = {
         kind: 'confirm',
         rows: [
           { label: 'Produk', value: 'Telkomsel 25.000' },
-          { label: 'Nomor', value: '0812-xxxx-6536' },
+          { label: 'Nomor', value: '6285-xxxx-5221' },
           { label: 'Harga', value: 'Rp 25.297' },
         ],
         note: 'sudah termasuk biaya QRIS',
@@ -170,16 +174,16 @@ export const HOW = {
       body: 'Pesanan baru diproses setelah Anda menyetujui. Salah nomor atau produk? Tinggal koreksi di chat.',
       demo: {
         kind: 'approve',
-        nova: 'Apakah sudah benar? Jika ya, silakan konfirmasi agar Nova bisa membuatkan kode QRIS-nya.',
-        me: 'Ya, sudah benar',
+        nova: 'Apakah sudah benar?',
+        me: 'ya',
       },
     },
     {
       icon: 'qr',
       title: 'Bayar QRIS',
       short: 'Dari aplikasi apa pun',
-      body: 'Bayar pakai QRIS dari aplikasi bank atau e-wallet apa pun. Tautan berlaku 15 menit, status dan bukti dikirim di chat yang sama.',
-      demo: { kind: 'pay', title: 'Bayar dengan QRIS', sub: 'Tautan berlaku 15 menit' },
+      body: 'Nova mengirim kode QRIS beserta ID transaksi dan total bayar. Scan dari aplikasi e-wallet atau mobile banking apa pun, kode berlaku 15 menit.',
+      demo: { kind: 'pay', title: 'Bayar dengan QRIS', sub: 'Kode berlaku 15 menit' },
     },
   ],
 }
@@ -191,13 +195,72 @@ export const REPLAY = {
   pick: 'Pilih percakapan',
   tested: (date) => `Diuji ${date}`,
   scenarios: [
-    { id: 'pulsa', tag: 'Pulsa', title: 'Beli pulsa Telkomsel', sub: 'Nomor sendiri · sampai konfirmasi harga', date: '11 Nov 2026' },
-    { id: 'data', tag: 'Paket data', title: 'Pilih paket data', sub: 'Nomor sendiri · daftar paket dan harga', date: '9 Nov 2026' },
-    { id: 'ewallet', tag: 'E-wallet', title: 'Top up e-wallet', sub: 'Nomor sendiri · pilih dompet', date: '9 Nov 2026' },
+    {
+      id: 'pulsa',
+      tag: 'Pulsa',
+      title: 'Beli pulsa Telkomsel',
+      sub: 'Nomor sendiri · sampai kode QRIS',
+      date: '12 Nov 2026',
+    },
+    {
+      id: 'data',
+      tag: 'Paket data',
+      title: 'Beli paket data',
+      sub: 'Nomor sendiri · sampai konfirmasi harga',
+      date: '12 Nov 2026',
+    },
+    {
+      id: 'ewallet',
+      tag: 'E-wallet',
+      title: 'Top up DANA',
+      sub: 'Nomor sendiri · sampai konfirmasi harga',
+      date: '12 Nov 2026',
+    },
+    {
+      id: 'ebbm',
+      tag: 'e-BBM',
+      title: 'Beli voucher MyPertamina',
+      sub: 'Nomor sendiri · sampai konfirmasi harga',
+      date: '12 Nov 2026',
+    },
   ],
   stats: [
     { value: '0', label: 'PIN atau OTP yang diminta' },
-    { value: '15 mnt', label: 'batas waktu tautan bayar' },
+    { value: '15 mnt', label: 'masa berlaku kode QRIS' },
+  ],
+}
+
+// "In motion" section: pills rise from Nova, one per finished step. An illustration of the flow,
+// not transaction data, and the copy says so. Counters only state facts from PRODUCTS.
+export const FLOW = {
+  title: 'Satu chat, banyak urusan beres.',
+  lead: 'Setiap pil adalah satu langkah yang Nova selesaikan di chat. Ini ilustrasi alurnya, bukan data transaksi.',
+  label: 'Ilustrasi: langkah-langkah yang Nova selesaikan, muncul satu per satu',
+  legend: [
+    { kind: 'pulsa', label: 'Pulsa' },
+    { kind: 'data', label: 'Paket data' },
+    { kind: 'ewallet', label: 'E-wallet' },
+    { kind: 'ebbm', label: 'e-BBM' },
+    { kind: 'ask', label: 'Menunggu YA Anda' },
+  ],
+  pills: [
+    { kind: 'pulsa', text: 'Telkomsel terdeteksi' },
+    { kind: 'data', text: 'Pilihan paket dikirim' },
+    { kind: 'ask', text: 'Menunggu YA Anda' },
+    { kind: 'ewallet', text: 'Nomor DANA dicek' },
+    { kind: 'pulsa', text: 'Kode QRIS dikirim' },
+    { kind: 'ebbm', text: 'Voucher MyPertamina dipilih' },
+    { kind: 'data', text: 'Rincian harga dikirim' },
+    { kind: 'ewallet', text: 'Top up GoPay dikonfirmasi' },
+    { kind: 'ask', text: 'Menunggu YA Anda' },
+    { kind: 'pulsa', text: 'Pulsa Rp 25.000 dipesan' },
+    { kind: 'ebbm', text: 'Nominal Rp 50.000 dipilih' },
+    { kind: 'data', text: 'Nomor tujuan dicek' },
+  ],
+  stats: [
+    { value: 8, label: 'operator pulsa dalam satu chat', tint: 'var(--lilac)' },
+    { value: 3, label: 'e-wallet: DANA, GoPay, dan OVO', tint: 'var(--aqua)' },
+    { value: 0, label: 'aplikasi baru yang perlu diunduh', tint: 'var(--gold)' },
   ],
 }
 
@@ -210,14 +273,17 @@ export const WHY = {
       tint: 'var(--lilac)',
       title: 'Sebut, bukan cari menu.',
       body: 'Tulis dengan kata-kata Anda sendiri. Nova yang mengerti dan mendeteksi operatornya dari nomor.',
-      proof: { me: 'Halo Nova, saya mau beli pulsa', nova: 'Nomor Anda terdeteksi sebagai Telkomsel.' },
+      proof: { me: 'Halo Nova, saya mau beli pulsa', nova: 'Baik, nomor Anda sudah terdeteksi sebagai Telkomsel.' },
     },
     {
       kind: 'family',
       tint: 'var(--aqua)',
       title: 'Isi untuk keluarga.',
       body: 'Ibu di kampung kehabisan pulsa? Pilih "nomor lain", sebutkan nomornya, Nova siapkan pesanannya.',
-      proof: { nova: 'Apakah nomor tujuannya nomor di chat ini, atau nomor lain?', me: 'Nomor lain, 0857-xxxx-3312' },
+      proof: {
+        nova: 'Apakah ingin menggunakan nomor yang sedang aktif di chat ini, atau nomor lain?',
+        me: 'nomor lain',
+      },
     },
     {
       kind: 'safe',
@@ -235,7 +301,11 @@ export const SAFETY = {
   strong: 'PIN, OTP, atau kata sandi.',
   points: [
     { icon: 'phone', title: 'Nomor resmi', body: 'Pastikan Anda chat ke nomor resmi Topbeam: +62 851-8797-6622.' },
-    { icon: 'receipt', title: 'Rincian di depan', body: 'Periksa produk, nomor tujuan, dan total sebelum membalas YA.' },
+    {
+      icon: 'receipt',
+      title: 'Rincian di depan',
+      body: 'Periksa produk, nomor tujuan, dan total sebelum membalas YA.',
+    },
     {
       icon: 'building',
       title: 'Perusahaan terdaftar',
@@ -262,7 +332,7 @@ export const FAQS = [
   },
   {
     q: 'Metode pembayaran apa saja yang tersedia?',
-    a: 'QRIS dari aplikasi bank atau e-wallet apa pun, serta virtual account bank. Tautan pembayaran berlaku 15 menit.',
+    a: 'Pembayaran lewat QRIS: scan kodenya dari aplikasi e-wallet atau mobile banking apa pun. Kode QRIS berlaku 15 menit sejak dibuat.',
   },
   {
     q: 'Berapa lama pulsa atau kuota masuk?',
@@ -272,7 +342,10 @@ export const FAQS = [
     q: 'Bagaimana jika transaksi gagal?',
     a: 'Dana dikembalikan otomatis dan Nova mengirim kabar di chat yang sama. Ketik "status" kapan saja untuk cek pesanan.',
   },
-  { q: 'Bisakah membeli untuk nomor orang lain?', a: 'Bisa. Saat Nova bertanya, pilih "nomor lain" lalu sebutkan nomor tujuannya.' },
+  {
+    q: 'Bisakah membeli untuk nomor orang lain?',
+    a: 'Bisa. Saat Nova bertanya, pilih "nomor lain" lalu sebutkan nomor tujuannya.',
+  },
   {
     q: 'Apakah ada biaya tambahan?',
     a: 'Tidak ada biaya chat. Harga yang Nova tampilkan sebelum pembayaran sudah termasuk biaya QRIS, itulah total yang Anda bayar.',

@@ -1,7 +1,7 @@
 // Values in [brackets] are placeholders the team fills before launch.
 export const WA_NUMBER = '6285187976622' // nomor resmi WhatsApp Topbeam (Nova)
 
-// Pre-filled messages per button, without the tracking tag.
+// Pre-filled messages per button. Clicks are tracked per section through trackCta (dataLayer).
 export const CTA = {
   nav: 'Halo Nova',
   hero: 'Halo Nova, saya mau isi ulang',
@@ -14,16 +14,13 @@ export const CTA = {
   footer: 'Halo Nova',
 }
 
-// The bracket tag tells the team which button started the chat. Nova ignores it.
-export const TAG = (key) => ` [LP-${key}]`
-
-const waUrl = (message, key) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message + TAG(key))}`
+const waUrl = (message) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`
 
 // Link for a fixed button message (key of CTA).
-export const waLink = (key) => waUrl(CTA[key], key)
+export const waLink = (key) => waUrl(CTA[key])
 
-// Link for a free-text message (hero / final composer), tagged with the section key.
-export const waText = (text, tag = 'hero') => waUrl(text, tag)
+// Link for a free-text message (hero / final composer).
+export const waText = (text) => waUrl(text)
 
 // Button click by section. Pushes to GTM's dataLayer when it is installed.
 export function trackCta(section) {

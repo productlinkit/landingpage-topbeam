@@ -3,11 +3,13 @@ import { trackCta, waLink } from '../config'
 import { Icon } from '../components/Icon'
 import { Nova } from '../components/Nova'
 import { Reveal, SectionHead } from '../components/ui'
+import { useTilt } from '../hooks/usePointerFx'
 import './Products.css'
 
 // Four tinted cards, each with Nova holding the product and a link that opens WhatsApp
 // with the product's pre-filled message. The whole card is the link.
 export default function Products() {
+  const tilt = useTilt()
   return (
     <section className="section products" id="produk">
       <div className="container">
@@ -16,7 +18,8 @@ export default function Products() {
           {PRODUCTS.items.map((p, i) => (
             <Reveal as="li" key={p.id} delay={i * 0.08} amount={0.2}>
               <a
-                className="product-card"
+                {...tilt}
+                className="product-card fx-tilt"
                 style={{ '--tint': p.tint }}
                 href={waLink(p.cta.key)}
                 target="_blank"

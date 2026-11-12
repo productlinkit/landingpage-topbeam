@@ -2,14 +2,15 @@ import { motion } from 'motion/react'
 import { EASE } from './ease'
 import { WhatsAppIcon } from './WhatsAppIcon'
 import { trackCta, waLink } from '../config'
-import logo from '../assets/brand/topbeam-logo.webp'
+import { useMagnet } from '../hooks/usePointerFx'
+import logo from '../assets/brand/topbeam-wordmark.webp'
 import mark from '../assets/brand/topbeam-mark.webp'
 
 // Intrinsic size of the logo artwork, so the browser reserves the right aspect ratio.
-const LOGO_W = 1118
-const LOGO_H = 303
+const LOGO_W = 763
+const LOGO_H = 174
 
-// Full lockup (mark + wordmark). Its rendered height is set in CSS by the parent (.header-logo).
+// Wordmark ("topbeam" in navy). Its rendered height is set in CSS by the parent (.header-logo).
 export function Logo() {
   return <img src={logo} alt="Topbeam" width={LOGO_W} height={LOGO_H} className="logo" />
 }
@@ -63,9 +64,12 @@ export function SectionHead({ title, lead, className = '' }) {
 
 // Pill button that opens WhatsApp with a pre-filled message from config.CTA.
 // variant: "ink" (default), "soft", "white" or "accent".
+// The primary (ink) variant is gently magnetic toward the cursor.
 export function WaButton({ cta, children, size, variant = 'ink', icon = true, className = '', ...rest }) {
+  const magnet = useMagnet(0.18)
   return (
     <a
+      {...(variant === 'ink' ? magnet : {})}
       href={waLink(cta)}
       target="_blank"
       rel="noopener noreferrer"
