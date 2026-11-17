@@ -8,16 +8,16 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  /* Ink button with a white ring, so it stays crisp over any section */
-  background: var(--ink);
-  color: #fff;
+  /* Gradient button with a page-colored ring, so it stays crisp over any section */
+  background: var(--color-accent);
+  color: var(--color-on-accent);
   box-shadow:
-    0 0 0 2px rgb(255 255 255 / 0.9),
-    0 14px 30px -10px rgb(var(--ink-rgb) / 0.5);
-  transition: background-color 0.25s var(--ease);
+    0 0 0 2px var(--color-bg),
+    0 14px 30px -10px rgb(var(--shadow-rgb) / 0.5);
+  transition: background-color var(--dur-micro) var(--ease);
 }
 .to-top:hover {
-  background: var(--ink-2);
+  background: var(--color-accent-hover);
 }
 
 @media (min-width: 960px) {

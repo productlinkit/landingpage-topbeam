@@ -3,15 +3,18 @@
 .phone {
   --w: 300px;
   --r: 50px;
-  --rim: linear-gradient(
-    145deg,
-    #a4a8b1 0%,
-    #4a4e57 14%,
-    #7d818b 38%,
-    #3b3e46 62%,
-    #6c707a 84%,
-    #b3b6be 100%
-  );
+  /* Graphite frame that sits quietly on the light page */
+  --rim: var(--device-rim);
+  /* The WhatsApp UI is always light: restore the page tokens it reads, even inside the ink
+     section (which re-points them for light-on-dark). */
+  --color-text: var(--wa-ink);
+  --color-text-muted: var(--wa-ink-2);
+  --color-surface: var(--wa-them);
+  --color-surface-sunken: var(--wa-bg);
+  --color-border: var(--wa-line);
+  --color-success: var(--color-success);
+  --color-success-bg: var(--color-success-bg);
+  color: var(--wa-ink);
   position: relative;
   width: var(--w);
   max-width: 100%;
@@ -20,9 +23,9 @@
   border-radius: var(--r);
   background: var(--rim);
   box-shadow:
-    inset 0 0 0 1px rgb(255 255 255 / 0.25),
-    0 40px 80px -30px rgb(var(--ink-rgb) / 0.45),
-    0 12px 24px -12px rgb(var(--ink-rgb) / 0.25);
+    inset 0 0 0 1px color-mix(in srgb, var(--wa-them) 25%, transparent),
+    0 40px 80px -30px rgb(var(--shadow-rgb) / 0.4),
+    0 12px 24px -12px rgb(var(--shadow-rgb) / 0.2);
   flex: none;
 }
 
@@ -32,7 +35,7 @@
   content: '';
   position: absolute;
   width: 3px;
-  background: linear-gradient(90deg, #3b3e46, #8d919a 55%, #4a4e57);
+  background: var(--device-button);
 }
 .phone::before {
   left: -2.5px;
@@ -59,8 +62,8 @@
   height: 100%;
   padding: 8px;
   border-radius: calc(var(--r) - 3px);
-  background: #050507;
-  box-shadow: inset 0 0 0 1px #1c1d22;
+  background: var(--device-black);
+  box-shadow: inset 0 0 0 1px var(--device-edge);
 }
 
 .phone-screen {
@@ -80,7 +83,7 @@
   width: 88px;
   height: 26px;
   border-radius: var(--pill);
-  background: #050507;
+  background: var(--device-black);
   transform: translateX(-50%);
   z-index: 3;
 }
@@ -93,7 +96,7 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #2c3350 0 30%, #0c0e18 60%);
+  background: radial-gradient(circle at 35% 35%, var(--device-lens) 0 30%, var(--device-lens-deep) 60%);
   transform: translateY(-50%);
 }
 
@@ -102,8 +105,8 @@
   align-items: center;
   gap: 10px;
   padding: 48px 16px 12px;
-  background: #fff;
-  border-bottom: 1px solid #ebe8e2;
+  background: var(--wa-them);
+  border-bottom: 1px solid var(--wa-line);
 }
 .phone-avatar {
   display: grid;
@@ -111,8 +114,8 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--soft);
-  box-shadow: inset 0 0 0 1px var(--line);
+  background: var(--color-surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--color-border);
   flex: none;
 }
 .phone-id {
@@ -124,23 +127,27 @@
 .phone-name {
   font-size: 15px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--color-text);
 }
 .phone-sub {
   font-size: 12px;
-  color: var(--muted);
+  color: var(--color-text-muted);
 }
 
 /* ---------- messages ---------- */
 .chat-body {
   flex: 1;
   min-height: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 6px;
   padding: 14px 12px;
   overflow: hidden;
+}
+/* the thread is bottom-anchored by a transform set in JS (see useBottomAnchor) */
+.chat-thread {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform var(--dur-base) var(--ease);
 }
 
 .bubble {
@@ -150,14 +157,14 @@
   border-radius: 14px;
   font-size: 12.5px;
   line-height: 1.42;
-  color: #111b21;
+  color: var(--wa-ink);
   white-space: pre-line;
   overflow-wrap: anywhere;
-  box-shadow: 0 1px 0.5px rgb(11 20 26 / 0.12);
+  box-shadow: 0 1px 0.5px color-mix(in srgb, var(--wa-ink) 12%, transparent);
 }
 .bubble-nova {
   align-self: flex-start;
-  background: #fff;
+  background: var(--wa-them);
   border-top-left-radius: 4px;
 }
 .bubble-me {
@@ -190,7 +197,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #8696a0;
+  background: var(--wa-muted);
   animation: typing 1.2s infinite ease-in-out;
 }
 .bubble-typing span:nth-child(2) {
@@ -222,9 +229,9 @@
   gap: 10px;
   padding: 9px 11px;
   border-radius: 14px;
-  background: rgb(255 255 255 / 0.75);
-  border: 1px dashed #cfcbc2;
-  color: var(--ink);
+  background: color-mix(in srgb, var(--wa-them) 75%, transparent);
+  border: 1px dashed var(--wa-dash);
+  color: var(--color-text);
 }
 .step-card-icon {
   display: grid;
@@ -233,12 +240,12 @@
   height: 30px;
   border-radius: 10px;
   flex: none;
-  background: var(--sky);
-  color: var(--blue);
+  background: var(--color-surface-brand-strong);
+  color: var(--color-text-brand);
 }
 .step-card-receipt .step-card-icon {
-  background: var(--ok-bg);
-  color: var(--ok);
+  background: var(--color-success-bg);
+  color: var(--color-success);
 }
 .step-card-text {
   display: flex;
@@ -248,7 +255,7 @@
 }
 .step-card-kicker {
   font-size: 10.5px;
-  color: var(--muted);
+  color: var(--color-text-muted);
 }
 .step-card-title {
   font-size: 12.5px;
@@ -256,7 +263,7 @@
 }
 .step-card-sub {
   font-size: 11.5px;
-  color: var(--body);
+  color: var(--color-text-muted);
 }
 
 /* ---------- input bar ---------- */
@@ -270,9 +277,9 @@
   flex: 1;
   padding: 10px 14px;
   border-radius: var(--pill);
-  background: #fff;
+  background: var(--wa-them);
   font-size: 12px;
-  color: #8696a0;
+  color: var(--wa-muted);
 }
 .phone-send {
   display: grid;
@@ -282,8 +289,8 @@
   height: 38px;
   padding-left: 2px; /* optical centering: the arrow's mass sits left */
   border-radius: 50%;
-  background: #00a884;
-  color: #fff;
+  background: var(--wa-green);
+  color: var(--wa-on);
 }
 
 @media (max-width: 479px) {
@@ -299,7 +306,9 @@
   }
   /* The whole transcript shows at once: start at the top and let it scroll */
   .chat-body {
-    justify-content: flex-start;
     overflow-y: auto;
+  }
+  .chat-thread {
+    transition: none;
   }
 }

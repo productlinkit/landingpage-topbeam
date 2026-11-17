@@ -3,20 +3,22 @@ import { motion, useScroll, useSpring } from 'motion/react'
 import { HEADER, NAV } from '../content'
 import { Logo, WaButton } from '../components/ui'
 import { Icon } from '../components/Icon'
-import { useHideOnScroll } from '../hooks/useHideOnScroll'
+import { useHeaderScroll } from '../hooks/useHeaderScroll'
+import { useActiveSection } from '../hooks/useActiveSection'
 import './Header.css'
 
 // Matches the CSS breakpoint where the inline nav takes over from the mobile menu.
 const DESKTOP = '(min-width: 960px)'
 
-// Logo left, nav links in a soft pill in the middle, the WhatsApp button right.
-// The whole bar slides away while scrolling down and comes back on any scroll up.
-// Below 960px the nav links move into a menu panel opened by the toggle button.
+// Sticky glass bar: logo left, section links in a pill in the middle (the one on screen is
+// highlighted), WhatsApp button right at every width. Always visible; its theme follows the
+// section underneath.
+// Below 960px the links move into a menu panel.
 export default function Header() {
-  const { scrolled, hidden } = useHideOnScroll()
+  const { scrolled, overDark } = useHeaderScroll()
+  const active = useActiveSection(NAV.map((n) => n.id))
   const [open, setOpen] = useState(false)
 
-  // Close on Escape and when the viewport grows to desktop width.
   useEffect(() => {
     if (!open) return
     const mq = window.matchMedia(DESKTOP)
@@ -36,7 +38,10 @@ export default function Header() {
     <>
       <ScrollProgress />
       <header
-        className={`header ${scrolled || open ? 'is-scrolled' : ''} ${hidden && !open ? 'is-hidden' : ''} ${open ? 'is-open' : ''}`}
+        className={`header ${scrolled || open ? 'is-scrolled' : ''} ${open ? 'is-open' : ''}`}
+        // follows the section underneath: navy over dark sections, pearl over light ones;
+        // the open mobile menu is always light
+        data-theme={overDark && !open ? 'dark' : undefined}
       >
         <div className="header-bar">
           <a href="#top" className="header-logo" aria-label={HEADER.home} onClick={close}>
@@ -44,8 +49,15 @@ export default function Header() {
           </a>
           <nav className="header-nav" aria-label="Navigasi utama">
             {NAV.map((l) => (
-              <a key={l.id} href={`#${l.id}`}>
-                {l.label}
+              <a key={l.id} href={`#${l.id}`} aria-current={active === l.id ? 'true' : undefined}>
+                {active === l.id && (
+                  <motion.span
+                    layoutId="nav-active"
+                    className="header-nav-bg"
+                    transition={{ type: 'spring', stiffness: 420, damping: 38 }}
+                  />
+                )}
+                <span>{l.label}</span>
               </a>
             ))}
           </nav>
@@ -77,23 +89,14 @@ export default function Header() {
               </a>
             ))}
           </nav>
-          {/* Click handler on the wrapper: WaButton's own onClick does the CTA tracking. */}
-          <div className="header-menu-cta" onClick={close}>
-            <WaButton cta="nav">{HEADER.cta}</WaButton>
-          </div>
         </div>
       </header>
     </>
   )
 }
 
-// Logo-gradient bar along the very top that fills with the page scroll.
 function ScrollProgress() {
   const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 30,
-    restDelta: 0.001,
-  })
+  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 })
   return <motion.div className="scroll-progress" style={{ scaleX }} aria-hidden="true" />
 }

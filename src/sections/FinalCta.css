@@ -1,104 +1,88 @@
+/* Closing card: soft grey, Nova on the right */
 .final {
-  padding-bottom: 0;
+  padding-bottom: var(--space-20);
 }
-
 .final-card {
   position: relative;
-  isolation: isolate;
   display: grid;
-  gap: 24px;
-  padding: clamp(28px, 5vw, 56px);
-  border-radius: 32px;
-  background: var(--grad-deep);
+  row-gap: var(--space-8);
+  column-gap: var(--gutter);
+  align-items: center;
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--r-xl);
+  background: var(--color-surface);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+  color: var(--color-text);
   overflow: hidden;
+  isolation: isolate;
 }
-/* Slow-moving violet and cyan light inside the card */
-.final-card::before,
-.final-card::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  border-radius: 50%;
-  filter: blur(60px);
-  pointer-events: none;
-  animation: final-drift 14s ease-in-out infinite alternate;
-}
-.final-card::before {
-  width: 520px;
-  height: 520px;
-  top: -200px;
-  right: -120px;
-  background: radial-gradient(circle, rgb(123 47 247 / 0.7), transparent 70%);
-}
-.final-card::after {
-  width: 420px;
-  height: 420px;
-  bottom: -220px;
-  left: 20%;
-  background: radial-gradient(circle, rgb(31 216 235 / 0.45), transparent 70%);
-  animation-delay: -7s;
-}
-@keyframes final-drift {
-  to {
-    transform: translate(-60px, 40px) scale(1.15);
-  }
+.final-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
 }
 .final-copy .h-section {
-  color: #fff;
+  color: var(--color-text);
+  max-width: 14ch;
 }
 .final-copy .lead {
-  color: #e3ebff;
-}
-.final-card .hero-note,
-.final-card .composer-note {
-  color: #e3ebff;
-}
-
-.final-copy .lead {
+  color: var(--color-text-muted);
   max-width: 520px;
-  margin-top: 20px;
 }
 .final-composer {
-  margin-top: 32px;
+  margin-top: 8px;
 }
-/* The chips sit on the soft card, so they need a white base */
-.final-card .composer-chips {
-  background: #fff;
+/* Composer chips sit on ink here */
+/* on the navy card: chips sit on the deeper ink, the chosen one on raised navy */
+.final .composer-chips {
+  background: var(--color-ink);
 }
-.final-card .composer-chip-bg {
-  background: var(--soft);
-  box-shadow: none;
+.final .composer-chip-bg {
+  background: var(--color-ink-raised);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+.final .composer-chip {
+  color: var(--color-text-muted);
+}
+.final .composer-chip:hover,
+.final .composer-chip.is-on {
+  color: var(--color-text);
+}
+.final .composer-chip:hover:not(.is-on) {
+  color: var(--color-text);
 }
 
 .final-art {
-  position: relative;
   display: grid;
   place-items: center;
-  min-height: 300px;
-  isolation: isolate;
-}
-.final-art .glow {
-  inset: -10%;
-}
-.final-mark {
-  position: relative;
-  width: clamp(170px, 40vw, 220px);
 }
 
-@media (min-width: 960px) {
+@media (min-width: 768px) {
   .final-card {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    align-items: center;
+    padding: var(--space-12);
+  }
+}
+/* 12-column split: copy 8, Nova 4 (the composer needs the width) */
+@media (min-width: 1024px) {
+  .final-card {
+    grid-template-columns: var(--grid-12);
+    padding: var(--space-16);
+  }
+  .final-copy {
+    grid-column: span 8;
   }
   .final-art {
-    min-height: 380px;
+    grid-column: span 4;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .final-mark,
-  .final-card::before,
-  .final-card::after {
-    animation: none;
+@media (max-width: 1023px) {
+  .final-art {
+    order: -1;
+    justify-items: start;
+  }
+  .final-art .nova {
+    width: 98px !important;
+    height: 140px !important;
   }
 }

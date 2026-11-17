@@ -1,175 +1,208 @@
+/* Header: logo left, section links in a pill in the middle, blue CTA right.
+   Transparent over the navy hero; once scrolled, a glass bar that follows the section under
+   it (navy over dark sections, pearl over light ones; the theme comes from data-theme). */
 .header {
   position: fixed;
   inset: 0 0 auto;
   z-index: 50;
-  padding-top: env(safe-area-inset-top, 0px);
-  background: rgb(255 255 255 / 0);
-  transition:
-    transform 0.4s var(--ease),
-    background-color 0.35s var(--ease),
-    box-shadow 0.35s var(--ease);
+  padding: 12px var(--pad-x) 0;
+  transition: transform var(--dur-base) var(--ease);
+  pointer-events: none;
 }
-/* Slides up out of view while scrolling down. Stays put while a keyboard user is inside it. */
-.header.is-hidden:not(:focus-within) {
-  transform: translateY(-100%);
-  box-shadow: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .header {
-    transition: none;
-  }
-}
+/* scrolled: the bar tucks up 4px and the logo scales down slightly (transform only) */
 .header.is-scrolled {
-  background: rgb(255 255 255 / 0.86);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  backdrop-filter: blur(16px) saturate(140%);
+  transform: translateY(-4px);
+}
+.header .logo {
+  transform-origin: 0 50%;
+  transition: transform var(--dur-base) var(--ease);
+}
+.header.is-scrolled .logo {
+  transform: scale(0.92);
 }
 
 .header-bar {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  pointer-events: auto;
+  display: flex;
   align-items: center;
-  height: 68px;
-  max-width: calc(var(--container) + var(--pad-x) * 2);
+  justify-content: space-between;
+  gap: 16px;
+  max-width: calc(var(--container) + 24px);
+  min-height: 64px;
   margin-inline: auto;
-  padding-inline: var(--pad-x);
+  padding: 0 8px 0 12px;
+  border-radius: var(--pill);
+  border: 1px solid transparent;
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease);
+}
+/* scrolled: a glass bar with a light blur and a hairline (the only blur on the page) */
+.header.is-scrolled .header-bar {
+  background: color-mix(in srgb, var(--color-surface) 84%, transparent);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-xs);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
 }
 
-.header-logo {
-  justify-self: start;
-  display: inline-flex;
-  padding-block: 8px; /* tap area */
+/* Nav tightening: while the pointer is over the bar (or a keyboard user is tabbing through
+   it) the links draw closer together. Only the link padding changes, so the pill narrows
+   around its own centre; the logo and the CTA keep their places (space-between). */
+.header-bar {
+  --nav-gap: 16px; /* link side padding, resting */
+  --nav-gap-tight: 7px; /* about 44% of resting */
+  --nav-gap-now: var(--nav-gap);
 }
-.header-logo .logo {
-  height: 30px;
+@media (hover: hover) and (pointer: fine) {
+  .header-bar:hover,
+  .header-bar:has(:focus-visible) {
+    --nav-gap-now: var(--nav-gap-tight);
+  }
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+/* the robot is mostly white: a soft neutral shadow keeps its outline readable on light bars */
+.logo img {
+  filter: drop-shadow(0 1px 2px rgb(var(--shadow-rgb) / 0.22)) drop-shadow(0 2px 6px rgb(var(--shadow-rgb) / 0.1));
+}
+.logo-word {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  color: var(--color-text);
+  line-height: 1;
+}
+.header-logo {
+  flex: none;
+  border-radius: 12px;
+}
+.header-logo .logo img {
+  transition: transform 0.5s var(--ease);
+}
+.header-logo:hover .logo img {
+  transform: rotate(-6deg) scale(1.08);
 }
 
 .header-nav {
   display: none;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: var(--pill);
+  background: var(--color-surface-sunken);
+}
+.header-nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 var(--nav-gap-now);
+  border-radius: var(--pill);
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--color-text-muted);
+  transition:
+    color var(--dur-micro) var(--ease),
+    padding 350ms var(--ease);
+}
+.header-nav a span {
+  position: relative;
+}
+.header-nav a:hover,
+.header-nav a[aria-current] {
+  color: var(--color-text);
+}
+.header-nav-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-xs);
 }
 
 .header-end {
-  justify-self: end;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
-
-/* On small phones the CTA lives in the menu, the bar keeps only logo + toggle */
-.header-cta {
-  display: none;
-}
-@media (min-width: 480px) {
-  .header-cta {
-    display: block;
-  }
-}
-
-/* Mobile menu toggle (hamburger / close) */
 .header-toggle {
-  display: inline-grid;
+  display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--soft);
-  color: var(--ink);
-  transition: background-color 0.25s var(--ease);
-}
-.header-toggle:hover,
-.header.is-open .header-toggle {
-  background: var(--soft-2);
+  background: var(--color-surface-sunken);
 }
 
-/* Mobile menu panel, drops down under the bar */
 .header-menu {
-  max-width: calc(var(--container) + var(--pad-x) * 2);
-  margin-inline: auto;
-  padding: 8px var(--pad-x) 24px;
-  animation: header-menu-in 0.3s var(--ease);
+  pointer-events: auto;
+  max-width: var(--container);
+  margin: 8px auto 0;
+  padding: 12px;
+  border-radius: var(--r-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
 }
 .header-menu[hidden] {
   display: none;
 }
-.header-menu nav {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.header-menu:not([hidden]) {
+  animation: menu-in var(--dur-base) var(--ease);
 }
-.header-menu nav a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 56px;
-  padding: 0 18px;
-  border-radius: var(--r-sm);
-  background: var(--soft);
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-.header-menu nav a svg {
-  color: var(--muted);
-}
-.header-menu-cta {
-  margin-top: 14px;
-}
-.header-menu-cta .btn {
-  width: 100%;
-}
-/* Opaque enough to read the menu over page content */
-.header.is-open {
-  background: rgb(255 255 255 / 0.98);
-  box-shadow: 0 16px 32px rgb(var(--ink-rgb) / 0.08);
-}
-@keyframes header-menu-in {
+@keyframes menu-in {
   from {
     opacity: 0;
     transform: translateY(-8px);
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .header-menu {
-    animation: none;
-  }
+.header-menu nav {
+  display: grid;
+}
+.header-menu nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0 16px;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 500;
+}
+.header-menu nav a:hover {
+  background: var(--color-surface-sunken);
 }
 
-@media (min-width: 960px) {
+/* the smallest phones: logo, CTA and menu button share 328px, so the gaps tighten */
+@media (max-width: 399px) {
   .header-bar {
-    grid-template-columns: 1fr auto 1fr;
-    height: 90px;
+    gap: 8px;
   }
-  .header-logo .logo {
-    height: 36px;
-  }
+}
+@media (min-width: 960px) {
   .header-nav {
     display: flex;
-    gap: 2px;
-    padding: 5px;
-    border-radius: var(--pill);
-    background: var(--soft);
   }
   .header-toggle,
   .header-menu {
     display: none;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .header .logo,
   .header-nav a {
-    padding: 10px 18px;
-    border-radius: var(--pill);
-    font-size: 16px;
-    color: var(--body);
-    transition:
-      color 0.25s var(--ease),
-      background-color 0.25s var(--ease);
+    transition: none;
   }
-  .header-nav a:hover {
-    color: var(--ink);
-    background: #fff;
-  }
-  .header-cta .btn {
-    min-height: 52px;
-    padding: 0 26px;
-    font-size: 16px;
+  .header-menu:not([hidden]) {
+    animation: none;
   }
 }

@@ -1,0 +1,272 @@
+/* How it works (navy): a four-dot timeline (the line fills in blue), then one panel with the
+   step's copy left and its demo on a raised panel right. */
+.steps-grid {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.steps-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.steps-tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 0 4px 6px;
+  text-align: center;
+  border-radius: var(--r-md);
+}
+/* line to the next dot */
+.steps-tab:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 17px;
+  left: calc(50% + 22px);
+  right: calc(-50% + 22px);
+  height: 3px;
+  border-radius: 3px;
+  background: var(--color-border);
+}
+.steps-tab.is-past::before {
+  background: var(--color-accent);
+}
+.steps-num {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-surface-sunken);
+  color: var(--color-text-muted);
+  transition:
+    background-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease);
+}
+.steps-tab:hover .steps-num {
+  background: var(--color-border);
+}
+.steps-tab.is-on .steps-num {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  box-shadow: 0 0 0 6px var(--color-surface-brand-strong);
+}
+.steps-tab.is-past .steps-num {
+  background: var(--color-surface-brand-strong);
+  color: var(--color-text-brand);
+}
+.steps-tab-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.3;
+}
+.steps-tab-text strong {
+  font-size: clamp(14px, 1.6vw, 20px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.steps-tab-text span {
+  display: none;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+.steps-tab-icon {
+  display: none;
+}
+
+/* Auto-play progress: fills the line from the active dot to the next */
+.steps-bar {
+  position: absolute;
+  top: 17px;
+  left: calc(50% + 22px);
+  right: calc(-50% + 22px);
+  height: 3px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.steps-tab:last-child .steps-bar {
+  display: none;
+}
+.steps-bar span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.steps-bar span.is-playing {
+  animation: steps-fill var(--auto) linear forwards;
+}
+@keyframes steps-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.steps-panel {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  min-width: 0;
+  background: var(--color-surface);
+  border-color: transparent;
+}
+.steps-panel-inner {
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+  flex: 1;
+}
+.steps-panel-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.steps-panel-copy p {
+  color: var(--color-text-muted);
+  max-width: 42ch;
+}
+/* title -> explanation -> action stay together in one column */
+.steps-cta {
+  margin-top: var(--space-3);
+}
+
+.steps-demo {
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+  padding: 24px 20px;
+  border-radius: var(--r-xl);
+  background-color: var(--color-surface-brand);
+}
+
+.steps-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 340px;
+}
+.steps-bubble {
+  max-width: 86%;
+  padding: 12px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.45;
+  box-shadow: var(--shadow-xs);
+}
+.steps-bubble.is-me {
+  align-self: flex-end;
+  background: var(--wa-me);
+  color: var(--wa-ink);
+  border-top-right-radius: 4px;
+}
+.steps-bubble.is-nova {
+  align-self: flex-start;
+  background: var(--color-surface);
+  border-top-left-radius: 4px;
+}
+.steps-tag {
+  align-self: center;
+  margin-top: 6px;
+}
+
+.steps-receipt {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  border-radius: var(--r-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+.steps-receipt div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 15px;
+}
+.steps-receipt dt {
+  color: var(--color-text-muted);
+}
+.steps-receipt dd {
+  font-weight: 600;
+}
+.steps-receipt div:last-of-type {
+  padding-top: 12px;
+  border-top: 1px dashed var(--color-border);
+}
+.steps-receipt div:last-of-type dd {
+  font-size: 18px;
+}
+.steps-receipt p {
+  color: var(--color-success);
+}
+
+.steps-pay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 28px;
+  border-radius: var(--r-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+.steps-qr {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  margin-bottom: 6px;
+  border-radius: 20px;
+  background: var(--color-surface-brand-strong);
+  color: var(--color-text-brand);
+}
+.steps-amount {
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+@media (min-width: 960px) {
+  .steps-tab-text span {
+    display: block;
+  }
+  .steps-panel {
+    padding: var(--space-10);
+  }
+  /* 12-column split inside the panel: copy 5, demo 7 */
+  .steps-panel-inner {
+    grid-template-columns: var(--grid-12);
+    gap: var(--gutter);
+  }
+  .steps-panel-copy {
+    grid-column: span 5;
+  }
+  .steps-demo {
+    grid-column: span 7;
+  }
+  .steps-demo {
+    min-height: 300px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .steps-bar span.is-playing {
+    animation: none;
+  }
+}

@@ -12,7 +12,7 @@ npm run dev       # local dev server
 npm run build     # production build into dist/
 npm run preview   # serve the production build
 npm run lint      # oxlint
-npm test          # unit tests (node --test): WhatsApp links, transcripts, replay timing
+npm test          # unit tests (node --test): links, transcripts, replay timing, colour rules
 npm run check     # banned-copy check + build + size budget (JS+CSS < 250 KB gzip, dist < 1 MB)
 ```
 
@@ -21,37 +21,43 @@ npm run check     # banned-copy check + build + size budget (JS+CSS < 250 KB gzi
 | What | File |
 | --- | --- |
 | All page copy (headlines, FAQ, footer links, step demos) | `src/content.js` |
-| Real Nova chat transcripts used by every replay (with test dates) | `src/data/transcripts.js` |
+| Prices, operators, decision logs shown in the replay | `src/data/facts.js` |
+| Real Nova chat transcripts used by every replay | `src/data/transcripts.js` |
 | WhatsApp number, pre-filled messages, `[LP-…]` tags, click tracking | `src/config.js` |
-| Nova mascot (poses, motion) | `src/components/Nova.jsx` |
-| Colours, spacing, type scale, shared buttons | `src/index.css` (tokens on `:root`) |
+| Colours: the BEAM palette and every semantic token | `src/styles/globals.css` |
+| Spacing, type scale, layout grid, motion tokens, shared buttons | `src/index.css`, `src/components/ease.js` |
+| Nova mascot (poses, halo, motion) | `src/components/Nova.jsx`, `src/components/Nova.css`, artwork in `src/assets/brand/` |
 | Fonts and meta tags | `index.html` |
 | Tab icon, home-screen icons | `public/`. After replacing them, bump `?v=` in `index.html` and `site.webmanifest`. |
+
+The live colour and contrast preview is at `/design-system`.
 
 ## Structure
 
 ```
 src/
-  main.jsx            entry
+  main.jsx            entry (/design-system is a separate lazy chunk)
   App.jsx             section order; everything below the hero is lazy-loaded
-  content.js          copy and data for every section
+  content.js          copy for every section
   config.js           WhatsApp links ([LP-key] tag on every message) and analytics
-  data/transcripts.js real Nova replies from live tests (no imports, tested with Node)
-  lib/timeline.js     replay pacing and list shortening (pure, tested)
-  index.css           design tokens, base styles, shared utilities
+  styles/globals.css  colour tokens (BEAM palette, light and dark context)
+  index.css           layout grid, spacing/type/motion tokens, base styles, shared utilities
+  data/               facts.js (prices, logs), transcripts.js (real Nova replies, no imports)
+  lib/                timeline.js (replay pacing), contrast.js (WCAG maths)
   components/
-    Nova.jsx          the mascot: gold four-point star, poses idle/wave/phone/wifi/wallet/fuel/shield/think/cheer
-    ChatWindow.jsx    WhatsApp-style card that replays a transcript (typing dots, lists, next-step cards)
-    Composer.jsx      WhatsApp-style CTA (hero and final CTA)
-    ui.jsx            Logo, Mark, Reveal, SectionHead, WaButton
-    BackToTop, Icon, WhatsAppIcon, ease
-  hooks/
-    useChatReplay.js  plays a transcript on the timeline, pauses off screen, static under reduced motion
-    useHideOnScroll.js
-  sections/           one component + one stylesheet per section, in page order
-    Header, Hero, Logos, Products, How, Replay, Why, Safety, Faq, FinalCta, Footer
+    Nova.jsx          the mascot: six posed artworks (wave, point, crossed, headset, sit, thumbsup)
+    ChatWindow.jsx    WhatsApp phone that replays a transcript (typing dots, lists, step cards)
+    Composer.jsx      WhatsApp-style CTA of the closing section
+    ui.jsx            Logo, Reveal, Stagger, SectionHead, SceneHead, WaButton, LiveDot
+    ds/               design-system primitives (Button, Card, Badge, Input, TopbeamMark ...)
+    BackToTop, Icon, WhatsAppIcon, SectionBoundary, ease
+  hooks/              useChatReplay, useCountUp, useActiveSection, useHeaderScroll, useServiceStatus
+  pages/              DesignSystem.jsx (/design-system)
+  sections/           one component + one stylesheet per section, in page order:
+                      Header, Hero, Marquee, Pricing, Steps, Simulator, Stats, Costs, Faq,
+                      FinalCta, Footer
 scripts/              check-copy.mjs, check-size.mjs
-tests/                node --test suites
+tests/                node --test suites (links, facts, transcripts, timeline, contrast rules)
 ```
 
 ## Copy rules (from the product plan)

@@ -1,7 +1,7 @@
-import { useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import { Icon } from './Icon'
-import { Mark } from './ui'
+import { TopbeamMark } from './ds/TopbeamMark'
 import { useChatReplay } from '../hooks/useChatReplay'
 import { shortList } from '../lib/timeline'
 import { CHAT } from '../content'
@@ -27,7 +27,7 @@ export function ChatWindow({ steps, label, replayKey = '', className = '' }) {
           <span className="phone-island" aria-hidden="true" />
           <div className="phone-head">
             <span className="phone-avatar">
-              <Mark size={24} />
+              <TopbeamMark height={22} />
             </span>
             <span className="phone-id">
               <span className="phone-name">{CHAT.name}</span>
@@ -50,15 +50,40 @@ export function ChatWindow({ steps, label, replayKey = '', className = '' }) {
   )
 }
 
+// Messages flow top-down in .chat-thread and never move in layout; the thread as a whole is
+// pushed to the bottom of the screen with a transform (measured), so a new message slides the
+// old ones up without a layout shift. Reduced motion: no transform, the body just scrolls.
+function useBottomAnchor() {
+  const body = useRef(null)
+  const thread = useRef(null)
+  useLayoutEffect(() => {
+    const b = body.current
+    const t = thread.current
+    if (!b || !t || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const place = () => {
+      const cs = getComputedStyle(b)
+      const room = b.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom)
+      t.style.transform = `translateY(${Math.round(room - t.offsetHeight)}px)`
+    }
+    place()
+    const ro = new ResizeObserver(place)
+    ro.observe(b)
+    ro.observe(t)
+    return () => ro.disconnect()
+  }, [])
+  return [body, thread]
+}
+
 function ChatBody({ steps, active }) {
   const { shown, typing, cycle } = useChatReplay(steps, active)
+  const [body, thread] = useBottomAnchor()
   return (
-    <div className="chat-body">
+    <div className="chat-body" ref={body}>
+      <div className="chat-thread" ref={thread}>
       <AnimatePresence mode="popLayout">
         {steps.slice(0, shown).map((s, i) => (
           <motion.div
             key={`${cycle}-${i}`}
-            layout="position"
             {...enter}
             style={{ originX: s.from === 'me' ? 1 : 0, originY: 1 }}
             className={s.from === 'card' ? 'chat-card-wrap' : `bubble bubble-${s.from}`}
@@ -69,7 +94,6 @@ function ChatBody({ steps, active }) {
         {typing && (
           <motion.div
             key={`t-${cycle}-${shown}`}
-            layout="position"
             {...enter}
             className="bubble bubble-nova bubble-typing"
           >
@@ -79,6 +103,7 @@ function ChatBody({ steps, active }) {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   )
 }

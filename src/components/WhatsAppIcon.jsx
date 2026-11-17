@@ -14,8 +14,8 @@ export function WhatsAppIcon({ size = 24 }) {
     <svg width={size} height={size} viewBox="1 1 46 46" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id={gradient} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#61D669" />
-          <stop offset="1" stopColor="#29B33D" />
+          <stop offset="0" style={{ stopColor: 'var(--wa-logo-from)' }} />
+          <stop offset="1" style={{ stopColor: 'var(--wa-logo-to)' }} />
         </linearGradient>
       </defs>
       <path
@@ -24,12 +24,12 @@ export function WhatsAppIcon({ size = 24 }) {
       />
       <path
         fill="none"
-        stroke="#fff"
+        style={{ stroke: 'var(--wa-on)' }}
         strokeWidth="2.6"
         strokeLinejoin="round"
         d="M24 6.2C14.17 6.2 6.2 14.17 6.2 24c0 3.37.95 6.6 2.73 9.4l.43.68-1.76 6.43 6.6-1.73.66.39A17.73 17.73 0 0 0 24 41.8c9.83 0 17.8-7.97 17.8-17.8S33.83 6.2 24 6.2z"
       />
-      <path fill="#fff" transform="translate(-0.6 -0.2) scale(2.05)" d={HANDSET} />
+      <path style={{ fill: 'var(--wa-on)' }} transform="translate(-0.6 -0.2) scale(2.05)" d={HANDSET} />
     </svg>
   )
 }

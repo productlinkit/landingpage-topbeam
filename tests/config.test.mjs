@@ -19,7 +19,7 @@ test('free-text composer link sends the text as typed', () => {
 })
 
 test('CTA keys cover every button on the page', () => {
-  for (const key of ['nav', 'hero', 'pulsa', 'data', 'ewallet', 'ebbm', 'keluarga', 'faq', 'footer']) {
+  for (const key of ['nav', 'hero', 'pulsa', 'data', 'ewallet', 'ebbm', 'steps', 'biaya', 'faq', 'footer']) {
     assert.ok(key in CTA, key)
   }
 })

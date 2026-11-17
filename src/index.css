@@ -1,75 +1,84 @@
 /* ------------------------------------------------------------------
-   Topbeam design tokens
-   Layout language (after bloop-ai.framer.website): a cool near-white page, white cards,
-   big rounded pastel cards, one dark navy section, large tight display type.
-   Colours come from the logo: violet #7B2FF7 > royal blue #2B5BFF > cyan #1FD8EB, deep indigo,
-   navy wordmark, and the gold star as the only warm accent. Blue is the anchor; violet and cyan
-   stay in gradients and small accents. Gold is for focal points only (badges, stars, highlights).
-   Text tokens (ink, body, muted) pass WCAG AA (4.5:1) on white, --bg, --soft and every pastel.
+   Layout, type and shared component styles for the landing page.
+   Colors are NOT defined here: every color is a semantic --color-* token from
+   src/styles/globals.css.
+
+   Look: pearl sections alternating with navy "slabs", big left-aligned headlines with tight
+   tracking, quiet muted leads, pill buttons (solid blue for the action, grey for the rest),
+   28px cards without heavy borders, small mono labels for "system" text.
    ------------------------------------------------------------------ */
+/* Metric-matched stand-in shown until the web font arrives (measured against Arial), so the
+   swap to Wix Madefor Display does not reflow text: no layout shift from fonts. */
+@font-face {
+  font-family: 'Wix Madefor Fallback';
+  src: local('Arial'), local('Helvetica'), local('ArialMT');
+  size-adjust: 103.3%;
+  ascent-override: 97.8%;
+  descent-override: 24.2%;
+  line-gap-override: 0%;
+}
+
+/* ---------- layout system ----------
+   One container (1200px content + responsive side padding), a 12-column grid with one gutter,
+   a 4/8px spacing scale, one vertical rhythm for every section and one type scale.
+   Sections build their two-column splits on --grid-12 so column edges line up page-wide. */
 :root {
-  --bg: #f5f7fc; /* cool near-white page */
-  --soft: #eef1fa; /* panels, nav pill, chips */
-  --soft-2: #e1e6f3; /* hairlines, inactive tracks */
-  --surface: #ffffff;
-
-  --ink: #1b2250; /* navy wordmark: headings, text */
-  --ink-rgb: 27 34 80; /* same colour, for translucent shadows: rgb(var(--ink-rgb) / a) */
-  --ink-2: #252e66;
-  --body: #3d4466;
-  --muted: #5e6688;
-  --line: #e1e6f3;
-
-  /* Dark section */
-  --night: #0a0f2e;
-  --night-2: #121a45;
-  --night-3: #1c2558;
-  --night-text: #c3cadd;
-
-  /* Brand (logo) */
-  --violet: #7b2ff7;
-  --violet-600: #6420d6;
-  --indigo: #0b1f8f;
-  --blue: #2b5bff;
-  --blue-600: #1f45d9;
-  --blue-700: #1736b0;
-  --cyan: #1fd8eb;
-  --star: #f4b740; /* Nova's body */
-  /* Logo gradient: illustrations, accents, borders. Never behind body text (cyan end is too light). */
-  --beam: linear-gradient(120deg, #7b2ff7 0%, #2b5bff 50%, #1fd8eb 100%);
-  /* CTA gradient: white text passes 5.19:1 at its lightest stop */
-  --grad-cta: linear-gradient(120deg, #6420d6 0%, #1f45d9 45%, #2b5bff 70%, #6420d6 100%);
-  /* Deep hero/closing gradient, white text passes everywhere */
-  --grad-deep: linear-gradient(150deg, #0b1f8f 0%, #1736b0 55%, #2b5bff 100%);
-  --accent: #d9a441; /* gold star from the mark: badges and highlights only */
-  --accent-2: #e9b95a;
-  --accent-ink: #1b2250;
-
-  /* Pastel tints for cards, all from the logo hues */
-  --lilac: #efe6ff;
-  --sky: #e3ebff;
-  --aqua: #ddf8fb;
-  --gold: #fff3d9;
-  --mint: #e1f5ec;
-
-  --ok: #0e7340;
-  --ok-bg: #e1f5ec;
-  --wa-bg: #efeae2;
-  --wa-me: #d9fdd3;
-
-  /* Soft radial glow used behind the phone and the mark */
-  --glow: radial-gradient(closest-side, #fff3d9 0%, #ddf8fb 30%, #e3ebff 55%, #efe6ff 75%, rgb(255 255 255 / 0) 100%);
-
-  --font: 'Wix Madefor Display', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font: 'Wix Madefor Display', 'Wix Madefor Fallback', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: 'Fragment Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
+  /* spacing scale (4/8) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* container + grid */
+  --container: 1200px;
   --pad-x: 16px;
-  --container: 1248px;
+  --gutter: 16px;
+  --grid-12: repeat(12, minmax(0, 1fr));
+
+  /* vertical rhythm: 80 mobile, 96 tablet, 128 desktop */
+  --section-y: 80px;
+  --head-gap: 48px; /* section head -> content */
+
+  /* type scale */
+  --fs-display: clamp(40px, 5.6vw, 72px);
+  --fs-h2: clamp(32px, 4.2vw, 56px);
+  --fs-h3: clamp(20px, 1.8vw, 24px);
+  --fs-lead: clamp(17px, 1.3vw, 19px);
+  --fs-body: 16px;
+  --fs-sm: 15px;
+  --fs-xs: 14px;
+  --fs-caption: 13px;
+  --fs-micro: 12px;
+  --measure: 62ch; /* comfortable line length for running text */
+
+  /* shape */
   --pill: 999px;
-  --r-card: 28px;
-  --r-sm: 18px;
-  --shadow-card: 0 24px 48px -28px rgb(var(--ink-rgb) / 0.28);
-  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --r-xl: 28px;
+  --r-lg: 20px;
+  --r-md: 16px;
+  --r-sm: 12px;
+  --tap: 44px; /* minimum touch target */
+  --slab-r: 28px; /* curve where pearl and navy sections meet */
+
+  --shadow-xs: 0 1px 2px rgb(var(--shadow-rgb) / 0.05);
+  --shadow-sm: 0 1px 2px rgb(var(--shadow-rgb) / 0.04), 0 6px 16px -8px rgb(var(--shadow-rgb) / 0.08);
+  --shadow-md: 0 2px 4px rgb(var(--shadow-rgb) / 0.03), 0 24px 48px -24px rgb(var(--shadow-rgb) / 0.18);
+  --shadow-lg: 0 2px 4px rgb(var(--shadow-rgb) / 0.04), 0 40px 80px -32px rgb(var(--shadow-rgb) / 0.28);
+
+  /* motion system (mirrors src/components/ease.js) */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-micro: 200ms;
+  --dur-base: 300ms;
 }
 
 @media (min-width: 640px) {
@@ -77,9 +86,19 @@
     --pad-x: 32px;
   }
 }
-@media (min-width: 1100px) {
+@media (min-width: 768px) {
   :root {
-    --pad-x: 48px;
+    --slab-r: 48px;
+    --section-y: 96px;
+    --gutter: 24px;
+    --head-gap: 56px;
+  }
+}
+@media (min-width: 1200px) {
+  :root {
+    --pad-x: 40px;
+    --section-y: 128px;
+    --head-gap: 64px;
   }
 }
 
@@ -94,7 +113,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  scroll-padding-top: 96px;
+  background: var(--color-bg);
 }
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -103,12 +123,11 @@ html {
 }
 
 body {
-  background: var(--bg);
-  color: var(--ink);
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font);
   font-size: 16px;
-  line-height: 1.5;
-  letter-spacing: -0.01em;
+  line-height: 1.55;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -118,10 +137,6 @@ img,
 svg {
   display: block;
   max-width: 100%;
-}
-/* The logo keeps its intrinsic width/height attributes for aspect ratio; CSS sets the height */
-.logo {
-  width: auto;
 }
 button,
 input {
@@ -144,14 +159,14 @@ ol {
 }
 
 :focus-visible {
-  outline: 2px solid var(--blue);
+  outline: 2px solid var(--color-focus);
   outline-offset: 3px;
   border-radius: 8px;
 }
 
 ::selection {
-  background: var(--lilac);
-  color: var(--ink);
+  background: var(--color-surface-brand-strong);
+  color: var(--color-text);
 }
 
 .sr-only {
@@ -171,229 +186,418 @@ ol {
   padding-inline: var(--pad-x);
 }
 
+/* Sections alternate white / soft grey, like a long scroll with a steady beat */
 .section {
-  padding-block: clamp(80px, 10vw, 136px);
+  padding-block: var(--section-y);
 }
-.section-soft {
-  background: var(--soft);
+/* two plain sections in a row share one gap instead of stacking two; so do two dark
+   sections that form one slab */
+.section.is-plain + .section.is-plain,
+.section.slab-top + .section.slab-bottom {
+  padding-top: 0;
+}
+.section.is-alt {
+  background: var(--color-bg-alt);
+}
+/* Dark sections re-point the text, surface and status tokens (below), so every component
+   inside switches to light-on-navy without its own dark CSS. */
+.section.is-ink,
+section[data-theme='dark'],
+footer[data-theme='dark'] {
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+}
+/* Dark context ("semi-dark" sections and dark panels): one scope, no global toggle. Every
+   component inside switches to light-on-navy through these re-pointed tokens. */
+.is-ink,
+[data-theme='dark'] {
+  --color-text: var(--color-on-ink);
+  --color-text-muted: var(--color-on-ink-muted);
+  --color-text-brand: var(--color-accent-on-ink);
+  --color-surface: var(--color-ink-surface);
+  --color-surface-sunken: color-mix(in srgb, var(--color-on-ink) 8%, transparent);
+  --color-surface-sunken-hover: color-mix(in srgb, var(--color-on-ink) 14%, transparent);
+  --color-surface-brand: var(--color-ink-raised);
+  --color-surface-brand-strong: var(--navy-600);
+  --color-border: color-mix(in srgb, var(--color-on-ink) 12%, transparent);
+  --color-border-brand: color-mix(in srgb, var(--color-accent-on-ink) 40%, transparent);
+  --color-link: var(--color-accent-on-ink);
+  --color-focus: var(--color-accent-on-ink);
+  --color-success: var(--color-success-on-ink);
+  --color-success-bg: color-mix(in srgb, var(--color-success-on-ink) 16%, transparent);
+  --color-warning: var(--color-warning-on-ink);
+  --color-warning-bg: color-mix(in srgb, var(--color-warning-on-ink) 14%, transparent);
+}
+.is-ink .pill-ok {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+.is-ink .pill-wait {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+/* Section head + the section's mascot: title left, Nova right, bottoms aligned */
+.scene-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--gutter);
+  margin-bottom: var(--head-gap);
+}
+.scene-head .section-head {
+  margin-bottom: 0;
+}
+.scene-mascot {
+  --mascot-h: 200px;
+  padding-right: 4%;
+}
+.scene-mascot .nova {
+  width: calc(var(--mascot-h) * var(--ratio)) !important;
+  height: var(--mascot-h) !important;
+}
+@media (max-width: 1023px) {
+  .scene-mascot {
+    --mascot-h: 150px;
+    padding-right: 0;
+  }
+}
+/* phones: the mascot stays, smaller, beside the title (never over text) */
+@media (max-width: 639px) {
+  .scene-mascot {
+    --mascot-h: 104px;
+  }
+}
+
+/* Short semantic aliases, re-declared in every scope so they follow the dark context */
+:root,
+.is-ink,
+[data-theme] {
+  --bg: var(--color-bg);
+  --surface: var(--color-surface);
+  --text: var(--color-text);
+  --text-muted: var(--color-text-muted);
+  --accent: var(--color-accent);
+  --border: var(--color-border);
+}
+
+/* ---------- light <-> dark rhythm ----------
+   Dark sections are "slabs" with curved ends, so pearl and navy meet on a soft curve, never a
+   hard cut. Neighbouring dark sections join into one slab (slab-top on the first, slab-bottom
+   on the last). Each slab carries the beam: a thin line of the signature gradient along its
+   top edge with one short light that travels along it, slowly. */
+.slab-top,
+.slab-bottom {
+  position: relative;
+  isolation: isolate;
+}
+.slab-top {
+  border-top-left-radius: var(--slab-r);
+  border-top-right-radius: var(--slab-r);
+}
+.slab-bottom {
+  border-bottom-left-radius: var(--slab-r);
+  border-bottom-right-radius: var(--slab-r);
+}
+.beam-line {
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  overflow: hidden;
+  background: var(--beam-gradient);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.beam-line::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 18%;
+  background: var(--color-on-ink);
+  opacity: 0.9;
+  transform: translateX(-100%);
+  animation: beam-travel 9s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes beam-travel {
+  to {
+    transform: translateX(560%);
+  }
 }
 
 .section-head {
-  max-width: 780px;
-  margin-bottom: clamp(40px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  max-width: 640px;
+  margin-bottom: var(--head-gap);
 }
-.section-head .lead {
-  margin-top: 20px;
+.section-head.is-center {
+  align-items: center;
+  text-align: center;
+  margin-inline: auto;
+}
+/* Word-by-word headline reveal (SectionHead) */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+  vertical-align: top;
+}
+.word-mask > span {
+  display: inline-block;
+  white-space: pre;
+}
+.is-ink .section-head .h-section {
+  color: var(--color-on-ink);
+}
+.is-ink .section-head .lead {
+  color: var(--color-on-ink-muted);
 }
 
 /* ---------- type ---------- */
 .h-display,
 .h-section,
 .h-card {
+  color: var(--color-text);
   font-weight: 500;
-  color: var(--ink);
   text-wrap: balance;
 }
-
 .h-display {
-  font-size: clamp(44px, 7vw, 88px);
+  font-size: var(--fs-display);
   line-height: 1;
   letter-spacing: -0.055em;
 }
-
 .h-section {
-  font-size: clamp(36px, 4.6vw, 56px);
-  line-height: 1.05;
+  font-size: var(--fs-h2);
+  line-height: 1.04;
   letter-spacing: -0.05em;
 }
-
 .h-card {
-  font-size: clamp(24px, 2.4vw, 32px);
-  line-height: 1.1;
-  letter-spacing: -0.045em;
+  font-size: var(--fs-h3);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
 }
-
 .lead {
-  font-size: clamp(17px, 1.5vw, 21px);
-  line-height: 1.5;
-  letter-spacing: -0.02em;
-  color: var(--body);
+  max-width: var(--measure);
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--color-text-muted);
   text-wrap: pretty;
 }
-
 .mono {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: var(--fs-micro);
+  font-weight: 400;
   letter-spacing: 0;
 }
 
-.center {
-  text-align: center;
-  margin-inline: auto;
+/* ---------- pills & badges ---------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  border-radius: var(--pill);
+  background: var(--color-surface-sunken);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+.pill-accent {
+  background: var(--color-surface-brand-strong);
+  color: var(--color-text-brand);
+}
+.pill-ok {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+.pill-wait {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
 }
 
-/* ---------- buttons ---------- */
+/* Pulsing status dot. Colour follows the --dot custom property. */
+.live-dot {
+  --dot: var(--color-success);
+  position: relative;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dot);
+}
+.live-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--dot);
+  animation: live-ping 1.8s var(--ease) infinite;
+}
+.live-dot.is-wait {
+  --dot: var(--color-warning);
+}
+.live-dot.is-off {
+  --dot: var(--color-text-muted);
+}
+.live-dot.is-off::after {
+  animation: none;
+}
+@keyframes live-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  80%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* ---------- cards ---------- */
+/* White card. On grey sections it needs no border; on white sections a hairline. */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-xl);
+}
+.is-alt .card {
+  border-color: transparent;
+}
+
+/* ---------- buttons: pills ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: var(--space-2);
   min-height: 52px;
-  padding: 0 26px;
+  padding: 0 var(--space-6);
   border-radius: var(--pill);
-  font-size: 16px;
+  font-size: var(--fs-body);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
   white-space: nowrap;
   transition:
-    transform 0.3s var(--ease),
-    background-color 0.3s var(--ease),
-    color 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
+    transform var(--dur-micro) var(--ease),
+    background-color var(--dur-micro) var(--ease),
+    box-shadow var(--dur-micro) var(--ease),
+    filter var(--dur-micro) var(--ease);
+}
+/* hover and keyboard focus get the same lift */
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-2px);
 }
 .btn:active {
   transform: scale(0.97);
 }
-/* Primary CTA: logo gradient that slides on hover, with a soft coloured lift */
-.btn-ink {
-  background: var(--grad-cta);
-  background-size: 220% 100%;
-  background-position: 0% 50%;
-  color: #fff;
-  box-shadow: 0 12px 28px -14px rgb(43 91 255 / 0.7);
-  transition:
-    transform 0.3s var(--ease),
-    background-position 0.7s var(--ease),
-    box-shadow 0.3s var(--ease);
+/* primary: one solid colour, the action blue (5.7:1 under white text). Hover/focus: a slight
+   lift, the darker blue (7.8:1) and a soft glow. */
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
 }
-.btn-ink:hover {
-  background-position: 100% 50%;
-  box-shadow: 0 16px 34px -14px rgb(100 32 214 / 0.75);
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--color-accent-hover);
+  box-shadow: var(--accent-glow);
 }
-.btn-soft {
-  background: var(--soft);
-  color: var(--ink);
+/* ghost: soft grey pill */
+.btn-ghost {
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
 }
-.btn-soft:hover {
-  background: var(--soft-2);
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  background: var(--color-surface-sunken-hover);
 }
+/* white: for tinted and grey surfaces */
 .btn-white {
-  background: #fff;
-  color: var(--ink);
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 .btn-white:hover {
-  box-shadow: 0 10px 24px -14px rgb(var(--ink-rgb) / 0.4);
+  box-shadow: var(--shadow-sm);
 }
-.btn-accent {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-.btn-accent:hover {
-  background: var(--accent-2);
-}
+/* small button: still a full 44px touch target */
 .btn-sm {
-  min-height: 44px;
-  padding: 0 20px;
-  font-size: 15px;
-  gap: 8px;
+  min-height: var(--tap);
+  padding: 0 var(--space-5);
+  font-size: var(--fs-sm);
+  gap: var(--space-2);
+}
+.btn-block {
+  width: 100%;
+}
+.btn .btn-arrow {
+  transition: transform var(--dur-micro) var(--ease);
+}
+.btn:hover .btn-arrow {
+  transform: translateX(3px);
 }
 
-/* Arrow inside a small round chip, used on card links */
-.arrow-chip {
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--soft);
-  color: var(--ink);
-  transition:
-    background-color 0.3s var(--ease),
-    color 0.3s var(--ease),
-    transform 0.3s var(--ease);
-}
-
-/* Soft glow (behind the phone, the mark, etc.) */
-.glow {
-  position: absolute;
-  inset: 0;
-  background: var(--glow);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ---------- pointer effects (see hooks/usePointerFx.js) ---------- */
-/* Tilt toward the cursor with a soft brand-coloured spotlight that follows it */
-.fx-tilt {
-  --rx: 0deg;
-  --ry: 0deg;
-  --lift: 0px;
-  position: relative;
-  isolation: isolate;
-  transform: perspective(1000px) translateY(var(--lift)) rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 0.5s var(--ease);
-  will-change: transform;
-}
-/* Sits above the card background but below its content */
-.fx-tilt::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: radial-gradient(
-    420px circle at var(--mx, 50%) var(--my, 50%),
-    rgb(255 255 255 / 0.65),
-    rgb(43 91 255 / 0.08) 40%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.4s var(--ease);
-  pointer-events: none;
-}
-.fx-tilt:hover {
-  --lift: -6px;
-}
-.fx-tilt:hover::after {
-  opacity: 1;
-}
-.btn {
-  transition-property: transform, translate, background-color, background-position, color, box-shadow;
-}
-
-/* Text filled with the logo gradient (headline accents). Large display type only. */
-.text-beam {
-  background: linear-gradient(100deg, #6420d6 0%, #2b5bff 55%, #1736b0 100%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: text-beam 6s ease-in-out infinite alternate;
-}
-@keyframes text-beam {
-  to {
-    background-position: 100% 50%;
-  }
-}
-
-/* Thin gradient bar across the top that fills as the page scrolls */
+/* Thin line across the top that fills as the page scrolls, in the button blue */
 .scroll-progress {
   position: fixed;
   inset: 0 0 auto;
   z-index: 60;
   height: 3px;
-  background: var(--beam);
+  background: var(--color-accent);
   transform-origin: 0 50%;
   pointer-events: none;
 }
 
+/* Text link with an underline that draws in from the left (transform only) */
+.u-link {
+  position: relative;
+}
+.u-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform var(--dur-base) var(--ease);
+}
+.u-link:hover::after,
+.u-link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .fx-tilt,
-  .fx-tilt::after {
+  .live-dot::after {
+    animation: none;
+  }
+  .u-link::after {
     transition: none;
   }
-  .text-beam {
+  .beam-line::after {
     animation: none;
+    opacity: 0;
+  }
+  .btn,
+  .btn:hover,
+  .btn:focus-visible {
+    transform: none;
+  }
+  /* keep colour feedback, drop movement */
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
   }
 }

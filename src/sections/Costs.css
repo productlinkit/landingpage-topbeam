@@ -1,0 +1,152 @@
+/* Costs: three white cards on grey, the middle one on ink with Nova peeking over the top */
+.costs-grid {
+  display: grid;
+  gap: var(--gutter);
+  padding-top: 64px; /* room for Nova above the featured card */
+}
+.costs-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  border-radius: var(--r-xl);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+}
+.costs-card:hover,
+.costs-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.costs-card.is-featured {
+  background: var(--color-ink);
+}
+.costs-nova {
+  position: absolute;
+  top: -96px;
+  right: 28px;
+  z-index: 1;
+}
+.costs-name {
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.costs-sub {
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+.costs-figure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin: 12px 0 6px;
+  padding: 20px;
+  border-radius: var(--r-lg);
+  background: var(--color-surface-sunken);
+}
+.costs-figure strong {
+  font-size: clamp(38px, 4vw, 48px);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+}
+.costs-figure span {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+.costs-figure p {
+  flex-basis: 100%;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+.costs-points {
+  display: grid;
+  gap: 12px;
+  margin: 6px 0 20px;
+  font-size: 15px;
+}
+.costs-points li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.costs-check {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-surface-brand-strong);
+  color: var(--color-text-brand);
+}
+.is-featured .costs-check {
+  background: var(--color-accent-on-ink);
+  color: var(--color-ink);
+}
+.costs-card .btn {
+  margin-top: auto;
+}
+
+/* one row on wide screens: question + answer left, the action right */
+.costs-callout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  margin-top: var(--gutter);
+  padding: var(--space-6);
+  border-radius: var(--r-xl);
+  background: var(--color-surface);
+}
+.costs-callout-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.costs-callout h3 {
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.costs-callout p {
+  max-width: 60ch;
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .costs-callout {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-8);
+  }
+  .costs-callout .btn {
+    flex: none;
+  }
+}
+/* three cards = 4 of 12 columns each */
+@media (min-width: 1024px) {
+  .costs-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+/* stacked: give Nova room above the ink card so she doesn't sit on the card before it */
+@media (max-width: 1023px) {
+  .costs-card.is-featured {
+    margin-top: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .costs-card,
+  .costs-card:hover,
+  .costs-card:focus-within {
+    transform: none;
+  }
+}

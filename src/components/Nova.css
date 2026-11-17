@@ -1,72 +1,304 @@
+/* Nova, the robot mascot. The artwork is static; everything alive is layered here, using
+   transform and opacity only, and all of it stops under reduced motion.
+
+   Motion system: idle float +-10px over 5s (ease-in-out, it is a loop), pointer lean max 6deg
+   with a 600ms damped follow, hover crossfade 250ms, halo breath 6s. */
 .nova {
+  --lean-x: 0;
+  --lean-y: 0;
+  --float-amp: 10px;
+  position: relative;
+  display: inline-block;
+  flex: none;
+  line-height: 0;
+}
+.nova-img {
   display: block;
-  overflow: visible;
-  height: auto;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   user-select: none;
+  -webkit-user-drag: none;
+  /* the robot is mostly white: a soft navy edge keeps her readable on light surfaces */
+  filter: drop-shadow(0 1px 2px rgb(var(--shadow-rgb) / 0.16));
+}
+.nova-face {
+  position: absolute;
+  inset: 0;
+}
+.nova.is-flipped .nova-face {
+  transform: scaleX(-1);
 }
 
-/* Same gradient as fill and a thick round stroke: rounds every star tip */
-.nova-skin {
-  stroke-width: 14;
-  stroke-linejoin: round;
+/* idle float: +-10px, slow */
+.nova-float {
+  position: absolute;
+  inset: 0;
+  animation: nova-float 5s ease-in-out infinite;
+}
+@keyframes nova-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(calc(var(--float-amp) * -1));
+  }
 }
 
-.nova-shine {
-  fill: none;
-  stroke: #fff6d6;
-  stroke-width: 6;
-  stroke-linecap: round;
-  opacity: 0.75;
+/* lean toward the pointer (track): tilt max 6deg, damped */
+.nova-lean {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 90%;
+  transform: translate(calc(var(--lean-x) * 3%), calc(var(--lean-y) * 1.5%)) rotate(calc(var(--lean-x) * 6deg));
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.nova-eye,
-.nova-dots circle {
-  fill: var(--ink);
+/* halo: the beam, blurred into a soft light behind her, breathing slowly; it drifts a little
+   against her lean (depth) */
+.nova-halo {
+  position: absolute;
+  left: -18%;
+  right: -18%;
+  top: 6%;
+  bottom: 4%;
+  border-radius: 50%;
+  background: var(--beam-gradient);
+  filter: blur(42px);
+  opacity: 0.38;
+  transform: translate(calc(var(--lean-x) * -10px), calc(var(--lean-y) * -6px));
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: nova-halo 6s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes nova-halo {
+  0%,
+  100% {
+    opacity: 0.32;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
-.nova-cheek {
-  fill: #ff8fa6;
-  opacity: 0.55;
-}
-
-.nova-mouth {
-  fill: var(--ink);
-  stroke: var(--ink);
-  stroke-width: 3.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-/* The resting smile is an open curve: no fill */
-.nova-mouth:not([d$='Z']) {
-  fill: none;
-}
-
-.nova-sticker {
-  fill: #fff;
-  stroke: var(--soft-2);
-  stroke-width: 2;
-  filter: drop-shadow(0 6px 10px rgb(var(--ink-rgb) / 0.14));
-}
-.nova-prop {
-  color: var(--blue);
-}
-
-.nova-beam path {
-  fill: none;
-  stroke-linecap: round;
-}
-
-.nova-twinkle {
-  fill: var(--cyan);
-  filter: drop-shadow(0 0 6px var(--cyan));
-}
-
-.nova-spark {
-  fill: var(--star);
-}
-
+/* soft floor shadow that breathes with the float */
 .nova-shadow {
-  fill: var(--ink);
-  opacity: 0.16;
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -5%;
+  height: 7%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(var(--shadow-rgb) / 0.28), transparent);
+  animation: nova-shadow 5s ease-in-out infinite;
+}
+@keyframes nova-shadow {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(0.82);
+    opacity: 0.6;
+  }
+}
+
+/* hover: crossfade to the second pose (e.g. the wink) with one small lift */
+.nova-img-alt {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nova.has-swap .nova-img:not(.nova-img-alt) {
+  transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nova.has-swap:hover .nova-img-alt {
+  opacity: 1;
+}
+.nova.has-swap:hover .nova-img:not(.nova-img-alt) {
+  opacity: 0;
+}
+.nova:hover .nova-face {
+  animation: nova-hop 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nova.is-flipped:hover .nova-face {
+  animation-name: nova-hop-flipped;
+}
+@keyframes nova-hop {
+  45% {
+    transform: translateY(-4%);
+  }
+}
+@keyframes nova-hop-flipped {
+  0%,
+  100% {
+    transform: scaleX(-1);
+  }
+  45% {
+    transform: scaleX(-1) translateY(-4%);
+  }
+}
+
+/* ---- pose-specific motion ---- */
+/* wave: a slow sway from the feet, like the wave carries the body */
+.nova-pose-wave .nova-img:not(.nova-img-alt) {
+  transform-origin: 50% 90%;
+  animation: nova-sway 4.8s ease-in-out infinite;
+}
+@keyframes nova-sway {
+  0%,
+  70%,
+  100% {
+    transform: rotate(0);
+  }
+  80% {
+    transform: rotate(-3deg);
+  }
+  90% {
+    transform: rotate(2deg);
+  }
+}
+/* point: a small push toward where she points */
+.nova-pose-point .nova-img {
+  animation: nova-nudge 3.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes nova-nudge {
+  0%,
+  55%,
+  100% {
+    transform: translateX(0);
+  }
+  70% {
+    transform: translateX(3%);
+  }
+}
+/* sit: no float (she sits on the floor), just a slow breath; the shadow stays put */
+.nova-pose-sit .nova-float {
+  animation: nova-breathe 4.2s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+.nova-pose-sit .nova-shadow {
+  left: 8%;
+  right: 8%;
+  bottom: -3%;
+  animation: none;
+}
+@keyframes nova-breathe {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.015);
+  }
+}
+
+/* think: dots bubble by her head */
+.nova-dots {
+  position: absolute;
+  top: -4%;
+  right: -26%;
+  display: flex;
+  gap: 4px;
+  padding: 7px 9px;
+  border-radius: 999px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 18px -10px rgb(var(--shadow-rgb) / 0.45);
+}
+.nova-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+  animation: nova-dot 1.2s ease-in-out infinite;
+}
+.nova-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.nova-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes nova-dot {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* happy: three cyan sparks (the 10% energy colour) twinkling around her */
+.nova-sparks i {
+  position: absolute;
+  width: 9%;
+  aspect-ratio: 1;
+  background: var(--color-highlight);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  animation: nova-spark 2.8s ease-in-out infinite;
+}
+.nova-sparks i:nth-child(1) {
+  top: 4%;
+  left: -6%;
+}
+.nova-sparks i:nth-child(2) {
+  top: 20%;
+  right: -10%;
+  width: 7%;
+  animation-delay: 0.9s;
+}
+.nova-sparks i:nth-child(3) {
+  top: 50%;
+  left: -12%;
+  width: 6%;
+  animation-delay: 1.7s;
+}
+@keyframes nova-spark {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(0);
+  }
+  40%,
+  60% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+}
+
+/* the item by her hand */
+.nova-prop {
+  position: absolute;
+  right: -16%;
+  bottom: 18%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 30%;
+  background: var(--color-surface);
+  color: var(--color-text-brand);
+  box-shadow: 0 10px 24px -10px rgb(var(--shadow-rgb) / 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nova *,
+  .nova-prop {
+    animation: none !important;
+  }
+  .nova-lean,
+  .nova-halo {
+    transition: none;
+    transform: none;
+  }
+  .nova-halo {
+    opacity: 0.38;
+  }
+  .nova-sparks i {
+    opacity: 1;
+  }
 }

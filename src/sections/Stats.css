@@ -1,0 +1,188 @@
+/* Checks, as a stats board: pill pile left, three tinted figure cards right */
+.stats-grid {
+  display: grid;
+  gap: var(--gutter);
+}
+
+/* ---- pill pile ---- */
+.stats-pile-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.stats-pile {
+  position: relative;
+  min-height: 460px;
+  border-radius: var(--r-xl);
+  background: var(--color-bg-alt);
+  overflow: hidden;
+  touch-action: pan-y;
+}
+.stats-pile-nova {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  transform: translateX(-50%);
+}
+.stats-pill {
+  position: absolute;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 16px 0 12px;
+  border-radius: var(--pill);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+  box-shadow: 0 10px 22px -12px rgb(var(--shadow-rgb) / 0.35);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+.stats-pill:active {
+  cursor: grabbing;
+}
+.stats-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-text);
+}
+/* white pills, the dot carries the tone: blue, or cyan for a few */
+.stats-pill {
+  background: var(--color-surface);
+}
+.stats-pill .stats-pill-dot {
+  background: var(--color-accent);
+}
+.stats-pill.is-cyan .stats-pill-dot {
+  background: var(--color-highlight);
+}
+.stats-pile-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* ---- figure cards ---- */
+.stats-cards {
+  display: grid;
+  gap: var(--gutter);
+}
+.stats-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  border-radius: var(--r-xl);
+}
+.stats-card.is-brand {
+  background: var(--color-surface-brand);
+}
+.stats-card.is-highlight {
+  background: var(--color-surface-highlight);
+}
+.stats-figure {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.stats-figure strong {
+  display: inline-block;
+  font-size: clamp(52px, 6vw, 72px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+.stats-figure span {
+  font-size: 16px;
+  color: var(--color-text-muted);
+}
+.stats-card h3 {
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.stats-body {
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+
+/* ---- safety band ---- */
+.stats-safety {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: var(--gutter);
+  padding: var(--space-6) var(--space-8) var(--space-6) var(--space-5);
+  border-radius: var(--r-xl);
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+}
+.stats-safety-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-md);
+  background: var(--color-ink-raised);
+  color: var(--color-accent-on-ink);
+}
+.stats-safety strong {
+  display: block;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.stats-safety p {
+  margin-top: 4px;
+  color: var(--color-on-ink-muted);
+  font-size: 15px;
+}
+
+@media (min-width: 768px) {
+  .stats-card {
+    padding: var(--space-8);
+  }
+}
+/* 12-column split: pile 7, figures 5 */
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: var(--grid-12);
+  }
+  .stats-pile-wrap {
+    grid-column: span 7;
+  }
+  .stats-cards {
+    grid-column: span 5;
+  }
+  .stats-pile {
+    flex: 1;
+    min-height: 520px;
+  }
+}
+
+@media (max-width: 479px) {
+  .stats-pile {
+    min-height: 420px;
+  }
+  .stats-pill {
+    min-height: 34px;
+    padding: 0 12px 0 12px;
+    font-size: 13px;
+  }
+  .stats-pile-nova .nova {
+    width: 106px !important;
+    height: 130px !important;
+  }
+}

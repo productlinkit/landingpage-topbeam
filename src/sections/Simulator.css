@@ -1,0 +1,338 @@
+/* Decision replay: the closing half of the navy slab (tokens re-pointed by data-theme) */
+.sim {
+  position: relative;
+  overflow: hidden;
+}
+.sim .container {
+  position: relative;
+}
+
+/* ---------- layout: replay left, inbox column right ---------- */
+.sim-layout {
+  display: grid;
+  gap: var(--gutter);
+}
+.sim-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.sim-aside-title {
+  color: var(--color-text-muted);
+}
+
+/* ---------- transaction list (like a conversation inbox) ---------- */
+.sim-picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.sim-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px 16px;
+  border-radius: var(--r-lg);
+  background: var(--color-surface);
+  text-align: left;
+  color: var(--color-text);
+  transition:
+    color var(--dur-micro) var(--ease),
+    transform var(--dur-micro) var(--ease);
+}
+.sim-option:hover {
+  transform: translateX(-2px);
+}
+/* the open one turns white, like the selected row in an inbox */
+.sim-option.is-on {
+  color: var(--color-ink);
+}
+.sim-option-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-on-ink);
+}
+.sim-option-icon,
+.sim-option-text {
+  position: relative;
+}
+.sim-option-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: var(--color-surface-sunken);
+  color: var(--color-text-muted);
+  transition:
+    background-color var(--dur-micro) var(--ease),
+    color var(--dur-micro) var(--ease);
+}
+.sim-option.is-on .sim-option-icon {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+.sim-option-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.3;
+}
+.sim-option-text strong {
+  font-size: 15px;
+  font-weight: 500;
+}
+.sim-option-text span {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+.sim-option.is-on .sim-option-text span {
+  color: color-mix(in srgb, var(--color-ink) 70%, var(--color-on-ink)); /* 6:1 on the white row */
+}
+
+/* ---------- two counters ---------- */
+.sim-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.sim-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px;
+  border-radius: var(--r-lg);
+  background: var(--color-surface);
+}
+.sim-stat strong {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.sim-stat.is-accent strong {
+  color: var(--color-accent-on-ink);
+}
+.sim-stat span {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--color-text-muted);
+}
+
+/* ---------- grid ---------- */
+.sim-grid {
+  display: grid;
+  gap: var(--gutter);
+  align-items: start;
+}
+.sim-phone {
+  display: grid;
+  justify-items: center;
+  min-width: 0;
+}
+.sim-phone .phone {
+  height: 600px;
+  width: auto;
+}
+
+/* ---------- log card ---------- */
+.sim-log {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  min-width: 0;
+}
+.sim-log-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.sim-log-id {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 160px;
+  line-height: 1.3;
+}
+.sim-log-id .mono {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+}
+.sim-log-id strong {
+  font-size: 17px;
+  font-weight: 500;
+}
+.sim-status {
+  white-space: normal;
+}
+
+.sim-rows {
+  position: relative;
+  display: grid;
+  gap: 4px;
+}
+/* timeline rail */
+.sim-rows::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  left: 13px;
+  width: 2px;
+  background: var(--color-border);
+}
+.sim-row {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  padding: 8px 12px 8px 0;
+  border-radius: 12px;
+}
+.sim-row-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  box-shadow: 0 0 0 4px var(--color-surface);
+}
+.sim-row.is-wait .sim-row-mark {
+  background: var(--color-warning-bg);
+}
+.sim-row-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.35;
+}
+.sim-row-text .mono {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+.sim-row-text strong {
+  font-size: 15px;
+  font-weight: 500;
+}
+.sim-row-text > span:last-child {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+.sim-row.is-wait {
+  background: var(--color-warning-bg);
+  padding-left: 0;
+}
+.sim-row.is-wait .sim-row-mark {
+  box-shadow: none;
+}
+
+.sim-why {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--r-md);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-brand);
+}
+.sim-why-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  background: var(--color-accent-on-ink);
+  color: var(--color-ink);
+}
+.sim-why strong {
+  display: block;
+  font-size: 14px;
+  color: var(--color-link);
+}
+.sim-why p {
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.sim-source {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+.sim-source svg {
+  flex: none;
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .sim-picker {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (min-width: 960px) {
+  .sim-grid {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  /* the phone stays in view while the (taller) log is read */
+  .sim-phone {
+    position: sticky;
+    top: 104px;
+  }
+  .sim-log {
+    min-height: 600px;
+    padding: var(--space-8);
+  }
+}
+/* 12-column split: replay 9, inbox 3; the inbox follows the reader down the log like the phone */
+@media (min-width: 1200px) {
+  .sim-layout {
+    grid-template-columns: var(--grid-12);
+  }
+  .sim-grid {
+    grid-column: span 9;
+  }
+  .sim-aside {
+    grid-column: span 3;
+    order: 2;
+    position: sticky;
+    top: 104px;
+    align-self: start;
+  }
+  .sim-picker {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 479px) {
+  .sim-phone .phone {
+    height: 540px;
+  }
+  .sim-option {
+    min-height: 52px;
+    padding: 8px 12px;
+  }
+  .sim-option-text span {
+    display: none;
+  }
+  .sim-option-text strong {
+    font-size: 14px;
+  }
+}

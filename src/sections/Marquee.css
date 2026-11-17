@@ -1,0 +1,107 @@
+.marquee {
+  padding: 0 0 var(--space-16);
+}
+.marquee-title {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+/* the soft grey panel the rows drift in */
+.marquee-rows {
+  display: grid;
+  gap: 12px;
+  padding: 16px 0;
+  border-radius: var(--r-xl);
+  background: var(--color-surface-sunken);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee-row {
+  display: flex;
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  flex: none;
+  gap: 12px;
+  padding-right: 12px;
+  animation: marquee var(--dur, 40s) linear infinite;
+}
+.marquee-dup {
+  display: contents;
+}
+.marquee-row.is-reverse .marquee-track {
+  animation-direction: reverse;
+}
+/* Slow down (not freeze) on hover so it still feels alive */
+.marquee-rows:hover .marquee-track {
+  animation-duration: calc(var(--dur, 40s) * 3);
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-logo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  height: 56px;
+  padding: 0 28px;
+  border-radius: var(--pill);
+  background: var(--color-logo-plate);
+}
+.marquee-logo img {
+  width: auto;
+  height: 24px;
+  object-fit: contain;
+}
+
+.marquee-service {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+  height: 48px;
+  padding: 0 20px 0 8px;
+  border-radius: var(--pill);
+  background: var(--color-surface);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+.marquee-service-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-surface-brand-strong);
+  color: var(--color-text-brand);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-rows {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .marquee-row {
+    justify-content: center;
+  }
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1;
+    padding: 0 var(--pad-x);
+  }
+  .marquee-track + .marquee-track,
+  .marquee-dup {
+    display: none;
+  }
+}

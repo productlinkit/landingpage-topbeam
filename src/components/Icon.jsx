@@ -7,6 +7,24 @@ const paths = {
   plus: <path d="M12 5v14M5 12h14" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+  spark: <path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2z" strokeLinejoin="round" />,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="M20 20l-4.2-4.2" />
+    </>
+  ),
+  list: <path d="M9 6.5h11M9 12h11M9 17.5h11M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01" />,
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </>
+  ),
+  play: <path d="M8 5.5v13l10.5-6.5z" strokeLinejoin="round" />,
+  zap: <path d="M13 2.5L4.5 13.5H12l-1 8 8.5-11H12z" strokeLinejoin="round" />,
+  hand: <path d="M8 12.5V6a1.5 1.5 0 0 1 3 0v5M11 11V4.5a1.5 1.5 0 0 1 3 0V11M14 11V6a1.5 1.5 0 0 1 3 0v7c0 4-2.5 7.5-6.5 7.5-2.6 0-4.2-1.4-5.6-3.6L3.6 14.2a1.5 1.5 0 0 1 2.5-1.6L8 15" />,
+  book: <path d="M5 4.5h10.5a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3zM5 16.5a3 3 0 0 1 3-3h10.5" strokeLinejoin="round" />,
   phone: (
     <>
       <rect x="6" y="2.5" width="12" height="19" rx="3" />

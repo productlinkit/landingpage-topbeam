@@ -4,10 +4,11 @@ import { Nova } from '../components/Nova'
 import { Reveal } from '../components/ui'
 import './FinalCta.css'
 
-// Closing card: headline + composer left, Nova cheering on a glow right.
+// Closing card on soft grey: headline + the WhatsApp composer left, a happy Nova right.
 export default function FinalCta() {
   return (
-    <section className="section final">
+    <section className="section final slab-top" data-theme="dark">
+      <span className="beam-line" aria-hidden="true" />
       <div className="container">
         <Reveal className="final-card" amount={0.25}>
           <div className="final-copy">
@@ -17,9 +18,8 @@ export default function FinalCta() {
               <Composer tag="footer" align="start" />
             </div>
           </div>
-          <div className="final-art" aria-hidden="true">
-            <span className="glow" />
-            <Nova pose="cheer" size={220} beam className="final-mark" />
+          <div className="final-art">
+            <Nova pose="thumbsup" hoverPose="wave" halo track size={280} />
           </div>
         </Reveal>
       </div>

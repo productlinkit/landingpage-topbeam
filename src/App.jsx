@@ -6,18 +6,19 @@ import { BackToTop } from './components/BackToTop'
 import { SectionBoundary } from './components/SectionBoundary'
 
 // First screen ships in the main bundle; everything below the fold is its own chunk.
-const Logos = lazy(() => import('./sections/Logos'))
-const Products = lazy(() => import('./sections/Products'))
-const How = lazy(() => import('./sections/How'))
-const Replay = lazy(() => import('./sections/Replay'))
-const Flow = lazy(() => import('./sections/Flow'))
-const Why = lazy(() => import('./sections/Why'))
-const Safety = lazy(() => import('./sections/Safety'))
+const Marquee = lazy(() => import('./sections/Marquee'))
+const Stats = lazy(() => import('./sections/Stats'))
+const Costs = lazy(() => import('./sections/Costs'))
+const Steps = lazy(() => import('./sections/Steps'))
+const Simulator = lazy(() => import('./sections/Simulator'))
+const Pricing = lazy(() => import('./sections/Pricing'))
 const Faq = lazy(() => import('./sections/Faq'))
 const FinalCta = lazy(() => import('./sections/FinalCta'))
 const Footer = lazy(() => import('./sections/Footer'))
 
-const BODY = [Logos, Products, How, Replay, Flow, Why, Safety, Faq, FinalCta]
+// Page order. Light/dark rhythm: hero + marquee (navy), products (light), how it works +
+// replay (navy slab), checks, costs, FAQ (light), closing CTA + footer (navy)
+const BODY = [Marquee, Pricing, Steps, Simulator, Stats, Costs, Faq, FinalCta]
 
 // Each lazy section loads and fails on its own, so one broken chunk never blanks the page.
 function Lazy({ section: Section }) {

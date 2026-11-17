@@ -1,0 +1,169 @@
+/* ==================================================================
+   TopBeam color system "BEAM": the single source of truth for every color on the site.
+   Every hue is sampled from the mascot artwork, and every color has one job:
+
+     Ink / navy   the visor (#040932)   semi-dark sections: hero, how it works, closing
+     Pearl        the white body        light sections and cards
+     Electric blue  the ear cups (#005CEF)  ACTION: CTAs, links, focus
+     Beam cyan    the crest (#0BC3F7)   ENERGY: highlights, glow, the "beam"
+     Violet       the side panels (#6014D8) DEPTH: the far end of the beam, small accents
+
+   60-30-10:  60  pearl + navy (backgrounds)
+              30  blue / violet (structure: brand surfaces, CTAs, active states)
+              10  cyan (sparks: halo, underline, progress, status highlights)
+
+   --beam-gradient (cyan -> blue -> violet) is the ONLY gradient on the page. It is used for
+   the headline keyword underline, the halo behind the mascot and the beam line on dark
+   sections. Buttons and the scroll progress bar are never gradient: they are solid action blue.
+
+   Light vs dark is not a toggle: dark sections set data-theme="dark" (see index.css), which
+   re-points the semantic tokens below for that section only.
+
+   Contrast: every text/background pair is computed in tests/contrast.test.mjs (>= 4.5:1)
+   and shown live at /design-system.
+   ================================================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+
+  /* ---------------- tonal scales (raw palette) ---------------- */
+  /* Navy: the visor */
+  --navy-950: #060b24;
+  --navy-900: #0a1030; /* ink base */
+  --navy-800: #111a45; /* ink surface */
+  --navy-700: #1b2660; /* raised ink surface */
+  --navy-600: #2a3778;
+
+  /* Pearl: the body, cool lavender-tinted whites */
+  --pearl-0: #ffffff;
+  --pearl-50: #f6f8ff;
+  --pearl-100: #eef2fd;
+  --pearl-200: #e3e8fa;
+  --pearl-300: #cdd5f0;
+
+  /* Slate: text on light, tinted toward the navy */
+  --slate-900: #0b1230;
+  --slate-600: #4b5578;
+  --slate-300: #a9b3d6; /* muted text on navy */
+  --slate-50: #f2f5ff; /* text on navy */
+
+  /* Electric blue: action */
+  --blue-50: #edf2ff;
+  --blue-100: #dde7ff;
+  --blue-200: #b9ccff;
+  --blue-300: #8fb0ff;
+  --blue-500: #0f5bea; /* CTA fill, links on light */
+  --blue-600: #0b4fd1; /* blue text */
+  --blue-700: #0a47c4; /* hover */
+
+  /* Beam cyan: energy */
+  --cyan-50: #e8fbff;
+  --cyan-200: #bdf2ff;
+  --cyan-400: #12c8f5;
+  --cyan-800: #03708f; /* cyan as readable text on light */
+
+  /* Violet: depth */
+  --violet-100: #ece3ff;
+  --violet-500: #6418d8;
+  --violet-600: #5b14c7;
+
+  /* Semantic hues, tuned to the palette */
+  --green-50: #e6f7f0;
+  --green-300: #3dd9a4;
+  --green-700: #036a50;
+  --amber-50: #fff3e3;
+  --amber-300: #ffc35c;
+  --amber-700: #a24d00;
+  --red-50: #fff0ef;
+  --red-600: #c81e2a;
+
+  /* ---------------- semantic tokens (what components use) ---------------- */
+  /* backgrounds: the 60% */
+  --color-bg: var(--pearl-50);
+  --color-bg-alt: var(--pearl-100);
+
+  /* surfaces */
+  --color-surface: var(--pearl-0); /* cards */
+  --color-surface-sunken: var(--pearl-100); /* inner panels, chips, secondary buttons */
+  --color-surface-sunken-hover: var(--pearl-200);
+  --color-surface-brand: var(--blue-50); /* brand-tinted cards and demo panels */
+  --color-surface-brand-strong: var(--blue-100); /* small brand chips, selection */
+  --color-surface-highlight: var(--cyan-50); /* the one cyan-tinted card */
+
+  /* lines */
+  --color-border: var(--pearl-200);
+  --color-border-strong: var(--pearl-300);
+  --color-border-brand: var(--blue-200);
+
+  /* text */
+  --color-text: var(--slate-900); /* 17-18:1 on light */
+  --color-text-muted: var(--slate-600); /* 6.5-6.9:1 */
+  --color-text-brand: var(--blue-600); /* brand words, icons, small labels (5.5-6.5:1) */
+  --color-link: var(--blue-600);
+
+  /* accent: action. Every button is this one solid blue */
+  --color-accent: var(--blue-500); /* 5.7:1 under white text */
+  --color-accent-hover: var(--blue-700); /* 7.8:1 */
+  --color-on-accent: var(--pearl-0);
+  --color-focus: var(--blue-500);
+
+  /* highlight: cyan energy (status sparks, the highlight card, the wait chip icon) */
+  --color-highlight: var(--cyan-400);
+  --color-on-highlight: var(--navy-900); /* 9.4:1 */
+  --color-highlight-text: var(--cyan-800); /* cyan as readable text on light (5.3:1) */
+  --color-violet-text: var(--violet-600); /* 8.4:1 on light */
+
+  /* ink: the semi-dark sections and dark panels */
+  --color-ink: var(--navy-900);
+  --color-ink-surface: var(--navy-800); /* cards on ink */
+  --color-ink-raised: var(--navy-700);
+  --color-on-ink: var(--slate-50); /* 15-17:1 */
+  --color-on-ink-muted: var(--slate-300); /* 8-9:1 */
+  --color-accent-on-ink: var(--cyan-400); /* brand highlight on ink (8.4-9.4:1) */
+
+  /* status */
+  --color-success: var(--green-700);
+  --color-success-bg: var(--green-50);
+  --color-success-on-ink: var(--green-300);
+  --color-warning: var(--amber-700);
+  --color-warning-bg: var(--amber-50);
+  --color-warning-on-ink: var(--amber-300);
+  --color-error: var(--red-600);
+  --color-error-bg: var(--red-50);
+
+  /* partner logos are drawn for white, so they always sit on a white plate (also on navy) */
+  --color-logo-plate: var(--pearl-0);
+
+  /* shadows: navy channels, used as rgb(var(--shadow-rgb) / alpha); never colored */
+  --shadow-rgb: 10 16 48;
+
+  /* The signature: the page's ONLY gradient (see the header for where it may appear). */
+  --beam-gradient: linear-gradient(110deg, var(--cyan-400) 0%, var(--blue-500) 22%, var(--violet-500) 100%);
+  /* soft cyan glow for button hover and the mascot halo (opacity only, never neon) */
+  --accent-glow: 0 10px 28px -10px rgb(18 200 245 / 0.55);
+
+  /* ---------------- third-party UI mocks: the phone and WhatsApp chat replay ----------------
+     They copy WhatsApp's own light UI, so they keep its colors in every section. */
+  --wa-bg: #efeae2; /* chat wallpaper */
+  --wa-me: #d9fdd3; /* outgoing bubble */
+  --wa-them: #ffffff; /* incoming bubble, header, composer */
+  --wa-ink: #111b21; /* chat text */
+  --wa-ink-2: #54656f; /* secondary chat text (5.9:1 on white) */
+  --wa-muted: #8696a0; /* ticks, timestamps, placeholder */
+  --wa-line: #ebe8e2; /* header divider */
+  --wa-dash: #cfcbc2; /* dashed system notes */
+  --wa-green: #00a884; /* send button */
+  --wa-logo-from: #61d669; /* WhatsApp logo gradient */
+  --wa-logo-to: #29b33d;
+  --wa-on: #ffffff; /* glyphs on WhatsApp green */
+  --device-black: #050507; /* phone glass and camera */
+  --device-edge: #1c1d22;
+  --device-lens: #2c3350;
+  --device-lens-deep: #0c0e18;
+  --device-rim: linear-gradient(145deg, #d4d6dc 0%, #6b6f7a 18%, #2a2c33 50%, #5c606a 82%, #c9ccd8 100%);
+  --device-button: linear-gradient(90deg, #3b3e46, #8d919a 55%, #4a4e57);
+}

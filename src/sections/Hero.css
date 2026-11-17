@@ -1,298 +1,311 @@
+/* Hero (navy): copy left, stage right (the chat replay phone, notification chips, Nova in
+   her beam halo) */
 .hero {
   position: relative;
-  padding-top: clamp(112px, 15vh, 150px);
-  padding-bottom: clamp(48px, 6vw, 88px);
+  padding: 120px 0 var(--space-12);
   overflow: hidden;
-  isolation: isolate;
-}
-
-/* Aurora: three blurred logo-colour blobs drifting behind the hero, nudged by the pointer */
-.hero-aurora {
-  position: absolute;
-  inset: -10% -10% auto;
-  height: 120%;
-  z-index: -1;
-  pointer-events: none;
-  /* fade out before the hero's bottom edge so there is no hard line */
-  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 82%);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent 82%);
-}
-.hero-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.5;
-  animation: hero-blob 16s ease-in-out infinite alternate;
-}
-.hero-blob-violet {
-  width: 46vw;
-  height: 46vw;
-  max-width: 620px;
-  max-height: 620px;
-  top: 2%;
-  right: 4%;
-  background: radial-gradient(circle, rgb(123 47 247 / 0.55), transparent 70%);
-}
-.hero-blob-blue {
-  width: 40vw;
-  height: 40vw;
-  max-width: 560px;
-  max-height: 560px;
-  top: 30%;
-  right: 22%;
-  background: radial-gradient(circle, rgb(43 91 255 / 0.5), transparent 70%);
-  animation-duration: 20s;
-  animation-delay: -6s;
-}
-.hero-blob-cyan {
-  width: 34vw;
-  height: 34vw;
-  max-width: 460px;
-  max-height: 460px;
-  top: 48%;
-  right: -4%;
-  background: radial-gradient(circle, rgb(31 216 235 / 0.5), transparent 70%);
-  animation-duration: 18s;
-  animation-delay: -11s;
-}
-@keyframes hero-blob {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-6%, 8%) scale(1.12);
-  }
-  100% {
-    transform: translate(8%, -6%) scale(0.92);
-  }
-}
-@media (max-width: 979px) {
-  /* Stacked layout: the aurora sits behind the phone, below the copy */
-  .hero-aurora {
-    inset: 30% -20% auto;
-    height: 80%;
-  }
-  .hero-blob {
-    filter: blur(50px);
-  }
-  .hero-blob-violet,
-  .hero-blob-blue,
-  .hero-blob-cyan {
-    width: 70vw;
-    height: 70vw;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-blob {
-    animation: none;
-  }
 }
 
 .hero-grid {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--space-12);
+  column-gap: var(--gutter);
   align-items: center;
-  gap: clamp(40px, 6vw, 64px);
 }
 
-.hero-grid > * {
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
   min-width: 0;
 }
 .hero-title {
-  max-width: 660px;
+  max-width: 12ch;
 }
 .hero-word {
-  display: inline-block;
+  display: inline-flex;
   overflow: hidden;
-  vertical-align: top;
-  /* room for descenders (g, y, p) inside the clip */
-  padding-bottom: 0.12em;
-  margin-bottom: -0.12em;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
 }
 .hero-word > span {
   display: inline-block;
 }
-
+/* last words of the headline in the brand colour (cyan on navy); the key word carries the
+   beam as a thin underline */
+.hero-accent {
+  color: var(--color-text-brand);
+}
+.hero-accent.is-key {
+  background: var(--beam-gradient) 0 90% / 100% 0.055em no-repeat;
+}
 .hero-sub {
-  max-width: 540px;
-  margin-top: 24px;
+  max-width: 500px;
 }
-.hero-composer {
-  margin-top: 36px;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
-.hero-note {
-  margin-top: 14px;
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
   font-size: 14px;
-  color: var(--muted);
+  color: var(--color-text-muted);
+}
+.hero-chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.hero-chips svg {
+  color: var(--color-success);
 }
 
-/* ---------- stage: phone, Nova, floating facts ---------- */
+/* ---- stage ---- */
 .hero-stage {
+  --px: 0;
+  --py: 0;
   position: relative;
-  isolation: isolate;
   display: grid;
   place-items: center;
-  width: min(100%, 560px);
-  padding: 24px 0 8px;
-  justify-self: center;
+  min-height: 560px;
 }
-.hero-glow {
-  inset: -4% -12%;
-  animation: hero-glow 9s ease-in-out infinite alternate;
+/* pointer parallax, two layers only: the phone far, the chips nearer. Nova follows the
+   pointer on her own (lean + halo, see Nova.css). */
+.hero-phone,
+.hero-log-depth {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-@keyframes hero-glow {
-  from {
-    transform: scale(0.94);
-  }
-  to {
-    transform: scale(1.06) rotate(8deg);
-  }
+.hero-phone {
+  transform: translate(calc(var(--px) * -8px), calc(var(--py) * -6px)) rotate(calc(var(--px) * -1.2deg));
 }
-
+.hero-log-depth {
+  display: block;
+  transform: translate(calc(var(--px) * var(--depth, 14px)), calc(var(--py) * var(--depth, 14px) * 0.7));
+}
+/* Stage layout: the phone sits on the right edge; the notification chips pop out of its left
+   side; Nova stands right against the phone below them, waving, inside her beam halo. */
+.hero-stage {
+  --phone-w: 300px;
+  justify-items: end;
+}
 .hero-phone {
   position: relative;
-  z-index: 1;
+  width: min(var(--phone-w), 78vw);
 }
-
-/* Nova peeks in over the phone's lower left edge */
 .hero-nova {
   position: absolute;
-  z-index: 3;
-  left: 0;
+  /* right against the phone's rim */
+  right: calc(var(--phone-w) - 8px);
   bottom: 4%;
-  width: 190px;
-}
-.hero-nova .nova {
-  width: 100%;
+  z-index: 2;
+  filter: drop-shadow(0 18px 28px rgb(var(--shadow-rgb) / 0.18));
 }
 
-/* The wrapper places the pill and carries the pointer parallax; the pill itself floats */
-.hero-pill-wrap {
+/* ---- notification chips ---- */
+.hero-log {
   position: absolute;
-  z-index: 2;
+  /* right edge = the phone's left rim, overlapping only its 12px frame */
+  top: 8%;
+  right: calc(var(--phone-w) - 12px);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-3);
 }
-.hero-pill {
+/* Each chip sits at its own distance from the phone, with its own tilt, float tempo and
+   parallax depth, so the column reads as notifications popping out, not a rigid list. */
+.hero-log-item {
+  transform-origin: 100% 50%; /* pops out of the phone's side */
+}
+.hero-log-pill {
+  --tilt: 0deg;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px 10px 10px;
+  gap: 12px;
+  padding: 12px 20px 12px 12px;
   border-radius: var(--pill);
-  background: var(--ink);
-  color: #fff;
-  box-shadow: 0 18px 30px -18px rgb(var(--ink-rgb) / 0.6);
-  white-space: nowrap;
+  /* raised navy on the navy hero, with a hairline edge */
+  background: var(--color-ink-raised);
+  color: var(--color-on-ink);
+  box-shadow:
+    inset 0 0 0 1px var(--color-border),
+    0 18px 40px -18px rgb(var(--shadow-rgb) / 0.9);
+  white-space: nowrap; /* each chip is one line; the column is sized to fit */
+  transform: rotate(var(--tilt));
+  animation: hero-chip-float var(--float, 4.6s) ease-in-out var(--float-delay, 0s) infinite;
 }
-.hero-pill-icon {
+@keyframes hero-chip-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--tilt));
+  }
+  50% {
+    transform: translateY(-5px) rotate(var(--tilt));
+  }
+}
+/* 1: furthest from the phone, tilted up-left */
+.hero-log-item:nth-child(1) {
+  --depth: 10px;
+  margin-right: 56px;
+}
+.hero-log-item:nth-child(1) .hero-log-pill {
+  --tilt: -2.5deg;
+  --float: 4.4s;
+}
+/* 2: the longest, tucked against the rim, tilted the other way */
+.hero-log-item:nth-child(2) {
+  --depth: 18px;
+  margin-top: 2px;
+}
+.hero-log-item:nth-child(2) .hero-log-pill {
+  --tilt: 1.5deg;
+  --float: 5.2s;
+  --float-delay: -1.6s;
+}
+/* 3: halfway out, dropped a little lower */
+.hero-log-item:nth-child(3) {
+  --depth: 13px;
+  margin-top: 8px;
+  margin-right: 28px;
+}
+.hero-log-item:nth-child(3) .hero-log-pill {
+  --tilt: -1deg;
+  --float: 4.8s;
+  --float-delay: -3s;
+}
+.hero-log-icon {
   display: grid;
   place-items: center;
+  flex: none;
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: var(--star);
-  color: var(--ink);
-  flex: none;
+  background: var(--color-accent-on-ink);
+  color: var(--color-ink);
 }
-.hero-pill-icon {
-  background: var(--accent);
+.hero-log-item.is-wait .hero-log-icon {
+  background: var(--color-warning-on-ink);
 }
-.hero-pill-1 .hero-pill-icon {
-  background: var(--cyan);
-}
-/* thin logo-gradient rim around the navy pill */
-.hero-pill {
-  border: 1.5px solid transparent;
-  background:
-    linear-gradient(var(--ink), var(--ink)) padding-box,
-    var(--beam) border-box;
-}
-.hero-pill-text {
+.hero-log-text {
   display: flex;
   flex-direction: column;
-  line-height: 1.2;
+  line-height: 1.25;
 }
-.hero-pill-text strong {
+.hero-log-text strong {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
 }
-.hero-pill-text span {
-  font-size: 12px;
-  color: var(--night-text);
-}
-.hero-pill-0 {
-  top: 34%;
-  left: 0;
-}
-.hero-pill-1 {
-  top: 56%;
-  right: 0;
+.hero-log-text span {
+  font-size: 13px;
+  color: var(--color-on-ink-muted);
 }
 
-/* Phones: no room beside the phone, so Nova sits on its top corner and the facts follow below it */
-@media (max-width: 559px) {
+@media (min-width: 768px) {
+  .hero {
+    padding-top: 144px;
+    padding-bottom: var(--space-16);
+  }
+}
+@media (min-width: 1024px) {
+  /* 12-column split: copy 6, stage 6 */
+  .hero-grid {
+    grid-template-columns: var(--grid-12);
+  }
+  .hero-copy,
   .hero-stage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    grid-column: span 6;
   }
-  .hero-nova {
-    top: 4px;
-    right: 0;
-    left: auto;
-    bottom: auto;
-    width: 96px;
+  .hero-stage {
+    min-height: 620px;
   }
-  .hero-pill-wrap {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
+}
+/* small laptops: the stage takes 7 columns, the phone narrows and the chips get compact so
+   the chip column still fits beside the phone */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .hero-copy {
+    grid-column: span 5;
   }
-  .hero-pill {
-    padding: 7px 14px 7px 7px;
-    gap: 8px;
+  .hero-stage {
+    --phone-w: 280px;
+    grid-column: span 7;
   }
-  .hero-phone {
-    margin-bottom: 6px;
+  .hero-log-pill {
+    gap: var(--space-2);
+    padding: 8px 16px 8px 8px;
   }
-  .hero-pill-icon {
+  .hero-log-icon {
     width: 28px;
     height: 28px;
   }
-  .hero-pill-text strong {
+  .hero-log-text strong {
     font-size: 13px;
   }
-  .hero-pill-text span {
-    font-size: 11px;
+  .hero-log-text span {
+    font-size: 12px;
+  }
+  .hero-nova .nova {
+    width: calc(250px * var(--ratio)) !important;
+    height: 250px !important;
+  }
+}
+@media (min-width: 1200px) {
+  .hero {
+    padding-top: 168px;
   }
 }
 
-@media (min-width: 980px) {
-  .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  }
+/* stacked: the chip column on top-left, the phone on the right below it, Nova against the
+   phone pointing at the chat */
+@media (max-width: 1023px) {
   .hero-stage {
-    justify-self: end;
-    justify-items: end;
-    padding-right: 4%;
+    min-height: 0;
+    /* three chips (3 x 58px) + gaps and drops (34px) + 24px breathing room */
+    padding: 232px 0 var(--space-6);
   }
-  /* Phone on the right; the facts stack in the open space to its left, Nova below them */
-  .hero-pill-0 {
-    top: 22%;
+  .hero-log {
+    top: 0;
     left: 0;
-  }
-  .hero-pill-1 {
-    top: 40%;
-    left: 6%;
     right: auto;
+    align-items: flex-start;
+  }
+  .hero-log-item {
+    transform-origin: 0 50%;
+  }
+  .hero-log-item:nth-child(1) {
+    margin-right: 0;
+  }
+  .hero-log-item:nth-child(2) {
+    margin-left: 20px;
+  }
+  .hero-log-item:nth-child(3) {
+    margin-right: 0;
+    margin-left: 44px;
+  }
+}
+
+@media (max-width: 639px) {
+  .hero-phone {
+    width: min(300px, calc(100% - 88px));
   }
   .hero-nova {
-    left: 6%;
+    /* the phone is (100% - 88px) wide here; her 92px figure overlaps its rim a little */
+    right: calc(100% - 94px);
+    bottom: 8px;
+  }
+  .hero-nova .nova {
+    width: calc(132px * var(--ratio)) !important;
+    height: 132px !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-glow {
+  .hero-log-pill {
     animation: none;
   }
 }

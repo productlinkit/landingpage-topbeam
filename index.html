@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Topbeam: Beli Pulsa &amp; Kuota Lewat WhatsApp, Tanpa Aplikasi</title>
+    <title>Topbeam: Isi Ulang Pulsa, Kuota &amp; E-Wallet Lewat Satu Chat WhatsApp</title>
     <meta
       name="description"
-      content="Isi pulsa, paket data, dan top up e-wallet cukup lewat chat WhatsApp dengan Nova. Bayar pakai QRIS, dana kembali otomatis jika gagal."
+      content="Isi pulsa, paket data, e-wallet, dan e-BBM lewat satu chat WhatsApp dengan Nova. Rincian dan total harga tampil sebelum Anda bayar pakai QRIS."
     />
-    <meta name="theme-color" content="#f7f7f4" />
+    <meta name="theme-color" content="#0a1030" />
     <!-- Bump ?v= whenever the icons change: browsers cache favicons for a long time -->
-    <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
-    <link rel="manifest" href="/site.webmanifest?v=2" />
+    <link rel="icon" href="/favicon.ico?v=5" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=5" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=5" />
+    <link rel="manifest" href="/site.webmanifest?v=5" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="id_ID" />
     <meta property="og:site_name" content="Topbeam" />
-    <meta property="og:title" content="Isi pulsa &amp; kuota, cukup chat Nova." />
+    <meta property="og:title" content="Isi ulang lewat satu chat. Setiap langkahnya terlihat." />
     <meta
       property="og:description"
       content="Isi pulsa, paket data, dan top up e-wallet cukup lewat chat WhatsApp dengan Nova. Bayar pakai QRIS."
@@ -29,11 +29,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Wix+Madefor+Display:wght@400..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Wix+Madefor+Display:wght@400..800&display=swap"
     />
   </head>
   <body>
     <div id="root"></div>
+    <!-- Without JavaScript the animated page cannot render; this keeps the offer and the CTA readable.
+         In the production build the site stylesheet is a <link>, so these classes are styled. -->
+    <noscript>
+      <main class="container" style="padding-block: 120px 80px; display: grid; gap: 24px">
+        <h1 class="h-display">Isi ulang lewat satu chat. Setiap langkahnya terlihat.</h1>
+        <p class="lead">Pulsa, paket data, e-wallet, dan e-BBM cukup lewat WhatsApp. Nova menampilkan produk, nomor tujuan, dan total harga lebih dulu. Tidak ada pembayaran sebelum Anda membalas YA.</p>
+        <p><a class="btn btn-primary" href="https://wa.me/6285187976622?text=Halo%20Nova%2C%20saya%20mau%20isi%20ulang">Mulai Sekarang</a></p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
